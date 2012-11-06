@@ -25,6 +25,12 @@
 
   <body>
     <release version="1.0.0" date="in Subversion">
+      <action dev="tv" type="fix">
+        Fixed missing dependencies and wrong class names as reported on the mailing list
+      </action>
+      <action dev="tv" type="add">
+        Add information required for a release to the POM
+      </action>
       <action dev="tv" type="add">
         Initial version
       </action>
