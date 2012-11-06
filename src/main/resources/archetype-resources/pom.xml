@@ -18,8 +18,7 @@ specific language governing permissions and limitations
 under the License.
 *#
 #set($dollar = '$')
-#macro (var
-$label)${dollar}{${label}}#end
+#macro (var $label)${dollar}{${label}}#end
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
@@ -212,6 +211,16 @@ $label)${dollar}{${label}}#end
             <groupId>org.apache.fulcrum</groupId>
             <artifactId>fulcrum-yaafi</artifactId>
             <version>1.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.fulcrum</groupId>
+            <artifactId>fulcrum-cache</artifactId>
+            <version>1.1.0</version>
+         </dependency>
+        <dependency>
+            <groupId>org.apache.fulcrum</groupId>
+            <artifactId>fulcrum-upload</artifactId>
+            <version>1.0.5</version>
         </dependency>
 
         <dependency>
