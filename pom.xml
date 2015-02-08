@@ -39,7 +39,7 @@
   <scm>
     <connection>scm:svn:http://svn.apache.org/repos/asf/turbine/maven/archetypes/trunk/turbine-webapp-4.0/</connection>
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/turbine/maven/archetypes/trunk/turbine-webapp-4.0/</developerConnection>
-    <url>http://svn.apache.org/viewcvs/turbine/maven/archetypes/trunk/turbine-webapp-4.0/</url>
+    <url>http://svn.apache.org/viewvc/turbine/maven/archetypes/trunk/turbine-webapp-4.0/</url>
   </scm>
   
 <build>
