@@ -55,7 +55,24 @@
     <authenticator/>
     <modelManager/>
     <aclFactory/>
-    <userManager>
+    
+     <userManager> 
+       <className>org.apache.fulcrum.security.torque.om.TorqueTurbineUser</className>
+    </userManager>
+    <groupManager>
+        <className>org.apache.fulcrum.security.torque.om.TorqueTurbineGroup</className>
+    </groupManager>
+    <roleManager>
+        <className>org.apache.fulcrum.security.torque.om.TorqueTurbineRole</className>
+    </roleManager>
+    <permissionManager>
+        <className>org.apache.fulcrum.security.torque.om.TorqueTurbinePermission</className>
+    </permissionManager>
+ 
+     <!-- 
+     default classes implementing org.apache.fulcrum.security.model.turbine.entity interfaces 
+     -->
+    <!--userManager>
         <className>org.apache.fulcrum.security.model.turbine.entity.impl.TurbineUserImpl</className>
     </userManager>
     <groupManager>
@@ -66,5 +83,31 @@
     </roleManager>
     <permissionManager>
         <className>org.apache.fulcrum.security.model.turbine.entity.impl.TurbinePermissionImpl</className>
+    </permissionManager -->
+    
+    <!-- 
+     Custom Turbine ORM Torque classes could not yet be used: 
+     - requires Torque 4.1
+     - requires attribute baseClass in fulcrum-turbine-schema.xml table elements set to appropriate org.apache.fulcrum.security.model.turbine.entity interfaces
+     - requires attribute peerClass in fulcrum-turbine-schema.xml table elements set to org.apache.fulcrum.security.torque.peer.TorqueTurbinePeer 
+     -->
+     <!-- 
+     <userManager>
+     <className>${package}.om.TurbineUser</className>
+        <peerClassName>${package}.om.TurbineUserPeer</peerClassName>
+    </userManager>
+    <groupManager>
+        <className>${package}.om.TorqueTurbineGroup</className>
+        <peerClassName>${package}.om.TurbineGroupPeerImpl</peerClassName>
+    </groupManager>
+    <roleManager>
+        <className>${package}.om.TurbineRole</className>
+        <peerClassName>${package}.om.TurbineRolePeerImpl</peerClassName>
+    </roleManager>
+    <permissionManager>
+        <className>${package}.om.TurbinePermission</className>
+        <peerClassName>${package}.om.TurbinePermissionPeerImpl</peerClassName>
     </permissionManager>
+     <peerManager/>
+     -->
 </componentConfig>
