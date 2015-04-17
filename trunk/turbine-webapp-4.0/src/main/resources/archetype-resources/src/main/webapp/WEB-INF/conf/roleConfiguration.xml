@@ -80,6 +80,7 @@
         shorthand="securityService"
         default-class="org.apache.fulcrum.security.BaseSecurityService"/>
 
+        <!-- five memory managers : remove later and .. -->
     <role
         name="org.apache.fulcrum.security.UserManager"
         shorthand="userManager"
@@ -115,6 +116,35 @@
         name="org.apache.fulcrum.security.model.ACLFactory"
         shorthand="aclFactory"
         default-class="org.apache.fulcrum.security.model.turbine.TurbineACLFactory"/>
+        
+    <!-- use torque managers for database mysql et al. -->
+    <!--   <role
+        name="org.apache.fulcrum.security.UserManager"
+        shorthand="userManager"
+        early-init="true"
+        default-class="org.apache.fulcrum.security.torque.turbine.TorqueTurbineUserManagerImpl"/>
+    <role
+        name="org.apache.fulcrum.security.GroupManager"
+        shorthand="groupManager"
+        default-class="org.apache.fulcrum.security.torque.turbine.TorqueTurbineGroupManagerImpl"/>
+    <role
+        name="org.apache.fulcrum.security.RoleManager"
+        shorthand="roleManager"
+        default-class="org.apache.fulcrum.security.torque.turbine.TorqueTurbineRoleManagerImpl"/>
+    <role
+        name="org.apache.fulcrum.security.PermissionManager"
+        shorthand="permissionManager"
+        default-class="org.apache.fulcrum.security.torque.turbine.TorqueTurbinePermissionManagerImpl"/>
+    <role
+        name="org.apache.fulcrum.security.ModelManager"
+        shorthand="modelManager"
+        default-class="org.apache.fulcrum.security.torque.turbine.TorqueTurbineModelManagerImpl"/-->
+            
+     <!-- role
+        name="org.apache.fulcrum.json.JsonService"
+        shorthand="json"
+        default-class="org.apache.fulcrum.json.jackson.Jackson2MapperService"/-->
 
     <!-- Add your services here -->
+        
 </role-list>
