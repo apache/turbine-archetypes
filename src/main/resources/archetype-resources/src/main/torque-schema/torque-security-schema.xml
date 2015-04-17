@@ -17,12 +17,7 @@
  specific language governing permissions and limitations
  under the License.
 -->
-<database name="${turbine_database_name}"
-    defaultIdMethod="none"
-    xmlns="http://db.apache.org/torque/4.0/templates/database"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://db.apache.org/torque/4.0/templates/database 
-        http://db.apache.org/torque/4.0/templates/database.xsd">
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database_3_3.dtd">
 
 <!-- ======================================================================== -->
 <!--                                                                          -->
@@ -32,6 +27,7 @@
 <!--                                                                          -->
 <!-- ======================================================================== -->
 
+<database name="${turbine_database_name}">
 
   <table name="TURBINE_PERMISSION" idMethod="idbroker">
     <column name="PERMISSION_ID" required="true" primaryKey="true" type="INTEGER"/>
@@ -84,7 +80,7 @@
     <column name="LAST_NAME" required="true" size="64" type="VARCHAR"/>
     <column name="EMAIL" size="64" type="VARCHAR"/>
     <column name="CONFIRM_VALUE" size="16" type="VARCHAR" javaName="Confirmed"/>
-    <column name="MODIFIED" type="TIMESTAMP" javaName="ModifiedDate"/>
+    <column name="MODIFIED" type="TIMESTAMP"/>
     <column name="CREATED" type="TIMESTAMP" javaName="CreateDate"/>
     <column name="LAST_LOGIN" type="TIMESTAMP"/>
     <column name="OBJECTDATA" type="VARBINARY"/>

@@ -17,12 +17,7 @@
  specific language governing permissions and limitations
  under the License.
 *#
-<database name="${turbine_database_name}"
-    defaultIdMethod="none"
-    xmlns="http://db.apache.org/torque/4.0/templates/database"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://db.apache.org/torque/4.0/templates/database 
-        http://db.apache.org/torque/4.0/templates/database.xsd">
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database_3_3.dtd">
 
 <!-- ============================================================================== -->
 <!--                                                                                -->
@@ -31,6 +26,8 @@
 <!--  @version $Id: application-schema.xml 615328 2008-01-25 20:25:05Z tv $  -->
 <!--                                                                                -->
 <!-- ============================================================================== -->
+
+<database name="${turbine_database_name}">
     <table name="table1">
         <column name="test_col1" type="INTEGER" />
         <column name="test_col2" type="VARCHAR" size="10" />

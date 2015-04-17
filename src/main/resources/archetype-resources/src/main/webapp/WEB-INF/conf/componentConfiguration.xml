@@ -22,23 +22,6 @@
     <torque>
        <configfile>/WEB-INF/conf/Torque.properties</configfile>
     </torque>
-    <userManager>
-        <className>org.apache.fulcrum.security.torque.om.TorqueTurbineUser</className>
-        <peerClassName>org.apache.fulcrum.security.torque.om.TorqueTurbineUserPeer</peerClassName>
-    </userManager>
-    <groupManager>
-        <className>org.apache.fulcrum.security.torque.om.TorqueTurbineGroup</className>
-        <peerClassName>org.apache.fulcrum.security.torque.om.TorqueTurbineGroupPeerImpl</peerClassName>
-    </groupManager>
-    <roleManager>
-        <className>org.apache.fulcrum.security.torque.om.TorqueTurbineRole</className>
-        <peerClassName>org.apache.fulcrum.security.torque.om.TorqueTurbineRolePeerImpl</peerClassName>
-    </roleManager>
-    <permissionManager>
-        <className>org.apache.fulcrum.security.torque.om.TorqueTurbinePermission</className>
-        <peerClassName>org.apache.fulcrum.security.torque.om.TorqueTurbinePermissionPeerImpl</peerClassName>
-    </permissionManager>
-     <peerManager/>
     <cache cacheInitialSize="20" cacheCheckFrequency="5"/>
     <mimetype/>
     <crypto>
@@ -67,4 +50,21 @@
         <automaticUpload>true</automaticUpload>
     </parser>
     <upload repository="/tmp" sizeMax="1048576" sizeThreshold="10240"/>
+        <!-- These components belong to the Fulcrum-Security services -->        
+    <securityService/>
+    <authenticator/>
+    <modelManager/>
+    <aclFactory/>
+    <userManager>
+        <className>org.apache.fulcrum.security.model.turbine.entity.impl.TurbineUserImpl</className>
+    </userManager>
+    <groupManager>
+        <className>org.apache.fulcrum.security.model.turbine.entity.impl.TurbineGroupImpl</className>
+    </groupManager>
+    <roleManager>
+        <className>org.apache.fulcrum.security.model.turbine.entity.impl.TurbineRoleImpl</className>
+    </roleManager>
+    <permissionManager>
+        <className>org.apache.fulcrum.security.model.turbine.entity.impl.TurbinePermissionImpl</className>
+    </permissionManager>
 </componentConfig>

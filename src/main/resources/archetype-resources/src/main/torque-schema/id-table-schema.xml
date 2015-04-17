@@ -17,13 +17,7 @@
  specific language governing permissions and limitations
  under the License.
 -->
-<database name="@DATABASE_DEFAULT@"
-    defaultIdMethod="idbroker"
-    defaultJavaType="primitive"
-    xmlns="http://db.apache.org/torque/4.0/templates/database"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://db.apache.org/torque/4.0/templates/database 
-        http://db.apache.org/torque/4.0/templates/database.xsd">
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database_3_3.dtd">
 
 <!-- ========================================================================= -->
 <!--                                                                           -->
@@ -33,6 +27,11 @@
 <!--                                                                           -->
 <!-- ========================================================================= -->
 
+<database name="@DATABASE_DEFAULT@"
+  defaultIdMethod="idbroker"
+  defaultJavaType="primitive"
+  defaultJavaNamingMethod="underscore"
+  package="@DATABASE_PACKAGE@">
   <table name="ID_TABLE" idMethod="idbroker">
     <column name="ID_TABLE_ID" required="true" primaryKey="true" type="INTEGER" javaName="IdTableId"/>
     <column name="TABLE_NAME" required="true" size="255" type="VARCHAR" javaName="TableName"/>
