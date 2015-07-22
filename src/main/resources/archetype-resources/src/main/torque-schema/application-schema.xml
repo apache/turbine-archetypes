@@ -28,7 +28,7 @@
 <!-- ============================================================================== -->
 
 <database name="${turbine_database_name}">
-    <table name="table1">
+    <table name="table1" idMethod="idbroker">
         <column name="test_col1" type="INTEGER" />
         <column name="test_col2" type="VARCHAR" size="10" />
         <!-- Add your database schema here -->
