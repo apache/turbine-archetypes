@@ -80,7 +80,7 @@
     <column name="LAST_NAME" required="true" size="64" type="VARCHAR"/>
     <column name="EMAIL" size="64" type="VARCHAR"/>
     <column name="CONFIRM_VALUE" size="16" type="VARCHAR" javaName="Confirmed"/>
-    <column name="MODIFIED" type="TIMESTAMP"/>
+    <column name="MODIFIEDDATE" type="TIMESTAMP" javaName="ModifiedDate"/>
     <column name="CREATED" type="TIMESTAMP" javaName="CreateDate"/>
     <column name="LAST_LOGIN" type="TIMESTAMP"/>
     <column name="OBJECTDATA" type="VARBINARY"/>
