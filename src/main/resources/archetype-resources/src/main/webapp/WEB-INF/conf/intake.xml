@@ -26,10 +26,9 @@
 <!--                                                                          -->
 <!-- ======================================================================== -->
 
-<!DOCTYPE input-data SYSTEM "http://turbine.apache.org/dtd/intake_2_4.dtd">
-
-<input-data basePackage="${package}.">
-  <group name="example" key="example" mapToObject="om.Table1">
-    <field name="TestCol2" key="testCol2" type="String"/>
-  </group>
+<input-data xmlns="http://turbine.apache.org/schema/intake/4.0"
+    basePackage="${package}.">
+    <group name="example" key="example" mapToObject="om.Table1">
+        <field name="TestCol2" key="testCol2" type="String"/>
+    </group>
 </input-data>

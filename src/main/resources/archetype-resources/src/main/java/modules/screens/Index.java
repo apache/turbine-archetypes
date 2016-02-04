@@ -18,7 +18,7 @@ package ${package}.modules.screens;
  * under the License.
 *#
 
-import org.apache.turbine.util.RunData;
+import org.apache.turbine.pipeline.PipelineData;
 import org.apache.velocity.context.Context;
 
 import org.apache.turbine.modules.screens.VelocitySecureScreen;
@@ -38,7 +38,7 @@ public class Index extends VelocitySecureScreen
 	 * @throws Exception a generic Exception
 	 */
 	@Override
-	protected void doBuildTemplate(RunData data, Context context)
+	protected void doBuildTemplate(PipelineData data, Context context)
 			throws Exception
 	{
 		context.put("success", "Congratulations, it worked!");
@@ -56,7 +56,7 @@ public class Index extends VelocitySecureScreen
 	 * @throws Exception a generic Exception
 	 */
 	@Override
-	protected boolean isAuthorized(RunData data) throws Exception
+	protected boolean isAuthorized(PipelineData data) throws Exception
 	{
 		// use data.getACL() 
 		return true;
