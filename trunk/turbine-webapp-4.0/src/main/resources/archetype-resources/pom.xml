@@ -50,6 +50,7 @@ under the License.
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
                 <configuration>
                     <source>${maven.compile.source}</source>
                     <target>${maven.compile.target}</target>
@@ -127,6 +128,7 @@ under the License.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
+                 <version>2.3</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
@@ -138,13 +140,17 @@ under the License.
                 </configuration>
             </plugin>
             
-            <!-- jetty:run checks deployed war http://localhost:8081/app/ -->
+            <!-- jetty:run checks deployed war http://localhost:8081/app/ 
+            
+            Using jetty 8 as supporting java 6. Other specs cft. http://www.eclipse.org/jetty/documentation/9.3.0.v20150612/what-jetty-version.html
+            -->
             <plugin>
-              <groupId>org.eclipse.jetty</groupId>
+              <groupId>org.mortbay.jetty</groupId>
               <artifactId>jetty-maven-plugin</artifactId>
-              <version>9.2.9.v20150224</version>
+              <version>8.1.16.v20140903</version>
               <configuration>
                 <scanIntervalSeconds>10</scanIntervalSeconds>
+                <dumpOnStart>true</dumpOnStart>
                 <httpConnector>
                     <port>8081</port>
                     <host>localhost</host>
@@ -177,60 +183,33 @@ under the License.
             <version>2.5</version>
             <scope>provided</scope>
         </dependency>
-         <dependency>
-          <groupId>org.apache.torque</groupId>
-          <artifactId>torque-runtime</artifactId>
-          <version>4.0</version>
-          <type>jar</type>
-          <exclusions>
-            <exclusion>
-                <groupId>avalon-framework</groupId>
-                <artifactId>avalon-framework-api</artifactId>
-            </exclusion>
-            <exclusion>
-                <groupId>avalon-logkit</groupId>
-                <artifactId>avalon-logkit</artifactId>
-            </exclusion>
-             <exclusion>
-               <groupId>commons-configuration</groupId>
-               <artifactId>commons-configuration</artifactId>
-             </exclusion>
-             <exclusion>
-               <groupId>commons-logging</groupId>
-               <artifactId>commons-logging</artifactId>
-             </exclusion>
-          </exclusions>
-        </dependency>
         <dependency>
             <groupId>org.apache.turbine</groupId>
             <artifactId>turbine</artifactId>
-            <version>4.0-M2-SNAPSHOT</version>
+            <version>4.0-M2</version>
         </dependency>
+        <!-- yaafi is optional. NOTICE: 1.0.7 has group org.apache.turbine not org.apache.fulcrum  -->
         <dependency>
-            <groupId>org.apache.fulcrum</groupId>
-            <artifactId>fulcrum-yaafi</artifactId>
-            <version>1.0.6</version>
+          <groupId>org.apache.turbine</groupId>
+          <artifactId>fulcrum-yaafi</artifactId>
+          <version>1.0.7</version>
         </dependency>
+         <!-- include some optional dependencies required in example componentConfiguration.xml -->
         <dependency>
-            <groupId>org.apache.fulcrum</groupId>
-            <artifactId>fulcrum-cache</artifactId>
-            <version>1.1.0</version>
-         </dependency>
-        <dependency>
-            <groupId>org.apache.fulcrum</groupId>
-            <artifactId>fulcrum-upload</artifactId>
-            <version>1.0.5</version>
+          <groupId>org.apache.fulcrum</groupId>
+          <artifactId>fulcrum-cache</artifactId>
+          <version>1.1.0</version>
         </dependency>
          <dependency>
-            <groupId>org.apache.fulcrum</groupId>
-            <artifactId>fulcrum-security-api</artifactId>
-            <version>1.1.0</version>
-          </dependency>
-          <dependency>
-            <groupId>org.apache.fulcrum</groupId>
-            <artifactId>fulcrum-security-memory</artifactId>
-            <version>1.1.0</version>
-         </dependency>
+          <groupId>org.apache.fulcrum</groupId>
+          <artifactId>fulcrum-upload</artifactId>
+          <version>1.0.5</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.fulcrum</groupId>
+          <artifactId>fulcrum-security-memory</artifactId>
+          <version>1.1.0</version>
+        </dependency>
          <dependency>             
             <groupId>org.apache.fulcrum</groupId>
             <artifactId>fulcrum-security-torque</artifactId>
