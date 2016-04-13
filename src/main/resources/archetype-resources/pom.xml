@@ -145,17 +145,17 @@ under the License.
             Using jetty 8 as supporting java 6. Other specs cft. http://www.eclipse.org/jetty/documentation/9.3.0.v20150612/what-jetty-version.html
             -->
             <plugin>
-              <groupId>org.mortbay.jetty</groupId>
-              <artifactId>jetty-maven-plugin</artifactId>
-              <version>8.1.16.v20140903</version>
+               <groupId>org.mortbay.jetty</groupId>
+               <artifactId>jetty-maven-plugin</artifactId>
+               <version>8.1.16.v20140903</version>
               <configuration>
                 <scanIntervalSeconds>10</scanIntervalSeconds>
                 <dumpOnStart>true</dumpOnStart>
-                <httpConnector>
-                    <port>8081</port>
-                    <host>localhost</host>
-                    <idleTimeout>60000</idleTimeout>
-                </httpConnector>
+                <connectors>
+                <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                  <port>8081</port>
+                </connector>
+                </connectors>
                 <!--webApp>
                   <contextPath>/app</contextPath>
                 </webApp-->

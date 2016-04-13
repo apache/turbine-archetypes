@@ -56,6 +56,9 @@
     <modelManager/>
     <aclFactory/>
     
+    <!--  More Fulcrum Components, e.g. json, XmlRpcServerComponent, cft. Fulcrum Component Configurations
+    -->
+    
      <userManager> 
        <className>org.apache.fulcrum.security.torque.om.TorqueTurbineUser</className>
     </userManager>

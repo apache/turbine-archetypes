@@ -25,3 +25,17 @@ your web container.<p/>
 You can (and should!) change or remove this page at any time. It is
 intended to give you immediate feedback if you just deployed an newly
 setup Turbine application.</p>
+
+Login here
+
+<form method="post" enctype="application/x-www-form-urlencoded" name="loginForm" id="loginForm">
+  <fieldset>
+    <legend>Login</legend>
+    <input name="action" type="hidden" value="LoginUser">
+   <label for="username">Username</label>
+    <input type="text" id="username" name="username" value="" tabindex="1" autocomplete="off" autofocus="">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" value="" tabindex="2" autocomplete="off"> 
+    <input type="submit" id="submitLogin" value="Login" tabindex="3">
+ </fieldset>
+</form>
