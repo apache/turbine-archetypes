@@ -194,6 +194,12 @@ under the License.
           <artifactId>fulcrum-yaafi</artifactId>
           <version>1.0.7</version>
         </dependency>
+        <!-- if using intake -->
+        <dependency>
+          <groupId>org.apache.fulcrum</groupId>
+          <artifactId>fulcrum-intake</artifactId>
+          <version>1.2.0</version>
+         </dependency>
          <!-- include some optional dependencies required in example componentConfiguration.xml -->
         <dependency>
           <groupId>org.apache.fulcrum</groupId>
