@@ -15,27 +15,25 @@
 ## specific language governing permissions and limitations
 ## under the License.
 
-<div align="center"><h1>$success</h1></div>
 
-You're now successfully running a <a
-href="http://turbine.apache.org/">Turbine</a> based
-application, deployed to <font color="red">$data.ServerData.ContextPath</a></font> on
-your web container.<p/>
 
-You can (and should!) change or remove this page at any time. It is
-intended to give you immediate feedback if you just deployed an newly
-setup Turbine application.</p>
 
-Login here
+#if ( $data.getMessage() )
+        #info( $data.getMessage() )
+#end
 
-<form method="post" enctype="application/x-www-form-urlencoded" name="loginForm" id="loginForm">
-  <fieldset>
-    <legend>Login</legend>
-    <input name="action" type="hidden" value="LoginUser">
-   <label for="username">Username</label>
-    <input type="text" id="username" name="username" value="" tabindex="1" autocomplete="off" autofocus="">
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" value="" tabindex="2" autocomplete="off"> 
-    <input type="submit" id="submitLogin" value="Login" tabindex="3">
- </fieldset>
-</form>
+     <div align="center"><h1>$success</h1></div>
+
+     <p>
+             You're now successfully running a <a href="http://turbine.apache.org/">Turbine</a> based
+             application, deployed to <font color="red">$data.ServerData.ContextPath</a></font> on
+             your web container.
+     </p>
+
+     <p>
+             You can (and should!) change or remove this page at any time. It is
+             intended to give you immediate feedback if you just deployed an newly
+             setup Turbine application.
+     </p>
+
+     <a href="$link.setPage("TestSecure.vm")">Test a secure access page</a>
