@@ -37,6 +37,7 @@
         <bundle>${package}.L10N</bundle>
       </bundles>
     </localization>
+    <!-- Disable if you experience startup problems with Java8 -->
     <intake>
       <serialDataPath>WEB-INF/appData.ser</serialDataPath>
       <xmlPaths>

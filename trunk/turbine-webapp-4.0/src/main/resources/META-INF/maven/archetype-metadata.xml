@@ -39,14 +39,32 @@
     <requiredProperty key="turbine_database_jndipath">
       <defaultValue>java:comp/env/jdbc/Turbine</defaultValue>
     </requiredProperty>
+    <requiredProperty key="turbine_database_driver">
+      <defaultValue>com.mysql.jdbc.Driver</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="turbine_database_url">
+      <defaultValue>jdbc:mysql://localhost:3306/</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="turbine_database_user">
+      <defaultValue>db_user</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="turbine_database_password">
+      <defaultValue>db_password</defaultValue>
+    </requiredProperty>
   </requiredProperties>
-
   <fileSets>
     <fileSet filtered="true" packaged="true" encoding="UTF-8">
       <directory>src/main/java</directory>
       <includes>
         <include>**/*.java</include>
         <include>**/*.properties</include>
+      </includes>
+    </fileSet>
+    <fileSet filtered="false" packaged="false" encoding="UTF-8">
+      <directory>docs</directory>
+      <includes>
+        <include>**/*.txt</include>
+        <include>**/*.sql</include>
       </includes>
     </fileSet>
     <fileSet filtered="true" packaged="false" encoding="UTF-8">

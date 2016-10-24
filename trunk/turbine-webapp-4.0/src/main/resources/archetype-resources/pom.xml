@@ -69,53 +69,53 @@ under the License.
                     <targetDatabase>mysql</targetDatabase>
                 </configuration>
                 <executions>
-                 <execution>
-                    <id>torque-om</id>
-                    <phase>generate-sources</phase>
-                    <goals>
-                      <goal>generate</goal>
-                    </goals>
-                    <configuration>
-                      <packaging>classpath</packaging>
-                      <configPackage>org.apache.torque.templates.om</configPackage>
-                      <sourceDir>#var("basedir")/src/main/torque-schema</sourceDir>
-                      <loglevel>error</loglevel>
-                      <options>
-                        <torque.database>mysql</torque.database>
-                        <torque.om.package>${package}.om</torque.om.package>
-                        <torque.om.addGetByNameMethods>false</torque.om.addGetByNameMethods>
-                        <torque.om.save.saveException>TorqueException</torque.om.save.saveException>
-                        <torque.om.useIsForBooleanGetters>true</torque.om.useIsForBooleanGetters>
-                        <torque.om.useManagers>false</torque.om.useManagers>
-                        <torque.om.addTimeStamp>true</torque.om.addTimeStamp>
-                        <torque.om.objectIsCaching>true</torque.om.objectIsCaching>
-                        <torque.om.save.addSaveMethods>true</torque.om.save.addSaveMethods>
-                        <torque.om.addGetByNameMethods>true</torque.om.addGetByNameMethods>
-                        <torque.om.complexObjectModel>true</torque.om.complexObjectModel>                        
-                      </options>
-                      <outputDirMap>
-                        <modifiable>#var("project.build.sourceDirectory")</modifiable>
-                      </outputDirMap>
-                    </configuration>
-                  </execution>
-                  <execution>
-                    <id>torque-sql-${turbine_database_adapter}</id>
-                    <phase>package</phase>
-                    <goals>
-                      <goal>generate</goal>
-                    </goals>
-                    <configuration>
-                      <packaging>classpath</packaging>
-                      <configPackage>org.apache.torque.templates.sql</configPackage>
-                      <sourceDir>#var("basedir")/src/main/torque-schema</sourceDir>
-                      <defaultOutputDir>#var("project.build.directory")/generated-sql/torque/${turbine_database_adapter}</defaultOutputDir>
-                      <defaultOutputDirUsage>none</defaultOutputDirUsage>
-                      <loglevel>error</loglevel>
-                      <options>
-                        <torque.database>${turbine_database_adapter}</torque.database>
-                      </options>
-                    </configuration>
-                  </execution>
+					<execution>
+						<id>torque-om</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<packaging>classpath</packaging>
+							<configPackage>org.apache.torque.templates.om</configPackage>
+							<sourceDir>#var("basedir")/src/main/torque-schema</sourceDir>
+							<loglevel>error</loglevel>
+							<options>
+								<torque.database>${turbine_database_adapter}</torque.database>
+								<torque.om.package>${package}.om</torque.om.package>
+								<torque.om.addGetByNameMethods>false</torque.om.addGetByNameMethods>
+								<torque.om.save.saveException>TorqueException</torque.om.save.saveException>
+								<torque.om.useIsForBooleanGetters>true</torque.om.useIsForBooleanGetters>
+								<torque.om.useManagers>false</torque.om.useManagers>
+								<torque.om.addTimeStamp>true</torque.om.addTimeStamp>
+								<torque.om.objectIsCaching>true</torque.om.objectIsCaching>
+								<torque.om.save.addSaveMethods>true</torque.om.save.addSaveMethods>
+								<torque.om.addGetByNameMethods>true</torque.om.addGetByNameMethods>
+								<torque.om.complexObjectModel>true</torque.om.complexObjectModel>
+							</options>
+							<outputDirMap>
+								<modifiable>#var("project.build.sourceDirectory")</modifiable>
+							</outputDirMap>
+						</configuration>
+					</execution>
+					<execution>
+						<id>torque-sql-${turbine_database_adapter}</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<packaging>classpath</packaging>
+							<configPackage>org.apache.torque.templates.sql</configPackage>
+							<sourceDir>#var("basedir")/src/main/torque-schema</sourceDir>
+							<defaultOutputDir>#var("project.build.directory")/generated-sql/torque/${turbine_database_adapter}</defaultOutputDir>
+							<defaultOutputDirUsage>none</defaultOutputDirUsage>
+							<loglevel>error</loglevel>
+							<options>
+								<torque.database>${turbine_database_adapter}</torque.database>
+							</options>
+						</configuration>
+					</execution>
                 </executions>
                 <dependencies>
                   <dependency>
@@ -139,6 +139,41 @@ under the License.
                     <!-- containerConfigXML>WEB-INF/build/context.xml</containerConfigXML -->
                 </configuration>
             </plugin>
+
+
+			<!-- Required to execute torque database build -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.5</version>
+				<configuration>
+
+					<!-- Please update with your database configuration -->
+					<driver>${turbine_database_driver}</driver>
+					<url>${turbine_database_url}${turbine_database_name}</url>
+					<username>${turbine_database_user}</username>
+					<password>${turbine_database_password}</password>
+					<onError>continue</onError>
+					<autocommit>true</autocommit>
+					<fileset>
+						<basedir>${project.build.directory}/generated-sql/torque/${turbine_database_adapter}</basedir>
+						<!-- basedir>${basedir}/target/generated-sql</basedir -->
+						<includes>
+							<include>*.sql</include>
+						</includes>
+					</fileset>
+				</configuration>
+				
+				<!-- update with your database driver dependency -->
+				<dependencies>
+					<dependency>
+						<artifactId>mysql-connector-java</artifactId>
+						<groupId>mysql</groupId>
+						<version>5.1.40</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+				
             
             <!-- jetty:run checks deployed war http://localhost:8081/app/ 
             
@@ -165,6 +200,13 @@ under the License.
     </build>
 
     <dependencies>
+    
+		<!-- update with the database driver of your choice -->
+		<dependency>
+			<artifactId>mysql-connector-java</artifactId>
+			<groupId>mysql</groupId>
+			<version>5.1.40</version>
+		</dependency>    
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>

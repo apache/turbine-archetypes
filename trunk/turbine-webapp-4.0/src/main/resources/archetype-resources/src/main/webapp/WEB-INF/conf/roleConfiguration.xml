@@ -44,6 +44,7 @@
         shorthand="localization"
         default-class="org.apache.fulcrum.localization.DefaultLocalizationService"/>
 
+	<!-- Disable if you experience startup problems with Java8 -->
     <role
         name="org.apache.fulcrum.intake.IntakeService"
         shorthand="intake"

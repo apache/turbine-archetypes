@@ -20,7 +20,6 @@ package ${package}.modules.screens;
 
 import org.apache.turbine.pipeline.PipelineData;
 import org.apache.velocity.context.Context;
-
 import org.apache.turbine.modules.screens.VelocitySecureScreen;
 
 /**
