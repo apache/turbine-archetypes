@@ -24,7 +24,28 @@
   </properties>
 
   <body>
-    <release version="1.0.0" date="in Subversion">
+   <release version="1.0.1" date="in Subversion">
+       <action dev="gk" type="update">
+       Fulcrum Torque Security added manager, om classes
+      </action>
+       <action dev="painter" type="update">
+       MySQL is now default, added readme, docs, helper sql..
+      </action>
+      <action dev="gk" type="update">
+       Update schema to torque / intake 4.0, dependencies, configurations
+       Update to MemoryGroupManagerImpl, Fulcrum     
+      </action>
+      <action dev="gk" type="add">
+        Jetty support
+      </action>
+      <action dev="tv" type="fix">
+        TRB-95
+      </action>
+      <action dev="gk" type="update ">
+        Update to Turbine 4-M2
+      </action>
+    </release>
+    <release version="1.0.0" date="2012-11-06">
       <action dev="tv" type="fix">
         Fixed missing dependencies and wrong class names as reported on the mailing list
       </action>

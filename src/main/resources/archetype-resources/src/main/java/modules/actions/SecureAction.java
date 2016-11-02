@@ -58,7 +58,7 @@ public class SecureAction extends VelocitySecureAction {
 		// Get the Turbine ACL implementation
 		TurbineAccessControlListImpl acl = (TurbineAccessControlListImpl) getRunData(data).getACL();
 
-		if (acl == null || !acl.hasRole("TurbineAdmin")) {
+		if (acl == null || !acl.hasRole("turbineadmin")) {
 			getRunData(data).setMessage("You do not have permission to access this action");
 			isAuthorized = false;
 		} else if (acl.hasRole("admin")) {

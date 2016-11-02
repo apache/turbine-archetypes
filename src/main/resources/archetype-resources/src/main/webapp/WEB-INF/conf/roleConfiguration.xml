@@ -81,7 +81,34 @@
         shorthand="securityService"
         default-class="org.apache.fulcrum.security.BaseSecurityService"/>
 
-        <!-- five memory managers : remove later and .. -->
+    <role
+        name="org.apache.fulcrum.security.UserManager"
+        shorthand="userManager"
+        early-init="true"
+        default-class="${package}.fulcrum.security.torque.turbine.TorqueTurbineUserManagerImpl"/>
+
+    <role
+        name="org.apache.fulcrum.security.GroupManager"
+        shorthand="groupManager"
+        default-class="${package}.fulcrum.security.torque.turbine.TorqueTurbineGroupManagerImpl"/>
+
+    <role
+        name="org.apache.fulcrum.security.RoleManager"
+        shorthand="roleManager"
+        default-class="${package}.fulcrum.security.torque.turbine.TorqueTurbineRoleManagerImpl"/>
+
+    <role
+        name="org.apache.fulcrum.security.PermissionManager"
+        shorthand="permissionManager"
+        default-class="org.apache.fulcrum.security.memory.MemoryPermissionManagerImpl"/>
+        
+    <role
+        name="org.apache.fulcrum.security.torque.peer.PeerManager"
+        shorthand="peerManager"
+        default-class="org.apache.fulcrum.security.torque.peer.PeerManagerDefaultImpl"/>
+        
+    <!-- optionally five memory managers : remove later and .. -->
+   <!-- 
     <role
         name="org.apache.fulcrum.security.UserManager"
         shorthand="userManager"
@@ -102,6 +129,7 @@
         name="org.apache.fulcrum.security.PermissionManager"
         shorthand="permissionManager"
         default-class="org.apache.fulcrum.security.memory.MemoryPermissionManagerImpl"/>
+     -->
 
     <role
         name="org.apache.fulcrum.security.ModelManager"
