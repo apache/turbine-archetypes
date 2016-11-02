@@ -17,6 +17,17 @@ specific language governing permissions and limitations
 under the License.
 *#
 
+Notice
+
+About this archetype 
+ 
+Turbine Version: Turbine 4.0-M2. Be aware and
+  - keep groups/roles lower case
+  - abstract classes and managers are included
+  (because of some minor bugs in Fulcrum Security 1.1.0, which should be fixed in v 1.1.1/Turbine 4.0)
+  - LogoutAction is included (fixed getUserFromSession)
+  - om stub classes are included (until configurable in schema with Torque version 2.1)
+  
 
 Quick Guide to using the new Turbine 4.0-M2 maven archetype 
 for skeleton application generation
@@ -70,6 +81,8 @@ has disabled the datasql task.
 mvn jetty:run         ## Now you can launch your new Turbine application
 
 Open a web browser to http://localhost:8081/app
+
+Login should work with user admin/password.
 
 To enable application development in Eclipse, run the following command 
 and then import the project into Eclipse.
