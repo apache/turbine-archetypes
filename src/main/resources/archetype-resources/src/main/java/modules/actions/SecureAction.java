@@ -19,8 +19,7 @@ package ${package}.modules.actions;
 * under the License.
 *#
 
-import org.apache.fulcrum.security.SecurityService;
-import org.apache.fulcrum.security.model.turbine.TurbineAccessControlListImpl;
+import org.apache.fulcrum.security.model.turbine.TurbineAccessControlList;
 import org.apache.turbine.modules.actions.VelocitySecureAction;
 import org.apache.turbine.om.security.User;
 import org.apache.turbine.pipeline.PipelineData;
@@ -30,12 +29,10 @@ import org.apache.velocity.context.Context;
  * Velocity Secure action.
  *
  * Always performs a Security Check that you've defined before executing the
- * doBuildtemplate().
+ * doPerform().
  */
-public class SecureAction extends VelocitySecureAction {
-
-	protected SecurityService securityService;
-
+public class SecureAction extends VelocitySecureAction 
+{
 	/**
 	 * This currently only checks to make sure that user is allowed to view the
 	 * storage area. If you create an action that requires more security then
@@ -48,20 +45,23 @@ public class SecureAction extends VelocitySecureAction {
 	 *                a generic exception.
 	 */
 	@Override
-	protected boolean isAuthorized(PipelineData data) throws Exception {
-
+	protected boolean isAuthorized(PipelineData data) throws Exception 
+	{
 		boolean isAuthorized = false;
 
 		// Who is our current user?
 		User user = getRunData(data).getUser();
 
 		// Get the Turbine ACL implementation
-		TurbineAccessControlListImpl acl = (TurbineAccessControlListImpl) getRunData(data).getACL();
+		TurbineAccessControlList acl = getRunData(data).getACL();
 
-		if (acl == null || !acl.hasRole("turbineadmin")) {
+		if (acl == null || !acl.hasRole("turbineadmin")) 
+		{
 			getRunData(data).setMessage("You do not have permission to access this action");
 			isAuthorized = false;
-		} else if (acl.hasRole("admin")) {
+		} 
+		else if (acl.hasRole("admin")) 
+		{
 			isAuthorized = true;
 		}
 
@@ -78,7 +78,8 @@ public class SecureAction extends VelocitySecureAction {
 	 * @exception Exception,
 	 *                a generic exception.
 	 */
-	public void doPerform(PipelineData data, Context context) throws Exception {
+	public void doPerform(PipelineData data, Context context) throws Exception 
+	{
 
 	}
 }
