@@ -18,59 +18,73 @@ package ${package}.modules.screens;
 * under the License.
 *#
 
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.fulcrum.security.model.turbine.TurbineAccessControlList;
 import org.apache.turbine.Turbine;
+import org.apache.turbine.TurbineConstants;
+import org.apache.turbine.annotation.TurbineConfiguration;
+import org.apache.turbine.annotation.TurbineService;
 import org.apache.turbine.modules.screens.VelocitySecureScreen;
 import org.apache.turbine.om.security.User;
 import org.apache.turbine.pipeline.PipelineData;
-import org.apache.turbine.services.TurbineServices;
 import org.apache.turbine.services.security.SecurityService;
-import org.apache.turbine.services.security.TurbineSecurity;
-import org.apache.fulcrum.security.acl.AccessControlList;
-import org.apache.fulcrum.security.model.turbine.TurbineAccessControlListImpl;
 import org.apache.velocity.context.Context;
 
 /**
  * This class provides a sample implementation for creating a secured screen
  */
-public class SecureScreen extends VelocitySecureScreen {
-	// create an instance of the logging facility
-	private static Log log = LogFactory.getLog(SecureScreen.class);
-
+public class SecureScreen extends VelocitySecureScreen 
+{
+	@TurbineService
 	protected SecurityService securityService;
+	
+    @TurbineConfiguration( TurbineConstants.TEMPLATE_LOGIN )
+    private String templateLogin;
+
+    @TurbineConfiguration( TurbineConstants.TEMPLATE_HOMEPAGE )
+    private String templateHomepage;
 
 	@Override
-	protected boolean isAuthorized(PipelineData data) throws Exception {
+	protected boolean isAuthorized(PipelineData data) throws Exception 
+	{
 		boolean isAuthorized = false;
-
-		// Load the security service
-		securityService = (SecurityService) TurbineServices.getInstance().getService(SecurityService.SERVICE_NAME);
 
 		// Who is our current user?
 		User user = getRunData(data).getUser();
 
 		// Get the Turbine ACL implementation
-		TurbineAccessControlListImpl acl = (TurbineAccessControlListImpl) getRunData(data).getACL();
+		TurbineAccessControlList acl = getRunData(data).getACL();
 
-		if (acl == null) {
-			getRunData(data).setScreenTemplate(Turbine.getConfiguration().getString("template.login"));
+		if (acl == null) 
+		{
+			getRunData(data).setScreenTemplate(templateLogin);
 			isAuthorized = false;
-		} else if (acl.hasRole("TurbineAdmin")) {
+		} 
+		else if (acl.hasRole("turbineadmin")) 
+		{
 			isAuthorized = true;
-		} else {
-			getRunData(data).setScreenTemplate(Turbine.getConfiguration().getString("template.home"));
+		}
+		else 
+		{
+			getRunData(data).setScreenTemplate(templateHomepage);
 			getRunData(data).setMessage("You do not have access to this part of the site.");
 			isAuthorized = false;
 		}
 		return isAuthorized;
 	}
 
+    /**
+     * Implement this to add information to the context.
+     *
+     * @param data
+     *            Turbine information.
+     * @param context
+     *            Context for web pages.
+     * @exception Exception,
+     *                a generic exception.
+     */
 	@Override
-	protected void doBuildTemplate(PipelineData data, Context context) throws Exception {
-		// TODO Auto-generated method stub
+	protected void doBuildTemplate(PipelineData data, Context context) throws Exception 
+	{
 
 	}
-
 }
