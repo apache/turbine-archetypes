@@ -25,6 +25,9 @@
 
   <body>
    <release version="1.0.1" date="in Subversion">
+      <action dev="gk" type="update">
+       JNDI Jetty Update
+      </action>
        <action dev="gk" type="update">
        Fulcrum Torque Security added manager, om classes
       </action>

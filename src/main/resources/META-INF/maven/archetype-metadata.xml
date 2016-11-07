@@ -37,7 +37,7 @@
       <defaultValue>auto</defaultValue>
     </requiredProperty>
     <requiredProperty key="turbine_database_jndipath">
-      <defaultValue>java:comp/env/jdbc/Turbine</defaultValue>
+      <defaultValue>jdbc/turbine</defaultValue>
     </requiredProperty>
     <requiredProperty key="turbine_database_driver">
       <defaultValue>com.mysql.jdbc.Driver</defaultValue>
