@@ -28,6 +28,7 @@ import org.apache.turbine.om.security.User;
 import org.apache.turbine.pipeline.PipelineData;
 import org.apache.turbine.services.security.SecurityService;
 import org.apache.velocity.context.Context;
+import org.apache.commons.configuration.Configuration;
 
 /**
  * This class provides a sample implementation for creating a secured screen
@@ -37,11 +38,11 @@ public class SecureScreen extends VelocitySecureScreen
 	@TurbineService
 	protected SecurityService securityService;
 	
-    @TurbineConfiguration( TurbineConstants.TEMPLATE_LOGIN )
-    private String templateLogin;
+  @TurbineConfiguration( TurbineConstants.TEMPLATE_LOGIN )
+  private Configuration templateLogin;
 
-    @TurbineConfiguration( TurbineConstants.TEMPLATE_HOMEPAGE )
-    private String templateHomepage;
+  @TurbineConfiguration( TurbineConstants.TEMPLATE_HOMEPAGE )
+  private Configuration templateHomepage;
 
 	@Override
 	protected boolean isAuthorized(PipelineData data) throws Exception 
@@ -56,7 +57,8 @@ public class SecureScreen extends VelocitySecureScreen
 
 		if (acl == null) 
 		{
-			getRunData(data).setScreenTemplate(templateLogin);
+      // commons configuration getProperty: prefix removed, the key for the value .. is an empty string, the result an object
+			getRunData(data).setScreenTemplate( (String) templateLogin.getProperty("") );
 			isAuthorized = false;
 		} 
 		else if (acl.hasRole("turbineadmin")) 
@@ -65,7 +67,7 @@ public class SecureScreen extends VelocitySecureScreen
 		}
 		else 
 		{
-			getRunData(data).setScreenTemplate(templateHomepage);
+			getRunData(data).setScreenTemplate( (String) templateHomepage.getProperty("") );
 			getRunData(data).setMessage("You do not have access to this part of the site.");
 			isAuthorized = false;
 		}

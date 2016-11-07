@@ -99,7 +99,7 @@ under the License.
             </configuration>
           </execution>
           <execution>
-            <id>torque-sql-${turbine_database_adapter}</id>
+            <id>torque-sql-mysql</id><!-- ${turbine_database_adapter} -->
             <phase>generate-sources</phase>
             <goals>
               <goal>generate</goal>
@@ -108,11 +108,11 @@ under the License.
               <packaging>classpath</packaging>
               <configPackage>org.apache.torque.templates.sql</configPackage>
               <sourceDir>#var("basedir")/src/main/torque-schema</sourceDir>
-              <defaultOutputDir>#var("project.build.directory")/generated-sql/torque/${turbine_database_adapter}</defaultOutputDir>
+              <defaultOutputDir>#var("project.build.directory")/generated-sql/torque/mysql</defaultOutputDir>
               <defaultOutputDirUsage>none</defaultOutputDirUsage>
               <loglevel>error</loglevel>
               <options>
-                <torque.database>${turbine_database_adapter}</torque.database>
+                <torque.database>mysql</torque.database>
               </options>
             </configuration>
           </execution>

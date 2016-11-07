@@ -1,0 +1,15 @@
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+  <New id="Turbine" class="org.eclipse.jetty.plus.jndi.Resource">
+    <Arg></Arg> <!-- reference to WebAppContext requires jetty 9.x only  -->
+    <Arg>${turbine_database_jndipath}</Arg>
+    <Arg>
+        <New class="org.apache.commons.dbcp.BasicDataSource">
+           <Set name="driverClassName">${turbine_database_driver}</Set>
+            <Set name="url">${turbine_database_url}${turbine_database_name}</Set>
+            <Set name="username">${turbine_database_user}</Set>
+            <Set name="password">${turbine_database_password}</Set>
+            <Set name="validationQuery">SELECT 1</Set>
+        </New>
+    </Arg>
+  </New>
+</Configure>

@@ -27,6 +27,7 @@ Turbine Version: Turbine 4.0-M2. Be aware and
   (because of some minor bugs in Fulcrum Security 1.1.0, which should be fixed in v 1.1.1/Turbine 4.0)
   - LogoutAction is included (fixed getUserFromSession)
   - om stub classes are included (until configurable in schema with Torque version 2.1)
+  - (in SecureScreen) TurbineConfiguration returns a Commons configuration object, even if field is not assignable (will be fixed in Turbine 4.0, you can then assign e.g. to String instead)
   
 
 Quick Guide to using the new Turbine 4.0-M2 maven archetype 
@@ -51,10 +52,12 @@ mvn archetype:generate \
     -Dturbine_database_adapter=mysql \
     -Dturbine_database_user=db_username \
     -Dturbine_database_password=db_password \
-    -Dturbine_database_name=helloWorld
+    -Dturbine_database_name=helloWorld \
+    -Dgoals=generate-sources,sql:execute
 
 
-Note that the database URL will be appended with your database name
+Note that the database URL (turbine_database_url=jdbc:mysql://localhost:3306/) 
+will be appended with your database name
 in the final pom.xml, so you do not need to specify that in 
 the configuration.
 
@@ -67,6 +70,9 @@ Next, you need to create the database in MySQL
 
 cd helloWorld
 
+You can skip the next two mvn commands, if you have already set the goals 
+when invoking archetype:generate.
+
 mvn generate-sources  ## This will generate the OM layer and SQL 
 					  ## code for creating the corresponding
 					  ## database tables
@@ -75,8 +81,9 @@ mvn sql:execute       ## This executes the SQL code to create
 					  ## the application schema defined 
 					  ## in src/main/torque-schema
 
-You should now insert the sample data file provided as Torque 4.0 
-has disabled the datasql task.
+You should now check the database tables and if some data is missing
+insert the sample data file provided 
+as Torque 4.0 has disabled the datasql task.
 
 mvn jetty:run         ## Now you can launch your new Turbine application
 
