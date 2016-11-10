@@ -28,6 +28,12 @@
       <action dev="gk" type="update">
        JNDI Jetty Update
       </action>
+      <action dev="tv" type="add">
+       add testing in place with "integration-test"
+      </action>
+      <action dev="tv" type="update">
+       Turbine annotations, use auto detect Torque adapter
+      </action>
        <action dev="gk" type="update">
        Fulcrum Torque Security added manager, om classes
       </action>
