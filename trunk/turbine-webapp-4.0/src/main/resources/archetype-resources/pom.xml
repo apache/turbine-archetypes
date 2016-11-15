@@ -155,20 +155,19 @@ under the License.
           <password>${turbine_database_password}</password>
           <onError>continue</onError>
           <autocommit>true</autocommit>
+          <orderFile>ascending</orderFile>
           <!-- this is mysql specific -->
-           <sqlCommand>SET FOREIGN_KEY_CHECKS=0</sqlCommand>
           <fileset>
-              <basedir>${project.build.directory}/generated-sql/torque/${turbine_database_adapter}</basedir>
+              <basedir>${project.build.directory}/generated-sql/torque/mysql</basedir>
               <!-- basedir>${basedir}/target/generated-sql</basedir -->
               <includes>
                 <include>*.sql</include>
               </includes>
            </fileset>
            <srcFiles>
-              <srcFile>${basedir}/docs/sample-mysql-data/application-data.sql</srcFile>
-              <srcFile>${basedir}/docs/sample-mysql-data/turbine-security-data.sql</srcFile>
+              <srcFile>${basedir}/docs/sample-mysql-data/_application-data.sql</srcFile>
+              <srcFile>${basedir}/docs/sample-mysql-data/_turbine-security-data.sql</srcFile>
            </srcFiles>
-           <sqlCommand>SET FOREIGN_KEY_CHECKS=1</sqlCommand>
         </configuration>
         
         <!-- update with your database driver dependency -->

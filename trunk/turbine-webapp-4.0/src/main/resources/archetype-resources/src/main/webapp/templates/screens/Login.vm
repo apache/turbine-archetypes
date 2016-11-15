@@ -30,12 +30,12 @@
 ## #end
 
 <p/>
-
-
-    <div class="w3-display-middle w3-card-8 w3-center w3-light-grey" style="max-width: 500px">
+  #if (! $data.user.hasLoggedIn()) 
   
-		<form class="w3-container w3-light-grey" name="login" method="post" action="$link.setAction("LoginUser").setPage("TestSecure.vm")">
-        	<div class="w3-section">
+  <div class="w3-display-middle w3-card-8 w3-center w3-light-grey" style="max-width: 500px">
+
+		<form class="w3-container w3-light-grey" name="login" method="post" action="$link.setAction("LoginUser").setPage($data.templateInfo.screenTemplate)">
+       <div class="w3-section">
         
                 <p>
                 	<!--  input class="w3-input w3-border" style="margin: auto; width: 200px;" placeholder="Username" type="text" name="$loginGroup.Username.Key" value="$!loginGroup.Username" -->
@@ -51,19 +51,20 @@
                 <p/>
 
         
-			</div>
-		</form>
+      </div>
+    </form>
 
-		<div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-	        <span class="w3-right w3-padding w3-hide-small">Forgot <a href="#">password?</a></span>
-		</div>
 
-		## Display System messages here if there are any
+    <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+          <span class="w3-right w3-padding w3-hide-small">Forgot <a href="#">password?</a></span>
+    </div>
+
+    ## Display System messages here if there are any
         #if($data.getMessage())
          #info( $data.getMessage() ) <br/>
         #end 
 
     </div>
-              
+  #end             
 
 ## $intake.declareGroups()
