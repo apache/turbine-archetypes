@@ -21,14 +21,7 @@ Notice
 
 About this archetype 
  
-Turbine Version: Turbine 4.0-M2. Be aware and
-  - keep groups/roles lower case
-  - abstract classes and managers are included
-  (because of some minor bugs in Fulcrum Security 1.1.0, which should be fixed in v 1.1.1/Turbine 4.0)
-  - LogoutAction is included (fixed getUserFromSession)
-  - om stub classes are included (until configurable in schema with Torque version 2.1)
-  - (in SecureScreen) TurbineConfiguration returns a Commons configuration object, even if field is not assignable (will be fixed in Turbine 4.0, you can then assign e.g. to String instead)
-  
+Turbine Version: Turbine 4.0-M2. 
 
 Quick Guide to using the new Turbine 4.0-M2 maven archetype 
 for skeleton application generation
@@ -36,7 +29,7 @@ for skeleton application generation
 You should have a local database installed and configured prior to 
 beginning the application setup below.
 
- 
+
 You can invoke the Maven archetype for turbine-webapp-4.0 from 
 the command line as shown below - please update values starting 
 with 'groupId' as appropriate.
@@ -53,10 +46,16 @@ mvn archetype:generate \
     -Dturbine_database_user=db_username \
     -Dturbine_database_password=db_password \
     -Dturbine_database_name=helloWorld \
-    -Dgoals=generate-sources,sql:execute
+    -Dturbine_database_url=jdbc:mysql://localhost:3306/ \
+    -Dgoals=generate-sources, sql:execute
 
+Notes
 
-Note that the database URL (turbine_database_url=jdbc:mysql://localhost:3306/) 
+When invoking archetype:generate, you can already set mvn commands and you can then skip them later.
+Be aware, when you set both mvn commands goals (-Dgoals=generate-sources, sql:execute), you have to create the database 
+before invoking the archetype command.
+
+Note that the database URL (turbine_database_url) 
 will be appended with your database name
 in the final pom.xml, so you do not need to specify that in 
 the configuration.
@@ -69,9 +68,6 @@ Next, you need to create the database in MySQL
 
 
 cd helloWorld
-
-You can skip the next two mvn commands, if you have already set the goals 
-when invoking archetype:generate.
 
 mvn generate-sources  ## This will generate the OM layer and SQL 
 					  ## code for creating the corresponding
@@ -89,7 +85,7 @@ mvn jetty:run         ## Now you can launch your new Turbine application
 
 Open a web browser to http://localhost:8081/app
 
-Login should work with user admin/password.
+Login should work with user admin/password or user/password.
 
 To enable application development in Eclipse, run the following command 
 and then import the project into Eclipse.
@@ -104,3 +100,16 @@ Once imported, update your project to be managed by Maven
 To test the application can be deployed by Eclipse, select the run
 configuration "Run On Server" if you have a container configured with
 your eclipse environment.
+
+Starting developing
+
+Be aware of settings and some smaller restrictions, which mostly will be fixed in the upcoming releases.
+
+- Keep groups/roles lower case (which should be fixed in Fulcrum Security 1.1.1/Turbine 4.0)
+- abstract classes and managers are included (because of some minor bugs in Fulcrum Security 1.1.0, same as above)
+- LogoutUser action is included (fix in Turbine 4.0, getUserFromSession)
+- LoginUser action is included (to check for anonymous user, may be fixed in future release)
+- OM (Torque Object Mapper) stub classes are included (until configurable in schema with Torque version 2.1)
+- TurbineConfiguration returns a Commons configuration object, even if field is not assignable (will be fixed in Turbine 4.0, you can then assign e.g. to String instead, cft. SecureScreen)
+- Database connection is done initially by default with JNDI. If you want to change it, check Torque.properties and jetty-env.xml.  
+

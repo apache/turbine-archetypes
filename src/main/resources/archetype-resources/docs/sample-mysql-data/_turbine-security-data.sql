@@ -4,6 +4,7 @@
 ## Torque will not autogenerate these files anymore - please run
 ## this SQL code maually to get your application up and running
 ##
+SET FOREIGN_KEY_CHECKS=0;
 
 INSERT INTO TURBINE_USER (USER_ID,LOGIN_NAME,PASSWORD_VALUE,FIRST_NAME,LAST_NAME)
     VALUES (1,'admin','password','','Admin');
@@ -12,7 +13,7 @@ INSERT INTO TURBINE_USER (USER_ID,LOGIN_NAME,PASSWORD_VALUE,FIRST_NAME,LAST_NAME
     VALUES (2,'user','password','','User');
     
 INSERT INTO TURBINE_USER (USER_ID,LOGIN_NAME,PASSWORD_VALUE,FIRST_NAME,LAST_NAME)
-    VALUES (2,'anon','nopw','','Anon');
+    VALUES (3,'anon','nopw','','Anon');
 
 INSERT INTO `turbine_permission` (`PERMISSION_ID`, `PERMISSION_NAME`) VALUES
 (2, 'Turbine'),
@@ -32,8 +33,8 @@ INSERT INTO `turbine_role_permission` (`ROLE_ID`, `PERMISSION_ID`) VALUES
 
 INSERT INTO `turbine_user_group_role` (`USER_ID`, `GROUP_ID`, `ROLE_ID`) VALUES
 (1, 1, 1),
-(3, 1, 2),
 (1, 2, 1),
-(2, 2, 2);
+(2, 2, 2),
+(2, 1, 2);
     
 

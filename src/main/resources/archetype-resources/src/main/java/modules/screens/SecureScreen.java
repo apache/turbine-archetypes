@@ -18,6 +18,7 @@ package ${package}.modules.screens;
 * under the License.
 *#
 
+
 import org.apache.fulcrum.security.model.turbine.TurbineAccessControlList;
 import org.apache.turbine.Turbine;
 import org.apache.turbine.TurbineConstants;
@@ -55,13 +56,13 @@ public class SecureScreen extends VelocitySecureScreen
 		// Get the Turbine ACL implementation
 		TurbineAccessControlList acl = getRunData(data).getACL();
 
-		if (acl == null) 
+		if (acl == null)
 		{
       // commons configuration getProperty: prefix removed, the key for the value .. is an empty string, the result an object
 			getRunData(data).setScreenTemplate( (String) templateLogin.getProperty("") );
 			isAuthorized = false;
 		} 
-		else if (acl.hasRole("turbineadmin")) 
+		else if (acl.hasRole("turbineuser") || acl.hasRole("turbineadmin"))
 		{
 			isAuthorized = true;
 		}

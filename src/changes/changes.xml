@@ -29,7 +29,7 @@
        JNDI Jetty Update
       </action>
       <action dev="tv" type="add">
-       add testing in place with "integration-test"
+       Add testing in place with "integration-test"
       </action>
       <action dev="tv" type="update">
        Turbine annotations, use auto detect Torque adapter

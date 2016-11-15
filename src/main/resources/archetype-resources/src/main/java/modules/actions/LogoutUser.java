@@ -76,7 +76,7 @@ public class LogoutUser
         // Session validator did not run, so RunData is not populated
         User user = data.getUserFromSession();
 
-        if (!security.isAnonymousUser(user))
+        if (user != null && !security.isAnonymousUser(user))
         {
             // Make sure that the user has really logged in...
             if (!user.hasLoggedIn())
