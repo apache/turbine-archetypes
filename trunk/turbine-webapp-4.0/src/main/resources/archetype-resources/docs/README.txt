@@ -52,8 +52,7 @@ mvn archetype:generate \
 Notes
 
 When invoking archetype:generate, you can already set mvn commands and you can then skip them later.
-Be aware, when you set both mvn commands goals (-Dgoals=generate-sources, sql:execute), you have to create the database 
-before invoking the archetype command.
+Be aware, when you set both mvn commands goals (-Dgoals=generate-sources, sql:execute), you have to create the database before invoking the archetype command.
 
 Note that the database URL (turbine_database_url) 
 will be appended with your database name
