@@ -31,4 +31,15 @@
     <group name="example" key="example" mapToObject="om.Table1">
         <field name="TestCol2" key="testCol2" type="String"/>
     </group>
+    <group name="Login" key="login">
+    <field name="Username" key="u" type="String">
+      <!-- l10n keys -->
+      <rule name="required" value="true">username_required_msg</rule>
+      <rule name="minLength" value="4">username_min_length_msg</rule>
+      <!--rule name="mask" value=".+@.+\..+">username_mask_msg</rule-->
+    </field>
+    <field name="Password" key="p" type="String">
+      <rule name="required" value="true">password_msg</rule>
+    </field>
+</group>
 </input-data>
