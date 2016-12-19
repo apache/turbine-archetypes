@@ -38,8 +38,12 @@ under the License.
                     <include>**/*.properties</include>
                 </includes>
             </resource>
-            <resource>
-                <targetPath>#var("project.build.directory")/torque/schema</targetPath>
+            <!-- (target) resource and filtering is not used  at all ? 
+            at least removed setting absolute path e.g. with #var("project.build.directory"), 
+            which does thrown an exception with mvn eclipse:eclipse - path is then incorrectly relativized.
+                --> 
+            <resource> 
+                <targetPath>../torque/schema</targetPath>
                 <filtering>true</filtering>
                 <directory>src/main/torque-schema</directory>
                 <includes>
@@ -63,7 +67,7 @@ under the License.
                 <artifactId>torque-maven-plugin</artifactId>
                 <version>4.0</version>
                 <configuration>
-                    <schemaDir>#var("basedir")/src/main/torque-schema</schemaDir>
+                    <schemaDir>#var("project.basedir")/src/main/torque-schema</schemaDir>
                     <useClasspath>true</useClasspath>
                     <runOnlyOnSchemaChange>false</runOnlyOnSchemaChange>
                     <targetDatabase>${turbine_database_adapter}</targetDatabase>
@@ -78,7 +82,7 @@ under the License.
             <configuration>
               <packaging>classpath</packaging>
               <configPackage>org.apache.torque.templates.om</configPackage>
-              <sourceDir>#var("basedir")/src/main/torque-schema</sourceDir>
+              <sourceDir>#var("project.basedir")/src/main/torque-schema</sourceDir>
               <loglevel>error</loglevel>
               <options>
                 <torque.database>${turbine_database_adapter}</torque.database>
@@ -107,7 +111,7 @@ under the License.
             <configuration>
               <packaging>classpath</packaging>
               <configPackage>org.apache.torque.templates.sql</configPackage>
-              <sourceDir>#var("basedir")/src/main/torque-schema</sourceDir>
+              <sourceDir>#var("project.basedir")/src/main/torque-schema</sourceDir>
               <defaultOutputDir>#var("project.build.directory")/generated-sql/torque/mysql</defaultOutputDir>
               <defaultOutputDirUsage>none</defaultOutputDirUsage>
               <loglevel>error</loglevel>
@@ -155,7 +159,7 @@ under the License.
           <password>${turbine_database_password}</password>
           <onError>continue</onError>
           <autocommit>true</autocommit>
-          <orderFile>descending</orderFile>
+          <orderFile>ascending</orderFile>
           <!-- this is mysql specific -->
           <fileset>
               <basedir>${project.build.directory}/generated-sql/torque/mysql</basedir>
@@ -246,7 +250,7 @@ under the License.
         <dependency>
           <groupId>org.apache.fulcrum</groupId>
           <artifactId>fulcrum-intake</artifactId>
-          <version>1.2.0</version>
+          <version>1.2.2</version>
          </dependency>
          <!-- include some optional dependencies required in example componentConfiguration.xml -->
         <dependency>

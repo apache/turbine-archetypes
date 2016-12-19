@@ -47,12 +47,13 @@ mvn archetype:generate \
     -Dturbine_database_password=db_password \
     -Dturbine_database_name=helloWorld \
     -Dturbine_database_url=jdbc:mysql://localhost:3306/ \
-    -Dgoals=generate-sources, sql:execute
+    -Dgoals=generate-sources,sql:execute
 
 Notes
 
 When invoking archetype:generate, you can already set mvn commands and you can then skip them later.
-Be aware, when you set both mvn commands goals (-Dgoals=generate-sources, sql:execute), you have to create the database before invoking the archetype command.
+Be aware, when you set both mvn commands goals (-Dgoals=generate-sources, sql:execute), 
+you have to create the database (see below) BEFORE finishing the (interactive) archetype commands.
 
 Note that the database URL (turbine_database_url) 
 will be appended with your database name
@@ -68,10 +69,12 @@ Next, you need to create the database in MySQL
 
 cd helloWorld
 
+# if not already done 
 mvn generate-sources  ## This will generate the OM layer and SQL 
 					  ## code for creating the corresponding
 					  ## database tables
-					  
+	
+# if not already done   
 mvn sql:execute       ## This executes the SQL code to create 
 					  ## the application schema defined 
 					  ## in src/main/torque-schema
@@ -85,6 +88,12 @@ mvn jetty:run         ## Now you can launch your new Turbine application
 Open a web browser to http://localhost:8081/app
 
 Login should work with user admin/password or user/password.
+
+Background:
+
+By default Intake is used as an validation mechanism for authentication. You can change to the default login by settings
+
+action.login=LoginUser in TurbineResources.properties and changing Login.vm appropriately (commented form)
 
 To enable application development in Eclipse, run the following command 
 and then import the project into Eclipse.
