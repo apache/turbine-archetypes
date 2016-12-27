@@ -37,6 +37,7 @@
         <bundle>${package}.L10N</bundle>
       </bundles>
     </localization>
+    <!-- Disable if you experience startup problems with Java8 -->
     <intake>
       <serialDataPath>WEB-INF/appData.ser</serialDataPath>
       <xmlPaths>
@@ -56,9 +57,15 @@
     <modelManager/>
     <aclFactory/>
     
-    <!--  More Fulcrum Components, e.g. json, XmlRpcServerComponent, cft. Fulcrum Component Configurations
+    <!--  
+       Fulcrum Components, e.g. json, XmlRpcServerComponent, cft. Fulcrum Component Configurations 
+     -->
+       
+     
+     <!--  
+     Pure Fulcrum Model
     -->
-    
+    <!--
      <userManager> 
        <className>org.apache.fulcrum.security.torque.om.TorqueTurbineUser</className>
     </userManager>
@@ -71,9 +78,10 @@
     <permissionManager>
         <className>org.apache.fulcrum.security.torque.om.TorqueTurbinePermission</className>
     </permissionManager>
+    -->
  
      <!-- 
-     default classes implementing org.apache.fulcrum.security.model.turbine.entity interfaces 
+     Default classes implementing org.apache.fulcrum.security.model.turbine.entity interfaces 
      -->
     <!--userManager>
         <className>org.apache.fulcrum.security.model.turbine.entity.impl.TurbineUserImpl</className>
@@ -90,17 +98,17 @@
     
     <!-- 
      Custom Turbine ORM Torque classes could not yet be used: 
-     - requires Torque 4.1
+     - requires Torque 4.1 or if using Torque 4.0 reqires manually adding the interfaces in T-classes
      - requires attribute baseClass in fulcrum-turbine-schema.xml table elements set to appropriate org.apache.fulcrum.security.model.turbine.entity interfaces
      - requires attribute peerClass in fulcrum-turbine-schema.xml table elements set to org.apache.fulcrum.security.torque.peer.TorqueTurbinePeer 
      -->
-     <!-- 
+     
      <userManager>
      <className>${package}.om.TurbineUser</className>
-        <peerClassName>${package}.om.TurbineUserPeer</peerClassName>
+        <peerClassName>${package}.om.TurbineUserPeerImpl</peerClassName>
     </userManager>
     <groupManager>
-        <className>${package}.om.TorqueTurbineGroup</className>
+        <className>${package}.om.TurbineGroup</className>
         <peerClassName>${package}.om.TurbineGroupPeerImpl</peerClassName>
     </groupManager>
     <roleManager>
@@ -112,5 +120,5 @@
         <peerClassName>${package}.om.TurbinePermissionPeerImpl</peerClassName>
     </permissionManager>
      <peerManager/>
-     -->
+     
 </componentConfig>

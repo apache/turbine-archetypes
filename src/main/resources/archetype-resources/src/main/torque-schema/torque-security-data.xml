@@ -43,13 +43,13 @@
 
   <!-- Turbine Permissions -->
 
-  <TurbinePermission PermissionId="1" Name="TurbineAdmin"/>
-  <TurbinePermission PermissionId="2" Name="Turbine"/>
+  <TurbinePermission PermissionId="1" Name="turbineadmin"/>
+  <TurbinePermission PermissionId="2" Name="turbine"/>
 
   <!-- Turbine Roles -->
 
-  <TurbineRole RoleId="1" Name="TurbineAdmin"/>
-  <TurbineRole RoleId="2" Name="TurbineUser"/>
+  <TurbineRole RoleId="1" Name="turbineadmin"/>
+  <TurbineRole RoleId="2" Name="turbineuser"/>
 
  <!-- Turbine Groups -->
 

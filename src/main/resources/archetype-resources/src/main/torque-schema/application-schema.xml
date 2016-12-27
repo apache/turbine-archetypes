@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-#*
+<!--
  Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements.  See the NOTICE file
  distributed with this work for additional information
@@ -16,21 +16,38 @@
  KIND, either express or implied.  See the License for the
  specific language governing permissions and limitations
  under the License.
-*#
-<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database_3_3.dtd">
+-->
 
 <!-- ============================================================================== -->
 <!--                                                                                -->
 <!--  Database Definition for the Application                                       -->
 <!--                                                                                -->
-<!--  @version $Id: application-schema.xml 615328 2008-01-25 20:25:05Z tv $  -->
+<!--  @version $Id: application-schema.xml                                          -->
 <!--                                                                                -->
 <!-- ============================================================================== -->
 
-<database name="${turbine_database_name}">
-    <table name="table1" idMethod="idbroker">
-        <column name="test_col1" type="INTEGER" />
-        <column name="test_col2" type="VARCHAR" size="10" />
-        <!-- Add your database schema here -->
-    </table>
+<database xmlns="http://db.apache.org/torque/4.0/templates/database"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://db.apache.org/torque/4.0/templates/database
+        http://db.apache.org/torque/4.0/templates/database-strict.xsd"
+  name="${turbine_database_name}"
+  defaultIdMethod="native">
+
+
+	<!--  Simple author/book database example -->
+	<table name="AUTHOR" idMethod="idbroker">
+		<column name="AUTH_ID"     required="true" primaryKey="true" type="INTEGER" />
+		<column name="FIRST_NAME"  required="true" size="64" type="VARCHAR" />
+		<column name="LAST_NAME"   required="true" size="64" type="VARCHAR" />
+	</table>
+
+    <table name="BOOK" idMethod="idbroker">
+		<column name="BOOK_ID"     required="true" primaryKey="true" type="INTEGER" />
+		<column name="AUTH_ID"     required="true" type="INTEGER" />
+		<column name="TITLE"       required="true" size="64" type="VARCHAR" />
+		<column name="SUBJECT"     required="true" size="64" type="VARCHAR" />
+		<foreign-key foreignTable="AUTHOR">
+			<reference local="AUTH_ID" foreign="AUTH_ID"></reference>
+		</foreign-key>		
+	</table>
 </database>
