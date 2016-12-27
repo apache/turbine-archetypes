@@ -27,7 +27,7 @@
   </parent>
   <groupId>org.apache.turbine</groupId>
   <artifactId>turbine-webapp-4.0</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>
 
   <name>Archetype - Turbine 4.0M2 WebApp</name>
