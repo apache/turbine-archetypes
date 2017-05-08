@@ -33,7 +33,7 @@ import org.apache.torque.criteria.Criteria;
 import org.apache.torque.om.SimpleKey;
 /**
  * This abstract class provides the SecurityInterface to the managers.
- *
+ * #set( $H = '#' )
  * @author <a href="mailto:tv@apache.org">Thomas Vandahl</a>
  * @version $Id:$
  */
@@ -63,7 +63,7 @@ public abstract class TorqueAbstractTurbineUser extends TorqueAbstractTurbineTur
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#getDatabaseName()
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$HgetDatabaseName()
      */
     @Override
 	public String getDatabaseName()
@@ -72,7 +72,7 @@ public abstract class TorqueAbstractTurbineUser extends TorqueAbstractTurbineTur
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#retrieveAttachedObjects(java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$HretrieveAttachedObjects(java.sql.Connection)
      */
     @Override
 	public void retrieveAttachedObjects(Connection con) throws TorqueException
@@ -94,7 +94,7 @@ public abstract class TorqueAbstractTurbineUser extends TorqueAbstractTurbineTur
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#update(java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$Hupdate(java.sql.Connection)
      */
     @Override
 	public void update(Connection con) throws TorqueException
@@ -129,7 +129,7 @@ public abstract class TorqueAbstractTurbineUser extends TorqueAbstractTurbineTur
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#delete()
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$Hdelete()
      */
     @Override
 	public void delete() throws TorqueException

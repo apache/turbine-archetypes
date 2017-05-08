@@ -19,8 +19,7 @@ import org.apache.torque.om.SimpleKey;
  * You should add additional methods to this class to meet the
  * application requirements.  This class will only be generated as
  * long as it does not already exist in the output directory.
- */
-/**
+ * #set( $H = '#' )
  * Added Interface
  * @author gk
  *
@@ -80,7 +79,7 @@ public  class TurbineUser
     }
     
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#getDatabaseName()
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$HgetDatabaseName()
      */
     @Override
     public String getDatabaseName()
@@ -89,7 +88,7 @@ public  class TurbineUser
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#retrieveAttachedObjects(java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$HretrieveAttachedObjects(java.sql.Connection)
      */
     @Override
 	public void retrieveAttachedObjects(Connection con) throws TorqueException
@@ -111,7 +110,7 @@ public  class TurbineUser
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#update(java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$Hupdate(java.sql.Connection)
      * 
      * @TODO
      */
@@ -136,7 +135,7 @@ public  class TurbineUser
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#delete()
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$Hdelete()
      */
     @Override
 	public void delete() throws TorqueException
