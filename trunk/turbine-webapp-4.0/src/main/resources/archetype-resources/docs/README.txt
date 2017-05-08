@@ -26,11 +26,18 @@ Turbine Version: Turbine 4.0-M2.
 Quick Guide to using the new Turbine 4.0-M2 maven archetype 
 for skeleton application generation
 
-You should have a local database installed and configured prior to 
+First, you should have a local database installed and configured prior to 
 beginning the application setup below.
 
+As we are using MySQL bey defautlt you need to create the database in MySQL, e.g. with
 
-You can invoke the Maven archetype for turbine-webapp-4.0 from 
+ mysql -u <user> -p
+ mysql> create database helloWorld;
+ mysql> \q
+
+or other tools.
+ 
+Next, you can invoke the Maven archetype for turbine-webapp-4.0 from 
 the command line as shown below - please update values starting 
 with 'groupId' as appropriate.
 
@@ -39,51 +46,52 @@ mvn archetype:generate \
     -DarchetypeArtifactId=turbine-webapp-4.0 \
     -DarchetypeVersion=1.0.1-SNAPSHOT \
     -DgroupId=com.mycompany.webapp \
-    -DartifactId=helloWorld \
+    -DartifactId=myhelloworld \
     -Dversion=1.0 \
     -Dturbine_app_name=HelloWorld \
     -Dturbine_database_adapter=mysql \
     -Dturbine_database_user=db_username \
     -Dturbine_database_password=db_password \
-    -Dturbine_database_name=helloWorld \
+    -Dturbine_database_name=helloworld \
     -Dturbine_database_url=jdbc:mysql://localhost:3306/ \
-    -Dgoals=generate-sources,sql:execute
+    -Dgoals=generate-sources,pre-integration-test
 
 Notes
 
-When invoking archetype:generate, you can already set mvn commands and you can then skip them later.
-Be aware, when you set both mvn commands goals (-Dgoals=generate-sources, sql:execute), 
-you have to create the database (see below) BEFORE finishing the (interactive) archetype commands.
+When invoking archetype:generate like above, you already have set some mvn commands and you can then skip them later.
+
+Be aware, when you set both mvn commands goals (which are maven phases actually), i.e  with
+
+-Dgoals=generate-sources, pre-integration-test 
+
+you have to create the database (see above) before finishing the (interactive) archetype commands. 
+Otherwise you could catch up doing this later and after that is done calling the phases afterwards as mentioned below.
 
 Note that the database URL (turbine_database_url) 
 will be appended with your database name
 in the final pom.xml, so you do not need to specify that in 
 the configuration.
 
-Next, you need to create the database in MySQL
+Next, change into the newly generated project folder, in our case
 
- mysql -u <user> -p
- mysql> create database helloWorld;
- mysql> \q
+cd myhelloworld
 
-
-cd helloWorld
-
-# if not already done 
+Skip next two steps, if the build was successfull
 mvn generate-sources  ## This will generate the OM layer and SQL 
 					  ## code for creating the corresponding
 					  ## database tables
 	
-# if not already done   
-mvn sql:execute       ## This executes the SQL code to create 
+mvn integration-test      ## This executes the SQL code to create 
 					  ## the application schema defined 
 					  ## in src/main/torque-schema
 
 You should now check the database tables and if some data is missing
-insert the sample data file provided 
-as Torque 4.0 has disabled the datasql task.
+insert the sample data file in sample-mysql-data (Torque 4.0 has disabled the datasql task).
 
+Last step on the command line is run the server by invoking 
 mvn jetty:run         ## Now you can launch your new Turbine application
+
+Find the Logs in src/main/webapp/logs and
 
 Open a web browser to http://localhost:8081/app
 
@@ -91,7 +99,7 @@ Login should work with user admin/password or user/password.
 
 Background:
 
-By default Intake is used as an validation mechanism for authentication. You can change to the default login by settings
+By default Intake is used as an validation mechanism for authentication. You can change to the default login by setting
 
 action.login=LoginUser in TurbineResources.properties and changing Login.vm appropriately (commented form)
 
@@ -101,13 +109,19 @@ and then import the project into Eclipse.
 mvn eclipse:eclipse
 
 Once imported, update your project to be managed by Maven 
-  -> Right click on the proejct name
+  -> Right click on the project name
   -> Configure 
   -> Convert to Maven project
 
 To test the application can be deployed by Eclipse, select the run
 configuration "Run On Server" if you have a container configured with
 your eclipse environment.
+
+You even could debug the app by setting the environment variable to something like this
+
+set MAVEN_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n
+
+before running the jetty server.
 
 Starting developing
 

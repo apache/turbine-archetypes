@@ -42,8 +42,7 @@ import ${package}.om.TurbineUserPeerImpl;
 
 /**
  * This implementation persists to a database via Torque.
- * 
- *
+ * #set( $H = '#' )
  * @author <a href="mailto:tv@apache.org">Thomas Vandahl</a>
  * @version $Id$
  */
@@ -53,7 +52,7 @@ public class TorqueTurbineUserManagerImpl extends TorqueAbstractUserManager impl
     private static final String ANON = "anon";
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractUserManager#doSelectAllUsers(java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractUserManager$HdoSelectAllUsers(java.sql.Connection)
      */
     @Override
 	@SuppressWarnings("unchecked")
@@ -76,7 +75,7 @@ public class TorqueTurbineUserManagerImpl extends TorqueAbstractUserManager impl
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractUserManager#doSelectById(java.lang.Integer, java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractUserManager$HdoSelectById(java.lang.Integer, java.sql.Connection)
      */
     @Override
 	@SuppressWarnings("unchecked")
@@ -97,7 +96,7 @@ public class TorqueTurbineUserManagerImpl extends TorqueAbstractUserManager impl
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractUserManager#doSelectByName(java.lang.String, java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractUserManager$HdoSelectByName(java.lang.String, java.sql.Connection)
      */
     @Override
 	@SuppressWarnings("unchecked")

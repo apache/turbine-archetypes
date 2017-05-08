@@ -35,7 +35,7 @@ import ${package}.om.TurbineRolePermission;
 import ${package}.om.TurbineRolePermissionPeer;
 /**
  * This abstract class provides the SecurityInterface to the managers.
- *
+ * #set( $H = '#' )
  * @author <a href="mailto:tv@apache.org">Thomas Vandahl</a>
  * @version $Id:$
  */
@@ -68,7 +68,7 @@ public abstract class TorqueAbstractTurbinePermission extends TorqueAbstractSecu
     }
 
     /**
-     * @see org.apache.fulcrum.security.model.turbine.entity.TurbinePermission#addRole(org.apache.fulcrum.security.entity.Role)
+     * @see org.apache.fulcrum.security.model.turbine.entity.TurbinePermission$HaddRole(org.apache.fulcrum.security.entity.Role)
      */
     @Override
 	public void addRole(Role role)
@@ -77,7 +77,7 @@ public abstract class TorqueAbstractTurbinePermission extends TorqueAbstractSecu
     }
 
     /**
-     * @see org.apache.fulcrum.security.model.turbine.entity.TurbinePermission#getRoles()
+     * @see org.apache.fulcrum.security.model.turbine.entity.TurbinePermission$HgetRoles()
      */
     @Override
 	public RoleSet getRoles()
@@ -95,7 +95,7 @@ public abstract class TorqueAbstractTurbinePermission extends TorqueAbstractSecu
     }
 
     /**
-     * @see org.apache.fulcrum.security.model.turbine.entity.TurbinePermission#getRolesAsSet()
+     * @see org.apache.fulcrum.security.model.turbine.entity.TurbinePermission$HgetRolesAsSet()
      */
     @Override
 	@SuppressWarnings("unchecked")
@@ -105,7 +105,7 @@ public abstract class TorqueAbstractTurbinePermission extends TorqueAbstractSecu
     }
 
     /**
-     * @see org.apache.fulcrum.security.model.turbine.entity.TurbinePermission#removeRole(org.apache.fulcrum.security.entity.Role)
+     * @see org.apache.fulcrum.security.model.turbine.entity.TurbinePermission$HremoveRole(org.apache.fulcrum.security.entity.Role)
      */
     @Override
 	public void removeRole(Role role)
@@ -114,7 +114,7 @@ public abstract class TorqueAbstractTurbinePermission extends TorqueAbstractSecu
     }
 
     /**
-     * @see org.apache.fulcrum.security.model.turbine.entity.TurbinePermission#setRoles(org.apache.fulcrum.security.util.RoleSet)
+     * @see org.apache.fulcrum.security.model.turbine.entity.TurbinePermission$HsetRoles(org.apache.fulcrum.security.util.RoleSet)
      */
     @Override
 	public void setRoles(RoleSet roleSet)
@@ -130,7 +130,7 @@ public abstract class TorqueAbstractTurbinePermission extends TorqueAbstractSecu
     }
 
     /**
-     * @see org.apache.fulcrum.security.model.turbine.entity.TurbinePermission#setRolesAsSet(java.util.Set)
+     * @see org.apache.fulcrum.security.model.turbine.entity.TurbinePermission$HsetRolesAsSet(java.util.Set)
      */
     @Override
 	public <T extends Role> void setRolesAsSet(Set<T> roles)
@@ -139,7 +139,7 @@ public abstract class TorqueAbstractTurbinePermission extends TorqueAbstractSecu
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#getDatabaseName()
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$HgetDatabaseName()
      */
     @Override
 	public String getDatabaseName()
@@ -148,7 +148,7 @@ public abstract class TorqueAbstractTurbinePermission extends TorqueAbstractSecu
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#retrieveAttachedObjects(java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$HretrieveAttachedObjects(java.sql.Connection)
      */
     @Override
 	public void retrieveAttachedObjects(Connection con) throws TorqueException
@@ -164,7 +164,7 @@ public abstract class TorqueAbstractTurbinePermission extends TorqueAbstractSecu
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#update(java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$Hupdate(java.sql.Connection)
      */
     @Override
 	public void update(Connection con) throws TorqueException
@@ -197,7 +197,7 @@ public abstract class TorqueAbstractTurbinePermission extends TorqueAbstractSecu
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#delete()
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$Hdelete()
      */
     @Override
 	public void delete() throws TorqueException

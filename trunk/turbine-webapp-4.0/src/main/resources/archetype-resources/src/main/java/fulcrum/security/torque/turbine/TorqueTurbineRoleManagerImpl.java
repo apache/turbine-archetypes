@@ -35,7 +35,7 @@ import org.apache.torque.criteria.Criteria;
 import ${package}.om.TurbineRolePeer;
 /**
  * This implementation persists to a database via Torque.
- *
+ * #set( $H = '#' )
  * @author <a href="mailto:tv@apache.org">Thomas Vandahl</a>
  * @version $Id:$
  */
@@ -44,7 +44,7 @@ public class TorqueTurbineRoleManagerImpl extends TorqueAbstractRoleManager impl
     PeerManager peerManager;
     
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractRoleManager#doSelectAllRoles(java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractRoleManager$HdoSelectAllRoles(java.sql.Connection)
      */
     @Override
 	@SuppressWarnings("unchecked")
@@ -67,7 +67,7 @@ public class TorqueTurbineRoleManagerImpl extends TorqueAbstractRoleManager impl
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractRoleManager#doSelectById(java.lang.Integer, java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractRoleManager$HdoSelectById(java.lang.Integer, java.sql.Connection)
      */
     @Override
 	@SuppressWarnings("unchecked")
@@ -88,7 +88,7 @@ public class TorqueTurbineRoleManagerImpl extends TorqueAbstractRoleManager impl
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractRoleManager#doSelectByName(java.lang.String, java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractRoleManager$HdoSelectByName(java.lang.String, java.sql.Connection)
      */
     @Override
 	@SuppressWarnings("unchecked")

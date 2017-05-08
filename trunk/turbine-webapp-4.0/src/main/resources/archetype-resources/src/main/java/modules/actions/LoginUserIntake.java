@@ -24,11 +24,13 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.fulcrum.pool.PoolService;
 import org.apache.fulcrum.security.util.DataBackendException;
 import org.apache.fulcrum.security.util.FulcrumSecurityException;
 import org.apache.fulcrum.security.util.UnknownEntityException;
 import org.apache.fulcrum.intake.model.Group;
 import org.apache.fulcrum.intake.IntakeException;
+import org.apache.turbine.services.TurbineServices;
 import org.apache.turbine.services.intake.IntakeTool;
 import org.apache.turbine.TurbineConstants;
 import org.apache.turbine.annotation.TurbineConfiguration;
@@ -82,8 +84,11 @@ public class LoginUserIntake
         	
        try
         {
-          // Get intake group
-          IntakeTool intake =  new IntakeTool();//(IntakeTool)context.get("intake");
+          // Get intake group          
+    	    // context only available after ExecutePageValve, could not invoke (IntakeTool)context.get("intake") using pook service instead
+          PoolService poolService =  (PoolService)TurbineServices.getInstance().getService(PoolService.ROLE);
+          IntakeTool intake = (IntakeTool) poolService.getInstance(IntakeTool.class);
+          
           intake.init(data);
           Group group = intake.get("Login", IntakeTool.DEFAULT_KEY);
           String username = (String)group.get("Username").getValue();

@@ -16,6 +16,7 @@ package ${package}.fulcrum.security.torque.turbine;
 * KIND, either express or implied.  See the License for the
 * specific language governing permissions and limitations
 * under the License.
+* #set( $H = '#' )
 *#
 import java.sql.Connection;
 import java.util.HashSet;
@@ -64,7 +65,7 @@ public abstract class TorqueAbstractTurbineGroup extends TorqueAbstractTurbineTu
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#getDatabaseName()
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$HgetDatabaseName()
      */
     @Override
 	public String getDatabaseName()
@@ -73,7 +74,7 @@ public abstract class TorqueAbstractTurbineGroup extends TorqueAbstractTurbineTu
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#retrieveAttachedObjects(java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$HretrieveAttachedObjects(java.sql.Connection)
      */
     @Override
 	public void retrieveAttachedObjects(Connection con) throws TorqueException
@@ -95,7 +96,7 @@ public abstract class TorqueAbstractTurbineGroup extends TorqueAbstractTurbineTu
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#update(java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$Hupdate(java.sql.Connection)
      */
     @Override
 	public void update(Connection con) throws TorqueException
@@ -130,7 +131,7 @@ public abstract class TorqueAbstractTurbineGroup extends TorqueAbstractTurbineTu
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity#delete()
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$Hdelete()
      */
     @Override
 	public void delete() throws TorqueException

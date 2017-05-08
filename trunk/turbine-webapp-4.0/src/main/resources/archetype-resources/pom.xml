@@ -160,22 +160,10 @@ under the License.
           <onError>continue</onError>
           <autocommit>true</autocommit>
           <orderFile>descending</orderFile>
-          <!-- this is mysql specific -->
-          <fileset>
-              <basedir>${project.build.directory}/generated-sql/torque/mysql</basedir>
-              <!-- basedir>${basedir}/target/generated-sql</basedir -->
-              <includes>
-                <include>*.sql</include>
-              </includes>
-           </fileset>
-           <srcFiles>
-              <srcFile>${basedir}/docs/sample-mysql-data/_application-data.sql</srcFile>
-              <srcFile>${basedir}/docs/sample-mysql-data/_turbine-security-data.sql</srcFile>
-           </srcFiles>
         </configuration>
         
         <!-- update with your database driver dependency -->
-        
+        <!-- this is mysql specific -->
         <dependencies>
           <dependency>
             <artifactId>mysql-connector-java</artifactId>
@@ -183,6 +171,40 @@ under the License.
             <version>5.1.40</version>
           </dependency>
         </dependencies>
+        <!-- this is mysql specific -->
+        <executions>
+          <execution>
+              <id>create-db</id>
+              <phase>pre-integration-test</phase>
+              <goals>
+                <goal>execute</goal>
+              </goals>
+              <configuration>
+                <orderFile>ascending</orderFile>
+                <fileset>
+                  <basedir>${project.build.directory}/generated-sql/torque/mysql</basedir>
+                  <!-- basedir>${basedir}/target/generated-sql</basedir -->
+                  <includes>
+                    <include>*.sql</include>
+                  </includes>
+                </fileset>
+              </configuration>
+            </execution>
+            <execution>
+              <id>create-data</id>
+              <phase>pre-integration-test</phase>
+              <goals>
+                <goal>execute</goal>
+              </goals>
+              <configuration>
+                <orderFile>ascending</orderFile>
+                <srcFiles>
+                  <srcFile>${project.basedir}/docs/sample-mysql-data/_application-data.sql</srcFile>
+                  <srcFile>${project.basedir}/docs/sample-mysql-data/_turbine-security-data.sql</srcFile>
+                </srcFiles>              
+              </configuration>
+            </execution>
+        </executions>
       </plugin>
 
             <!-- jetty:run checks deployed war http://localhost:8081/app/ 
@@ -238,7 +260,7 @@ under the License.
         <dependency>
             <groupId>org.apache.turbine</groupId>
             <artifactId>turbine</artifactId>
-            <version>4.0-M2</version>
+            <version>4.0-SNAPSHOT</version>
         </dependency>
         <!-- yaafi is optional. NOTICE: 1.0.7 has group org.apache.turbine not org.apache.fulcrum  -->
         <dependency>
@@ -276,7 +298,7 @@ under the License.
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

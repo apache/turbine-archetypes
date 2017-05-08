@@ -35,7 +35,7 @@ import org.apache.torque.criteria.Criteria;
 import ${package}.om.TurbineGroupPeer;
 /**
  * This implementation persists to a database via Torque.
- *
+ * #set( $H = '#' )
  * @author <a href="mailto:tv@apache.org">Thomas Vandahl</a>
  * @version $Id:$
  */
@@ -44,7 +44,7 @@ public class TorqueTurbineGroupManagerImpl extends TorqueAbstractGroupManager im
     
     PeerManager peerManager;
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractGroupManager#doSelectAllGroups(java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractGroupManager$HdoSelectAllGroups(java.sql.Connection)
      */
     @Override
 	@SuppressWarnings("unchecked")
@@ -69,7 +69,7 @@ public class TorqueTurbineGroupManagerImpl extends TorqueAbstractGroupManager im
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractGroupManager#doSelectById(java.lang.Integer, java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractGroupManager$HdoSelectById(java.lang.Integer, java.sql.Connection)
      */
     @Override
 	@SuppressWarnings("unchecked")
@@ -91,7 +91,7 @@ public class TorqueTurbineGroupManagerImpl extends TorqueAbstractGroupManager im
     }
 
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractGroupManager#doSelectByName(java.lang.String, java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractGroupManager$HdoSelectByName(java.lang.String, java.sql.Connection)
      */
     @Override
 	@SuppressWarnings("unchecked")
