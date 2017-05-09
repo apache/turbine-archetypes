@@ -79,10 +79,4 @@ public  class TurbineGroup
 		setGroupId(id);
 	}
 
-    @Override
-    public String getDatabaseName()
-    {
-      return "default";
-    }
-
 }

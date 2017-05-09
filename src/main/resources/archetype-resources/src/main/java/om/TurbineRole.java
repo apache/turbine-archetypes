@@ -1,11 +1,6 @@
 package ${package}.om;
 
-import java.sql.Connection;
-import java.util.Set;
-
-import org.apache.fulcrum.security.model.turbine.entity.TurbineUserGroupRole;
 import org.apache.torque.TorqueException;
-import org.apache.torque.om.SimpleKey;
 
 
 /**
@@ -61,39 +56,6 @@ public  class TurbineRole
 	@Override
 	public void setEntityId(Integer id) throws TorqueException {
 		setRoleId(id);
-	}
-
-	/**
-	 * @TODO
-	 */
-	@Override
-	public void update(Connection con) throws TorqueException {
-    	Set<TurbineUserGroupRole> userGroupRoleSet = getUserGroupRoleSet();
-        if (userGroupRoleSet != null)
-        {
-
-
-        }
-
-        try
-        {
-            save(con);
-        }
-        catch (Exception e)
-        {
-            throw new TorqueException(e);
-        }
-	}
-
-	@Override
-	public String getDatabaseName() {
-		return "default";
-	}
-
-	@Override
-	public void delete() throws TorqueException {
-		TurbineRolePeer.doDelete(SimpleKey.keyFor(getEntityId()));
-		
 	}
 
 }
