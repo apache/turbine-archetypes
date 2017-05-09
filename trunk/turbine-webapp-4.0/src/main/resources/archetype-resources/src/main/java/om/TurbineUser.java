@@ -7,8 +7,6 @@ import java.util.Set;
 
 import org.apache.fulcrum.security.model.turbine.entity.TurbineUserGroupRole;
 import org.apache.torque.TorqueException;
-import org.apache.torque.criteria.Criteria;
-import org.apache.torque.om.SimpleKey;
 
 
 /**
@@ -79,15 +77,6 @@ public  class TurbineUser
     }
     
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$HgetDatabaseName()
-     */
-    @Override
-    public String getDatabaseName()
-    {
-      return "default";
-    }
-
-    /**
      * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$HretrieveAttachedObjects(java.sql.Connection)
      */
     @Override
@@ -95,7 +84,7 @@ public  class TurbineUser
     {
         Set<TurbineUserGroupRole> userGroupRoleSet = new HashSet<TurbineUserGroupRole>();
 
-        List<${package}.om.TurbineUserGroupRole> ugrs = getTurbineUserGroupRolesJoinTurbineUser(new Criteria(), con);
+        List<${package}.om.TurbineUserGroupRole> ugrs = getTurbineUserGroupRoles();
 
         for (${package}.om.TurbineUserGroupRole ttugr : ugrs)
         {
@@ -108,41 +97,5 @@ public  class TurbineUser
 
         setUserGroupRoleSet(userGroupRoleSet);
     }
-
-    /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$Hupdate(java.sql.Connection)
-     * 
-     * @TODO
-     */
-    @Override
-	public void update(Connection con) throws TorqueException
-    {
-    	Set<TurbineUserGroupRole> userGroupRoleSet = getUserGroupRoleSet();
-        if (userGroupRoleSet != null)
-        {
-
-
-        }
-
-        try
-        {
-            save(con);
-        }
-        catch (Exception e)
-        {
-            throw new TorqueException(e);
-        }
-    }
-
-    /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$Hdelete()
-     */
-    @Override
-	public void delete() throws TorqueException
-    {
-        TurbineUserPeer.doDelete(SimpleKey.keyFor(getEntityId()));
-    }
-
-
 
 }

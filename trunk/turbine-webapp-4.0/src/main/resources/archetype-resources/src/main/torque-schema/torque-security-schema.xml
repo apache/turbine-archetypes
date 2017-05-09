@@ -35,7 +35,7 @@
   defaultIdMethod="idbroker">
 
 
-  <table name="TURBINE_PERMISSION" idMethod="idbroker" baseClass="${package}.fulcrum.security.torque.turbine.TorqueAbstractTurbinePermission">
+  <table name="TURBINE_PERMISSION" idMethod="idbroker" baseClass="org.apache.fulcrum.security.torque.turbine.DefaultAbstractTurbinePermission">
     <column name="PERMISSION_ID" required="true" primaryKey="true" type="INTEGER" javaType="object"/>
     <column name="PERMISSION_NAME" required="true" size="64" type="VARCHAR" javaName="EntityName"/>
 
@@ -45,7 +45,7 @@
 
   </table>
 
-  <table name="TURBINE_ROLE" idMethod="idbroker" baseClass="${package}.fulcrum.security.torque.turbine.TorqueAbstractTurbineRole">
+  <table name="TURBINE_ROLE" idMethod="idbroker" baseClass="org.apache.fulcrum.security.torque.turbine.DefaultAbstractTurbineRole">
     <column name="ROLE_ID" required="true" primaryKey="true" type="INTEGER" javaType="object"/>
     <column name="ROLE_NAME" required="true" size="64" type="VARCHAR" javaName="EntityName"/>
 
@@ -55,7 +55,7 @@
 
   </table>
 
-  <table name="TURBINE_GROUP" idMethod="idbroker" baseClass="${package}.fulcrum.security.torque.turbine.TorqueAbstractTurbineGroup">
+  <table name="TURBINE_GROUP" idMethod="idbroker" baseClass="org.apache.fulcrum.security.torque.turbine.DefaultAbstractTurbineGroup">
     <column name="GROUP_ID" required="true" primaryKey="true" type="INTEGER" javaType="object"/>
     <column name="GROUP_NAME" required="true" type="VARCHAR" size="64" javaName="EntityName"/>
 
@@ -79,7 +79,7 @@
   </table>
 
   <!-- org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity -->
-  <table name="TURBINE_USER" idMethod="idbroker" baseClass="org.apache.fulcrum.security.torque.turbine.TorqueAbstractTurbineTurbineSecurityEntity"
+  <table name="TURBINE_USER" idMethod="idbroker" baseClass="org.apache.fulcrum.security.torque.turbine.DefaultAbstractTurbineUser"
   interface="org.apache.fulcrum.security.model.turbine.entity.TurbineUser">
     <column name="USER_ID" required="true" primaryKey="true" type="INTEGER" javaType="object" javaName="EntityId"/>
     <column name="LOGIN_NAME" required="true" size="64" type="VARCHAR" javaName="EntityName"/>
