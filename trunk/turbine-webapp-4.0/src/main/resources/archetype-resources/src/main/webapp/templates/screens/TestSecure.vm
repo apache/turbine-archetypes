@@ -3,3 +3,8 @@
 #end
 
 <h1> Secured Access Page </h1>
+
+     
+     <p>
+         Role: $related.getUserrole()
+     </p>
