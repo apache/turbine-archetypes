@@ -18,9 +18,12 @@ package ${package}.modules.screens;
  * under the License.
 *#
 
+import org.apache.fulcrum.json.JsonService;
 import org.apache.turbine.pipeline.PipelineData;
+import org.apache.turbine.services.TurbineServices;
 import org.apache.velocity.context.Context;
 import org.apache.turbine.modules.screens.VelocitySecureScreen;
+
 
 /**
  * This class provides the data required for displaying content in the
@@ -28,6 +31,8 @@ import org.apache.turbine.modules.screens.VelocitySecureScreen;
  */
 public class Index extends VelocitySecureScreen
 {
+	
+	JsonService jsonService = (JsonService)TurbineServices.getInstance().getService(JsonService.ROLE);
 	/**
 	 * This method is called by the Turbine framework when the
 	 * associated Velocity template, Index.vm is requested

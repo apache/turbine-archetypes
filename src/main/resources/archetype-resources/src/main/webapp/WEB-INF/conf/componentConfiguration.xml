@@ -47,13 +47,39 @@
     <factory/>
     <pool/>
     <parser>
+        <!-- <urlCaseFolding>lower</urlCaseFolding> -->
         <parameterEncoding>utf-8</parameterEncoding>
         <automaticUpload>true</automaticUpload>
     </parser>
+    <!-- defining specific inspectors -->
+    <json>
+       <annotationInspectors>
+            <primary>org.apache.fulcrum.json.jackson.SimpleNameIntrospector</primary>
+            <secondary>com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector</secondary>
+            <features>
+              <feature value="false" type="com.fasterxml.jackson.databind.SerializationFeature">FAIL_ON_EMPTY_BEANS</feature>
+              <feature value="false" type="com.fasterxml.jackson.databind.SerializationFeature">INDENT_OUTPUT</feature>
+              <feature value="true" type="com.fasterxml.jackson.core.JsonParser">ALLOW_UNQUOTED_FIELD_NAMES</feature>
+            </features>
+        </annotationInspectors>
+        <dateFormat>MM/dd/yyyy</dateFormat>
+        <cacheFilters>true</cacheFilters>
+        <!-- security feature -->
+        <escapeCharsGlobal>true</escapeCharsGlobal>
+        <!--  escapeCharsClass>net.example.EscapeCharClass</escapeCharsClass -->
+        <defaultTyping type="OBJECT_AND_NON_CONCRETE" key="type"/><!-- defaultTyping type="NON_FINAL" key="type"/-->
+        <!-- requires com.jayway dependency in pom -->
+        <!-- useJsonPath>true</useJsonPath -->
+    </json>
+    
     <upload repository="/tmp" sizeMax="1048576" sizeThreshold="10240"/>
         <!-- These components belong to the Fulcrum-Security services -->        
     <securityService/>
     <authenticator/>
+    <!--   <authenticator>
+          <algorithm>java</algorithm>
+          <cipher>SHA1</cipher>    </authenticator>   -->
+
     <modelManager/>
     <aclFactory/>
     
