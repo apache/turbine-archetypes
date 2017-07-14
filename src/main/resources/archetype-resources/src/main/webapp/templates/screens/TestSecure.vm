@@ -7,4 +7,8 @@
      
      <p>
          Role: $related.getUserrole()
+         
+         #if ($user)
+           $related.getJson($user,"org.apache.turbine.om.security.User", null, true,"lastLogin")
+         #end
      </p>

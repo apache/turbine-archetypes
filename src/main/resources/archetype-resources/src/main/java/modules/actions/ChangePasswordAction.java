@@ -35,33 +35,33 @@ import org.apache.velocity.context.Context;
 public class ChangePasswordAction extends SecureAction 
 
 {
-	
+
     /** Injected service instance */
     @TurbineService
     private SecurityService security;
-	
-	
-	/**
-	 * Implement this to add information to the context.
-	 *
-	 * @param data
-	 *            Turbine information.
-	 * @param context
-	 *            Context for web pages.
-	 * @exception Exception,
-	 *                a generic exception.
-	 */
+
+
+  /**
+   * Implement this to add information to the context.
+   *
+   * @param data
+   *            Turbine information.
+   * @param context
+   *            Context for web pages.
+   * @exception Exception,
+   *                a generic exception.
+   */
     @Override
     public void doPerform(PipelineData data)
             throws Exception 
             {
 
-		User user = getRunData(data).getUser();
-		
+    User user = getRunData(data).getUser();
+    
     RunData rundata = getRunData(data);
     String oldPassword = rundata.getParameters().getString("oldpassword", "");
     String newPassword = rundata.getParameters().getString("newpassword", "");
-		
+    
     try {
         security.changePassword(user, oldPassword, newPassword); 
         rundata.setMessage("Password changed!");
@@ -71,25 +71,25 @@ public class ChangePasswordAction extends SecureAction
       rundata.setMessage(e.getMessage());
       rundata.setScreenTemplate("Password.vm");
     }
-		
     
-	}
     
-	/**
-	 * Implement this to add information to the context.
-	 *
-	 * @param data
-	 *            Turbine information.
-	 * @param context
-	 *            Context for web pages.
-	 * @exception Exception,
-	 *                a generic exception.
-	 */
-	@Override
-	public void doPerform(PipelineData data, Context context) throws Exception 
-	{
+  }
+    
+  /**
+   * Implement this to add information to the context.
+   *
+   * @param data
+   *            Turbine information.
+   * @param context
+   *            Context for web pages.
+   * @exception Exception,
+   *                a generic exception.
+   */
+  @Override
+  public void doPerform(PipelineData data, Context context) throws Exception 
+  {
 
-		context.put("success", "Password changed!!");
-	}
+    context.put("success", "Password changed!!");
+  }
 
 }
