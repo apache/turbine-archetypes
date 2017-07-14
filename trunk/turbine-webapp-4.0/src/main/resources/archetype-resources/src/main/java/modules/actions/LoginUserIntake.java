@@ -165,24 +165,22 @@ public class LoginUserIntake
         }
     }
 
+  private void reset(RunData data) throws UnknownEntityException {
+    User anonymousUser = security.getAnonymousUser();
+    data.setUser(anonymousUser);
 
-
-	private void reset(RunData data) throws UnknownEntityException {
-		User anonymousUser = security.getAnonymousUser();
-		data.setUser(anonymousUser);
-
-		if (StringUtils.isNotEmpty(conf.getString(TurbineConstants.TEMPLATE_LOGIN,"")))
-		{
-		    // We're running in a templating solution
-		    data.setScreenTemplate(
-		    		conf.getString(TurbineConstants.TEMPLATE_LOGIN));
-		}
-		else
-		{
-		    data.setScreen(
-		    		conf.getString(TurbineConstants.SCREEN_LOGIN));
-		}
-	}
+    if (StringUtils.isNotEmpty(conf.getString(TurbineConstants.TEMPLATE_LOGIN,"")))
+    {
+        // We're running in a templating solution
+        data.setScreenTemplate(
+            conf.getString(TurbineConstants.TEMPLATE_LOGIN));
+    }
+    else
+    {
+        data.setScreen(
+            conf.getString(TurbineConstants.SCREEN_LOGIN));
+    }
+  }
 
 }
 
