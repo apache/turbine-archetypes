@@ -93,9 +93,12 @@
     ## Display System messages here if there are any
         #if($data.getMessage())
          #info( $data.getMessage() ) <br/>
-        #end 
+        #end
+        
 
     </div>
-  #end             
+  #else
+      #parse("/screens/Index.vm")
+  #end
 
 ## $intake.declareGroups()

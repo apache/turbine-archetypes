@@ -36,19 +36,18 @@ import org.apache.commons.configuration.Configuration;
  */
 public class Password extends SecureScreen 
 {
-
-	/**
-	 * This method is called by the Turbine framework when the
-	 * associated Velocity template, Index.vm is requested
-	 * 
-	 * @param data the Turbine request data
-	 * @param context the Velocity context
-	 * @throws Exception a generic Exception
-	 */
-	@Override
-	protected void doBuildTemplate(PipelineData data, Context context)
-			throws Exception
-	{
-		
-	}
+    /**
+     * This method is called by the Turbine framework when the
+     * associated Velocity template, Index.vm is requested
+     * 
+     * @param data the Turbine request data
+     * @param context the Velocity context
+     * @throws Exception a generic Exception
+     */
+    @Override
+    protected void doBuildTemplate(PipelineData data, Context context)
+    		throws Exception
+    {
+    	
+    }
 }

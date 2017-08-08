@@ -92,14 +92,13 @@ public class RelatedTool implements RunDataApplicationTool {
             log.info( "refresh is:"+ refresh );
             log.info( "jsonService:"+ jsonService );
             log.info( "source class is:"+ className );
+            log.info( "target object is:"+ src );
             Class clazz = Class.forName(className);
-
             if (props != null) {
                 log.info( "props length:"+ props.length);
                   for ( int i = 0; i < props.length; i++ )
                 {
                       log.debug( "props:"+ props[i]);
-                      
                 }
             }
             if (mixinCN != null ) {
@@ -111,7 +110,6 @@ public class RelatedTool implements RunDataApplicationTool {
                    jsonService.addAdapter( mixinCN, clazz, mixin );
                }
             }
-              
             String serialized =  jsonService.serializeOnlyFilter( src, clazz, refresh, props );
             log.debug( "serialized:"+serialized );
             return serialized;
@@ -121,7 +119,7 @@ public class RelatedTool implements RunDataApplicationTool {
             log.error(e.getMessage(),e );
             result = e.getMessage();
         }
-        return result;        
+        return result;
     }
 
 }

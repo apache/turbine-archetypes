@@ -1,4 +1,5 @@
-package ${package}.modules.screens;
+package ${package}.modules.actions;
+
 #*
 * Licensed to the Apache Software Foundation (ASF) under one
 * or more contributor license agreements.  See the NOTICE file
@@ -18,30 +19,30 @@ package ${package}.modules.screens;
 * under the License.
 *#
 
-import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.torque.criteria.Criteria;
 import org.apache.turbine.pipeline.PipelineData;
+import org.apache.turbine.util.RunData;
 import org.apache.velocity.context.Context;
 
-/**
- * This class provides the data required for displaying content in the
- * Velocity page. 
- */
-public class TestSecure extends SecureScreen
+import ${package}.om.Author;
+import ${package}.om.AuthorPeer;
+
+public class ShowRecords  extends SecureAction 
 {
-    /**
-     * This method is called by the Turbine framework when the
-     * associated Velocity template, Index.vm is requested
-     * 
-     * @param data the Turbine request data
-     * @param context the Velocity context
-     * @throws Exception a generic Exception
-     */
-    @Override
-    protected void doBuildTemplate(PipelineData data, Context context)
-                    throws Exception
-    {
-      context.put("success", "Congratulations, it worked here too!");
-    }
+
+	@Override
+	public void doPerform( PipelineData pipelineData, Context context )
+	    throws Exception
+	{
+	    super.doPerform( pipelineData, context );
+	    List<Author> authors = AuthorPeer.doSelect( new Criteria() );//all
+	    context.put( "authors", authors );
+	    RunData data = getRunData(pipelineData);
+	    data.setScreenTemplate(Character.toLowerCase(getClass().getSimpleName().charAt(0)) + 
+	    		getClass().getSimpleName().substring(1) + ".vm"
+	    ); 
+	    
+	}
 }
