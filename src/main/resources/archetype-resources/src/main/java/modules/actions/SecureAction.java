@@ -19,10 +19,13 @@ package ${package}.modules.actions;
 * under the License.
 *#
 
+import org.apache.fulcrum.localization.LocalizationService;
 import org.apache.fulcrum.security.model.turbine.TurbineAccessControlList;
+import org.apache.turbine.annotation.TurbineService;
 import org.apache.turbine.modules.actions.VelocitySecureAction;
 import org.apache.turbine.om.security.User;
 import org.apache.turbine.pipeline.PipelineData;
+import org.apache.turbine.util.RunData;
 import org.apache.velocity.context.Context;
 
 /**
@@ -33,6 +36,9 @@ import org.apache.velocity.context.Context;
  */
 public class SecureAction extends VelocitySecureAction 
 {
+    
+    @TurbineService
+    private LocalizationService localizationService;
   /**
    * This currently only checks to make sure that user is allowed to view the
    * storage area. If you create an action that requires more security then
@@ -44,29 +50,35 @@ public class SecureAction extends VelocitySecureAction
    * @exception Exception,
    *                a generic exception.
    */
-  @Override
-  protected boolean isAuthorized(PipelineData data) throws Exception 
-  {
-    boolean isAuthorized = false;
-
-    // Who is our current user?
-    User user = getRunData(data).getUser();
-
-    // Get the Turbine ACL implementation
-    TurbineAccessControlList acl = getRunData(data).getACL();
-
-    if (acl == null || ! ( acl.hasRole("turbineuser") || acl.hasRole("turbineadmin") ) ) 
+    @Override
+    protected boolean isAuthorized(PipelineData data) throws Exception 
     {
-      getRunData(data).setMessage("You do not have permission to access this action");
-      isAuthorized = false;
-    } 
-    else if ( acl.hasRole("turbineuser") || acl.hasRole("turbineadmin") )
-    {
-      isAuthorized = true;
+        boolean isAuthorized = false;
+    
+        // Who is our current user?
+        User user = getRunData(data).getUser();
+    
+        // Get the Turbine ACL implementation
+        TurbineAccessControlList acl = getRunData(data).getACL();
+    
+        if (acl == null || ! ( acl.hasRole("turbineuser") || acl.hasRole("turbineadmin") ) ) 
+        {
+           String msg =  localizationService.getString(localizationService.getDefaultBundleName(), 
+                                          localizationService.getLocale( ((RunData) data).getRequest()), "no_permission");
+            
+            getRunData(data).setMessage(msg);
+    
+            log.debug( "call not permitted for template: " + getRunData(data).getScreenTemplate() + " and action " + getRunData(data).getAction() );
+             getRunData(data).setScreenTemplate( "Login.vm" );
+            isAuthorized = false;
+        } 
+        else if ( acl.hasRole("turbineuser") || acl.hasRole("turbineadmin") )
+        {
+            isAuthorized = true;
+        }
+    
+        return isAuthorized;
     }
-
-    return isAuthorized;
-  }
 
   /**
    * Implement this to add information to the context.

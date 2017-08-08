@@ -17,23 +17,29 @@
 
 
 
-
 #if ( $data.getMessage() )
         #info( $data.getMessage() )
 #end
 
-     <div align="center"><h1>$success</h1></div>
-
-     <p>
-             You're now successfully running a <a href="http://turbine.apache.org/">Turbine</a> based
-             application, deployed to <font color="red">$data.ServerData.ContextPath</a></font> on
-             your web container.
-     </p>
-
-     <p>
-             You can (and should!) change or remove this page at any time. It is
-             intended to give you immediate feedback if you just deployed an newly
-             setup Turbine application.
-     </p>
-
-     <a href="$link.setPage("TestSecure.vm")">Test a secure access page</a>
+#if ($!success) <div align="center"><h1>$success</h1></div> 
+       <p>
+               You're now successfully running a <a href="http://turbine.apache.org/">Turbine</a> based
+               application, deployed to <font color="red">$data.ServerData.ContextPath</a></font> on
+               your web container.
+       </p>
+      
+       <p>
+               You can (and should!) change or remove this page at any time. It is
+               intended to give you immediate feedback if you just deployed an newly
+               setup Turbine application.
+       </p>
+#end
+    
+     ## including a secured does not trigger the security check, as it is just handled by velocity, not turbine
+     #parse("/screens/TestSecure.vm")
+     
+     ## trigger the security check, but without all context
+     ## <a href="$link.setPage("TestSecure.vm")">Test a secure access without context</a>
+     ## trigger the security check
+     <a href="$link.setPage("TestSecure.vm").addPathInfo("action","SecureAction")">Test a secure access with context</a>
+     

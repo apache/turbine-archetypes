@@ -23,8 +23,7 @@
             <a href="#">Administration <i class="fa fa-caret-down"></i></a>
             <div class="w3-dropdown-content w3-white w3-card-4">
               ## every user can change their password
-          <a href="$link.setPage("Password.vm")">Update Password <i class="fa fa-unlock"></i></a>
-          
+               <a href="$link.setPage("Password.vm")">Update Password <i class="fa fa-unlock"></i></a>
           #if ( $data.getACL().hasRole("turbineadmin") )
               <a href="$link.setPage("user,FluxUserList.vm")">User List <div class="w3-right"><i class="fa fa-users"></i></div></a>
               <a href="$link.setPage("role,FluxRoleList.vm")">User Roles <div class="w3-right"><i class="fa fa-user-plus"></i></div></a>
@@ -32,7 +31,15 @@
               #end
             </div>
           </li>
-
+          #if ( $data.getACL().hasRole("turbineuser") )
+          <li class="w3-dropdown-hover">
+            <a href="#">Records <i class="fa fa-caret-down"></i></a>
+            <div class="w3-dropdown-content w3-white w3-card-4">
+               <a href="$link.setAction("ShowRecords")">Show Records <i class="fa fa-unlock"></i></a>
+            </div>
+          </li>
+          #end
+          
           <li class="w3-right"><a href="$link.setAction("LogoutUser")">Logout</a></li>
           
 </nav>
