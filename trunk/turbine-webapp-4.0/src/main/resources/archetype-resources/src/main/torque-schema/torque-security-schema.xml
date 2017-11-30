@@ -32,11 +32,11 @@
   xsi:schemaLocation="http://db.apache.org/torque/4.0/templates/database
         http://db.apache.org/torque/4.0/templates/database-strict.xsd"
   name="${turbine_database_name}"
-  defaultIdMethod="idbroker">
+  defaultIdMethod="none">
 
 
-  <table name="TURBINE_PERMISSION" idMethod="idbroker" baseClass="org.apache.fulcrum.security.torque.turbine.DefaultAbstractTurbinePermission">
-    <column name="PERMISSION_ID" required="true" primaryKey="true" type="INTEGER" javaType="object"/>
+  <table name="TURBINE_PERMISSION" idMethod="native" baseClass="org.apache.fulcrum.security.torque.turbine.DefaultAbstractTurbinePermission" interface="org.apache.fulcrum.security.model.turbine.entity.TurbinePermission">
+    <column name="PERMISSION_ID" required="true" primaryKey="true" type="INTEGER" javaType="object" javaName="EntityId" autoIncrement="true"/>
     <column name="PERMISSION_NAME" required="true" size="64" type="VARCHAR" javaName="EntityName"/>
 
     <unique>
@@ -45,8 +45,8 @@
 
   </table>
 
-  <table name="TURBINE_ROLE" idMethod="idbroker" baseClass="org.apache.fulcrum.security.torque.turbine.DefaultAbstractTurbineRole">
-    <column name="ROLE_ID" required="true" primaryKey="true" type="INTEGER" javaType="object"/>
+  <table name="TURBINE_ROLE" idMethod="native" baseClass="org.apache.fulcrum.security.torque.turbine.DefaultAbstractTurbineRole" interface="org.apache.fulcrum.security.model.turbine.entity.TurbineRole">
+    <column name="ROLE_ID" required="true" primaryKey="true" type="INTEGER" javaType="object" javaName="EntityId" autoIncrement="true"/>
     <column name="ROLE_NAME" required="true" size="64" type="VARCHAR" javaName="EntityName"/>
 
     <unique>
@@ -55,8 +55,8 @@
 
   </table>
 
-  <table name="TURBINE_GROUP" idMethod="idbroker" baseClass="org.apache.fulcrum.security.torque.turbine.DefaultAbstractTurbineGroup">
-    <column name="GROUP_ID" required="true" primaryKey="true" type="INTEGER" javaType="object"/>
+  <table name="TURBINE_GROUP" idMethod="native" baseClass="org.apache.fulcrum.security.torque.turbine.DefaultAbstractTurbineGroup" interface="org.apache.fulcrum.security.model.turbine.entity.TurbineGroup">
+    <column name="GROUP_ID" required="true" primaryKey="true" type="INTEGER" javaType="object" javaName="EntityId" autoIncrement="true"/>
     <column name="GROUP_NAME" required="true" type="VARCHAR" size="64" javaName="EntityName"/>
 
     <unique>
@@ -79,9 +79,9 @@
   </table>
 
   <!-- org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity -->
-  <table name="TURBINE_USER" idMethod="idbroker" baseClass="org.apache.fulcrum.security.torque.turbine.DefaultAbstractTurbineUser"
+  <table name="TURBINE_USER" idMethod="native" baseClass="org.apache.fulcrum.security.torque.turbine.DefaultAbstractTurbineUser"
   interface="org.apache.fulcrum.security.model.turbine.entity.TurbineUser">
-    <column name="USER_ID" required="true" primaryKey="true" type="INTEGER" javaType="object" javaName="EntityId"/>
+    <column name="USER_ID" required="true" primaryKey="true" type="INTEGER" javaType="object" javaName="EntityId" autoIncrement="true"/>
     <column name="LOGIN_NAME" required="true" size="64" type="VARCHAR" javaName="EntityName"/>
     <column name="PASSWORD_VALUE" required="true" size="16" type="VARCHAR" javaName="Password"/>
     <column name="FIRST_NAME" required="true" size="64" type="VARCHAR"/>

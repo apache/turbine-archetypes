@@ -56,12 +56,11 @@ under the License.
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                    <source>${maven.compile.source}</source>
-                    <target>${maven.compile.target}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <source>#var("maven.compile.source")</source>
+                    <target>#var("maven.compile.target")</target>
+                    <encoding>#var("project.build.sourceEncoding")</encoding>
                 </configuration>
             </plugin>
-            
              <plugin>
                 <groupId>org.apache.torque</groupId>
                 <artifactId>torque-maven-plugin</artifactId>
@@ -73,121 +72,119 @@ under the License.
                     <targetDatabase>${turbine_database_adapter}</targetDatabase>
                 </configuration>
                 <executions>
-          <execution>
-            <id>torque-om</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <packaging>classpath</packaging>
-              <configPackage>org.apache.torque.templates.om</configPackage>
-              <sourceDir>#var("project.basedir")/src/main/torque-schema</sourceDir>
-              <loglevel>error</loglevel>
-              <options>
-                <torque.database>${turbine_database_adapter}</torque.database>
-                <torque.om.package>${package}.om</torque.om.package>
-                <torque.om.addGetByNameMethods>false</torque.om.addGetByNameMethods>
-                <torque.om.save.saveException>TorqueException</torque.om.save.saveException>
-                <torque.om.useIsForBooleanGetters>true</torque.om.useIsForBooleanGetters>
-                <torque.om.useManagers>false</torque.om.useManagers>
-                <torque.om.addTimeStamp>true</torque.om.addTimeStamp>
-                <torque.om.objectIsCaching>true</torque.om.objectIsCaching>
-                <torque.om.save.addSaveMethods>true</torque.om.save.addSaveMethods>
-                <torque.om.addGetByNameMethods>true</torque.om.addGetByNameMethods>
-                <torque.om.complexObjectModel>true</torque.om.complexObjectModel>
-              </options>
-              <outputDirMap>
-                <modifiable>#var("project.build.sourceDirectory")</modifiable>
-              </outputDirMap>
-            </configuration>
-          </execution>
-          <execution>
-            <id>torque-sql-mysql</id><!-- ${turbine_database_adapter} -->
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <packaging>classpath</packaging>
-              <configPackage>org.apache.torque.templates.sql</configPackage>
-              <sourceDir>#var("project.basedir")/src/main/torque-schema</sourceDir>
-              <defaultOutputDir>#var("project.build.directory")/generated-sql/torque/mysql</defaultOutputDir>
-              <defaultOutputDirUsage>none</defaultOutputDirUsage>
-              <loglevel>error</loglevel>
-              <options>
-                <torque.database>mysql</torque.database>
-              </options>
-            </configuration>
-          </execution>
-                </executions>
-                <dependencies>
-                  <dependency>
+                  <execution>
+                    <id>torque-om</id>
+                    <phase>generate-sources</phase>
+                    <goals>
+                      <goal>generate</goal>
+                    </goals>
+                    <configuration>
+                      <packaging>classpath</packaging>
+                      <configPackage>org.apache.torque.templates.om</configPackage>
+                      <sourceDir>#var("project.basedir")/src/main/torque-schema</sourceDir>
+                      <loglevel>error</loglevel>
+                      <options>
+                        <torque.database>${turbine_database_adapter}</torque.database>
+                        <torque.om.package>${package}.om</torque.om.package>
+                        <torque.om.addGetByNameMethods>false</torque.om.addGetByNameMethods>
+                        <torque.om.save.saveException>TorqueException</torque.om.save.saveException>
+                        <torque.om.useIsForBooleanGetters>true</torque.om.useIsForBooleanGetters>
+                        <torque.om.useManagers>false</torque.om.useManagers>
+                        <torque.om.addTimeStamp>true</torque.om.addTimeStamp>
+                        <torque.om.objectIsCaching>true</torque.om.objectIsCaching>
+                        <torque.om.save.addSaveMethods>true</torque.om.save.addSaveMethods>
+                        <torque.om.addGetByNameMethods>true</torque.om.addGetByNameMethods>
+                        <torque.om.complexObjectModel>true</torque.om.complexObjectModel>
+                      </options>
+                      <!-- keeping defaultOutputDir in default ${project.build.directory}/generated-sources will havee the base classes there -->
+                      <!-- we want the classes, which may be custumoized in the source directory. Ignore the warning about generated-java -->
+                      <outputDirMap>
+                        <modifiable>#var("project.build.sourceDirectory")</modifiable>
+                      </outputDirMap>
+                    </configuration>
+                  </execution>
+                  <execution>
+                    <id>torque-sql-mysql</id><!-- ${turbine_database_adapter} -->
+                    <phase>generate-sources</phase>
+                    <goals>
+                      <goal>generate</goal>
+                    </goals>
+                    <configuration>
+                      <packaging>classpath</packaging>
+                      <configPackage>org.apache.torque.templates.sql</configPackage>
+                      <sourceDir>#var("project.basedir")/src/main/torque-schema</sourceDir>
+                      <defaultOutputDir>#var("project.build.directory")/generated-sql/torque/mysql</defaultOutputDir>
+                      <defaultOutputDirUsage>none</defaultOutputDirUsage>
+                      <loglevel>error</loglevel>
+                      <options>
+                        <torque.database>mysql</torque.database>
+                      </options>
+                    </configuration>
+                  </execution>
+              </executions>
+              <dependencies>
+                 <dependency>
                     <groupId>org.apache.torque</groupId>
                     <artifactId>torque-templates</artifactId>
                     <version>4.0</version>
                   </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                 <version>2.3</version>
+              </dependencies>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.2.0</version>
+            <configuration>
+                <archive>
+                    <manifestEntries>
+                        <X-Compile-Source-JDK>#var("maven.compile.source")</X-Compile-Source-JDK>
+                        <X-Compile-Target-JDK>#var("maven.compile.target")</X-Compile-Target-JDK>
+                    </manifestEntries>
+                </archive>
+                <!-- containerConfigXML>WEB-INF/build/context.xml</containerConfigXML -->
+            </configuration>
+          </plugin>
+        <!-- Required to execute torque database build -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>sql-maven-plugin</artifactId>
+          <version>1.5</version>
+          <configuration>
+            <!-- Please update with your database configuration -->
+            <driver>${turbine_database_driver}</driver>
+            <url>${turbine_database_url}${turbine_database_name}</url>
+            <username>${turbine_database_user}</username>
+            <password>${turbine_database_password}</password>
+            <onError>continue</onError>
+            <autocommit>true</autocommit>
+            <orderFile>descending</orderFile>
+          </configuration>
+          <!-- update with your database driver dependency -->
+          <!-- this is mysql specific -->
+          <dependencies>
+            <dependency>
+              <artifactId>mysql-connector-java</artifactId>
+              <groupId>mysql</groupId>
+              <version>5.1.40</version>
+            </dependency>
+          </dependencies>
+          <!-- this is mysql specific -->
+          <executions>
+            <execution>
+                <id>create-db</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
                 <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <X-Compile-Source-JDK>#var("maven.compile.source")</X-Compile-Source-JDK>
-                            <X-Compile-Target-JDK>#var("maven.compile.target")</X-Compile-Target-JDK>
-                        </manifestEntries>
-                    </archive>
-                    <!-- containerConfigXML>WEB-INF/build/context.xml</containerConfigXML -->
-                </configuration>
-            </plugin>
-
-
-      <!-- Required to execute torque database build -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>sql-maven-plugin</artifactId>
-        <version>1.5</version>
-        <configuration>
-
-          <!-- Please update with your database configuration -->
-          <driver>${turbine_database_driver}</driver>
-          <url>${turbine_database_url}${turbine_database_name}</url>
-          <username>${turbine_database_user}</username>
-          <password>${turbine_database_password}</password>
-          <onError>continue</onError>
-          <autocommit>true</autocommit>
-          <orderFile>descending</orderFile>
-        </configuration>
-        
-        <!-- update with your database driver dependency -->
-        <!-- this is mysql specific -->
-        <dependencies>
-          <dependency>
-            <artifactId>mysql-connector-java</artifactId>
-            <groupId>mysql</groupId>
-            <version>5.1.40</version>
-          </dependency>
-        </dependencies>
-        <!-- this is mysql specific -->
-        <executions>
-          <execution>
-              <id>create-db</id>
-              <phase>pre-integration-test</phase>
-              <goals>
-                <goal>execute</goal>
-              </goals>
-              <configuration>
-                <orderFile>ascending</orderFile>
-                <fileset>
-                  <basedir>${project.build.directory}/generated-sql/torque/mysql</basedir>
-                  <!-- basedir>${basedir}/target/generated-sql</basedir -->
-                  <includes>
-                    <include>*.sql</include>
-                  </includes>
-                </fileset>
+                  <orderFile>ascending</orderFile>
+                  <fileset>
+                    <basedir>#var("project.build.directory")/generated-sql/torque/mysql</basedir>
+                    <!-- basedir>${basedir}/target/generated-sql</basedir -->
+                    <includes>
+                      <include>*.sql</include>
+                    </includes>
+                  </fileset>
               </configuration>
             </execution>
             <execution>
@@ -199,36 +196,34 @@ under the License.
               <configuration>
                 <orderFile>ascending</orderFile>
                 <srcFiles>
-                  <srcFile>${project.basedir}/docs/sample-mysql-data/_application-data.sql</srcFile>
-                  <srcFile>${project.basedir}/docs/sample-mysql-data/_turbine-security-data.sql</srcFile>
+                  <srcFile>#var("project.basedir")/docs/sample-mysql-data/_application-data.sql</srcFile>
+                  <srcFile>#var("project.basedir")/docs/sample-mysql-data/_turbine-security-data.sql</srcFile>
                 </srcFiles>              
               </configuration>
             </execution>
-        </executions>
-      </plugin>
-
-            <!-- jetty:run checks deployed war http://localhost:8081/app/ 
-            
-            Using jetty 8 as supporting java 6. Other specs cft. http://www.eclipse.org/jetty/documentation/9.3.0.v20150612/what-jetty-version.html
-            -->
-            <plugin>
-               <groupId>org.mortbay.jetty</groupId>
-               <artifactId>jetty-maven-plugin</artifactId>
-               <version>8.1.16.v20140903</version>
-              <configuration>
-                <scanIntervalSeconds>10</scanIntervalSeconds>
-                <dumpOnStart>true</dumpOnStart>
-                <connectors>
-                <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                  <port>8081</port>
-                </connector>
-                </connectors>
-                <!--webApp>
-                  <contextPath>/app</contextPath>
-                </webApp-->
-              </configuration>
-            </plugin>
-        </plugins>
+          </executions>
+        </plugin>
+        <!-- jetty:run checks deployed war http://localhost:8081/app/ 
+           Using jetty 8 as supporting java 6. Other specs cft. http://www.eclipse.org/jetty/documentation/9.3.0.v20150612/what-jetty-version.html  -->
+        <plugin>
+           <groupId>org.mortbay.jetty</groupId>
+           <artifactId>jetty-maven-plugin</artifactId>
+           <version>8.1.16.v20140903</version>
+          <configuration>
+            <scanIntervalSeconds>10</scanIntervalSeconds>
+            <dumpOnStart>true</dumpOnStart>
+            <reload>manual</reload>
+            <connectors>
+            <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+              <port>8081</port>
+            </connector>
+            </connectors>
+            <!--webApp>
+              <contextPath>/app</contextPath>
+            </webApp-->
+          </configuration>
+        </plugin>
+      </plugins>
     </build>
 
     <dependencies>
@@ -260,7 +255,7 @@ under the License.
       <dependency>
           <groupId>org.apache.turbine</groupId>
           <artifactId>turbine</artifactId>
-          <version>4.0-SNAPSHOT</version>
+          <version>#var("turbine.core")</version>
       </dependency>
       <!-- yaafi is optional. NOTICE: 1.0.7 has group org.apache.turbine not org.apache.fulcrum  -->
       <dependency>
@@ -339,6 +334,47 @@ under the License.
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <fulcrum.json>1.1.1</fulcrum.json>
         <fulcrum.security>1.1.1</fulcrum.security>
+        <turbine.core>4.0</turbine.core>
     </properties>
+    
+    
+    <profiles>
+        <profile>
+            <id>jetty</id>
+            <build>
+                <defaultGoal>jetty:run</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.mortbay.jetty</groupId>
+                        <artifactId>maven-jetty-plugin</artifactId>
+                        <configuration>
+                            <connectors>
+                                <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                                    <port>15000</port>
+                                    <maxIdleTime>60000</maxIdleTime>
+                                </connector>
+                            </connectors>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+       <profile>
+            <id>tomcat</id>
+            <build>
+                <defaultGoal>tomcat:run</defaultGoal>
+                <finalName>#var("pom.artifactId")</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>tomcat-maven-plugin</artifactId>
+                        <configuration>
+                            <port>15000</port>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
     
 </project>
