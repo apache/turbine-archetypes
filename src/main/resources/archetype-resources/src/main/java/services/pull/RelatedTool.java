@@ -61,7 +61,7 @@ public class RelatedTool implements RunDataApplicationTool {
           log.info("reading role for: "+user.getName());
           if (data.getACL() != null && data.getACL() instanceof TurbineAccessControlList) {
             RoleSet roles = ((TurbineAccessControlList)data.getACL()).getRoles();
-            if (roles.getSet().size() == 1) {
+            if (roles != null && roles.getSet().size() == 1) {
               Role fulcrumRole = roles.getSet().iterator().next();
                 log.debug("acl role is: "+fulcrumRole.getName());
                 return fulcrumRole.getName();
@@ -77,7 +77,7 @@ public class RelatedTool implements RunDataApplicationTool {
       }
       return (role != null)? role.getName(): null;
     } catch (Exception e) {
-      log.error("DCRelatedLink - failure in reading role: ", e);
+      log.error("RelatedTool - failure in reading role: ", e);
       return null;
     }
   }
