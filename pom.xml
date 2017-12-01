@@ -56,6 +56,10 @@
         <plugin>
           <artifactId>maven-archetype-plugin</artifactId>
           <version>3.0.1</version>
+           <!-- skip tests in generated archetype's pom, here the integration-test would be skipped -->
+          <!--configuration>
+            <skip>true</skip>
+          </configuration-->   
         </plugin>
       </plugins>
     </pluginManagement>
