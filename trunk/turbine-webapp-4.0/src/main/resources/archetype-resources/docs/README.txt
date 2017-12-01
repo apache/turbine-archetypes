@@ -21,9 +21,9 @@ Notice
 
 About this archetype 
 
-Turbine Version: Turbine 4.0-M2. 
+Turbine Version: Turbine 4.0. 
 
-# Quick Guide to using the new Turbine 4.0-M2 maven archetype 
+# Quick Guide to using the new Turbine 4.0 maven archetype 
 for skeleton application generation
 
 ## Local database Setup
@@ -62,7 +62,8 @@ mvn archetype:generate \
 
 ### Notes
 
-When invoking archetype:generate like above, you already have set Turbine goals generate-sources,pre-integration-test and you can then skip them later.
+When invoking archetype:generate like above, you already have set Turbine goals generate-sources,pre-integration-test 
+and you can then skip them later.
 
 Be aware, when you set both mvn commands goals (which are maven phases actually), i.e  with
 
@@ -118,6 +119,26 @@ Login should work with user admin/password or user/password.
 By default Intake is used as an validation mechanism for authentication. You can change to the default login by setting
 
 action.login=LoginUser in TurbineResources.properties and changing Login.vm appropriately (commented form)
+
+## Tests
+
+Prerequisites
+- at least Turbine version 4.0.1 
+- database was build successfully e.g. with archetype.
+- running mysql
+
+If running from integration test, check/update
+- in pom.xml turbine.core property,
+- target/test-classes/projects/first/project/integrationtest/src/test/conf/torque/TorqueTest.properties or
+  META-INF/maven/archetype-metadata.xml
+
+The security test is by default skipped as it requires a running mysql. It tests many of the Fulcrum Torque Turbine security aspects, 
+activate it by calling
+
+mvn test -DskipTests=false
+
+CAVEAT: If initialization fails, double check your database credentials! If invalid the error might be somewhat hidden behind a
+ Torque exception!
 
 ## Eclipse
 
