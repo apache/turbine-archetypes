@@ -55,6 +55,10 @@ under the License.
         <testResources>
             <testResource>
                 <directory>src/test/resources</directory>
+                <includes>
+                    <include>*.xml</include>
+                    <include>*.properties</include>
+                </includes>
             </testResource>
         </testResources>
         <plugins>
@@ -62,6 +66,7 @@ under the License.
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-surefire-plugin</artifactId>
+              <version>2.20.1</version>
               <configuration>
                 <skipTests>#var("skipTests")</skipTests>
               </configuration>
@@ -271,6 +276,22 @@ under the License.
           <artifactId>turbine</artifactId>
           <version>#var("turbine.core")</version>
       </dependency>
+      <!-- slf4j still optional in 4.0 -->
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
+       <dependency>     <!-- delegate slf4j to log4j -->
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>${slf4j.version}</version>
+       </dependency>
+       <dependency>     <!-- redirect JCL to slf4j -->
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
       <!-- yaafi is optional. NOTICE: 1.0.7 has group org.apache.turbine not org.apache.fulcrum  -->
       <dependency>
         <groupId>org.apache.turbine</groupId>
@@ -355,6 +376,7 @@ under the License.
         <fulcrum.json>1.1.1</fulcrum.json>
         <fulcrum.security>1.1.1</fulcrum.security>
         <turbine.core>4.0</turbine.core>
+        <slf4j.version>1.7.25</slf4j.version>
         <skipTests>true</skipTests>
     </properties>
     
@@ -384,7 +406,7 @@ under the License.
             <id>tomcat</id>
             <build>
                 <defaultGoal>tomcat:run</defaultGoal>
-                <finalName>#var("pom.artifactId")</finalName>
+                <finalName>#var("project.artifactId")</finalName>
                 <plugins>
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>

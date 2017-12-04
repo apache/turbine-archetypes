@@ -31,15 +31,15 @@ import org.junit.Ignore;
  * Stub for further tests, relying on Fulcrum.
  *
  * @author gkallidis
- * @version $Id:$
+ * @version $Id$
  */
 public class TurbineTorqueDefaultModelManagerTest
     extends AbstractTurbineTorqueModelManagerTest
 {
 
-  @Override
-	@Before
-	public void setUp() throws Exception
+    @Override
+    @Before
+    public void setUp() throws Exception
     {
         try
         {
@@ -47,25 +47,17 @@ public class TurbineTorqueDefaultModelManagerTest
             setConfigurationFileName("src/test/conf/torque/fulcrumComponentConfiguration.xml");
             setRoleFileName("src/test/conf/torque/fulcrumRoleConfiguration.xml");
             super.setUp();
-
+    
         }
         catch (Exception e)
         {
             fail(e.toString());
         }
     }
-
+    
     @Test
     public void testDummy() {
     	// all tests in abstract
-    }
-
-    @Override
-    @After
-	  public void tearDown()
-    {
-        modelManager = null;
-        securityService = null;
     }
 
 }

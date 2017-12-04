@@ -59,6 +59,13 @@
           <include>**/*.java</include>
         </includes>
     </fileSet>
+   <fileSet filtered="true" packaged="false">
+        <directory>src/test/resources</directory>
+        <includes>
+          <include>**/*.properties</include>
+          <include>**/*.xml</include>
+        </includes>
+    </fileSet>
     <fileSet filtered="false" packaged="false">
         <directory>src/test/logs</directory>
         <includes>
