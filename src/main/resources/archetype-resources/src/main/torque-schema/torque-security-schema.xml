@@ -23,6 +23,10 @@
 <!--                                                                          -->
 <!--  Turbine Torque based Security Service Schema                            -->
 <!--                                                                          -->
+<!--  Schema documentation                                                    -->
+<!--  http://db.apache.org/torque/torque-4.0/documentation/orm-reference/database-4-0-strict.xsd -->
+<!--  http://db.apache.org/torque/torque-4.0/documentation/orm-reference/database-4-0.xsd -->
+<!--                                                                          -->
 <!-- $Id: turbine-security-schema.xml 615328 2008-01-25 20:25:05Z tv $ -->
 <!--                                                                          -->
 <!-- ======================================================================== -->
@@ -69,6 +73,7 @@
     <column name="ROLE_ID" required="true" primaryKey="true" type="INTEGER"/>
     <column name="PERMISSION_ID" required="true" primaryKey="true" type="INTEGER"/>
 
+    <!-- Turbine service revokeAll(role) manages removal, but you might want to handle it just with onDelete="cascade" -->
     <foreign-key foreignTable="TURBINE_ROLE">
       <reference local="ROLE_ID" foreign="ROLE_ID"/>
     </foreign-key>
@@ -103,7 +108,7 @@
     <column name="USER_ID" required="true" primaryKey="true" type="INTEGER"/>
     <column name="GROUP_ID" required="true" primaryKey="true" type="INTEGER"/>
     <column name="ROLE_ID" required="true" primaryKey="true" type="INTEGER"/>
-
+    <!-- Turbine service revokeAll(user) manages removal, but you might want to handle it just with onDelete="cascade" -->
     <foreign-key foreignTable="TURBINE_USER">
       <reference local="USER_ID" foreign="USER_ID"/>
     </foreign-key>

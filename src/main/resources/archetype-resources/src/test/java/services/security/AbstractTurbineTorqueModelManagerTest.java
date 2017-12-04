@@ -1,7 +1,5 @@
 package ${package}.services.security;
 
-import static org.hamcrest.CoreMatchers.describedAs;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,11 +18,7 @@ import static org.hamcrest.CoreMatchers.describedAs;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.Set;
 
@@ -49,12 +43,17 @@ import org.apache.fulcrum.security.util.PermissionSet;
 import org.apache.fulcrum.security.util.UnknownEntityException;
 import org.apache.fulcrum.testcontainer.BaseUnit4Test;
 import org.apache.torque.ConstraintViolationException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Initialization of services in implementing tests
- * @author Eric Pugh
+ * 
+ * @author gkallidis
+ * @version $Id$
  * 
  */
 public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Test
@@ -72,11 +71,16 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
     protected UserManager userManager;
 
     protected SecurityService securityService;
+    
+    boolean onDeleteCascade = true;
+    
+     // By default org.slf4j.LoggerFactory is optional in 4.0, but included in webapp 
+    Logger log = LoggerFactory.getLogger( getClass().getName() );
 
     @Before
     public void setUp() throws Exception
     {
-    	securityService  = (SecurityService) lookup(SecurityService.ROLE);
+        securityService  = (SecurityService) lookup(SecurityService.ROLE);
         roleManager = securityService.getRoleManager();
         userManager = securityService.getUserManager();
         groupManager = securityService.getGroupManager();
@@ -84,6 +88,13 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
         modelManager = (TurbineModelManager) securityService.getModelManager();
     }
 
+    @Override
+    @After
+      public void tearDown()
+    {
+        modelManager = null;
+        securityService = null;
+    }
 
     @Test
     public void testGetGlobalGroup() throws Exception
@@ -105,6 +116,10 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
         PermissionSet permissions = ((TurbineRole) role).getPermissions();
         assertEquals(1, permissions.size());
         assertTrue(((TurbineRole) role).getPermissions().contains(permission));
+        
+        checkAndRevoke( permission );
+        deletePermission( permission );
+        deleteRole();
     }
 
     @Test
@@ -124,6 +139,8 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
         permissions = ((TurbineRole) role).getPermissions();
         assertEquals(0, permissions.size());
         assertFalse(((TurbineRole) role).getPermissions().contains(permission));
+        deletePermission( permission );
+        deleteRole();
     }
     @Test
     public void testRevokeAllRole() throws Exception
@@ -144,11 +161,16 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
         try {
             modelManager.revokeAll(role);
         } catch (Exception e) {
-            System.out.println( "Might fail " + e.getMessage() );
+            log.info( "Might fail " + e.getMessage() );
         }
         role = roleManager.getRoleById(role.getId());
         permissions = ((TurbineRole) role).getPermissions();
         assertEquals(0, permissions.size());
+        checkAndRevoke( permission );
+        checkAndRevoke( permission2 );
+        deletePermission( permission );
+        deletePermission( permission2 );
+        deleteRole();
     }
 
     @Test
@@ -168,9 +190,9 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
             modelManager.grant(user, group, role);
         } catch (DataBackendException e ){
             if (e.getCause() != null && e.getCause() instanceof ConstraintViolationException) {
-                System.out.println( "error due to " + e.getCause().getMessage() );
+                log.info( "error due to " + e.getCause().getMessage() );
             } else {
-                System.out.println( "error due to " + e.getMessage() );
+                log.info( "error due to " + e.getMessage() );
             }
         }
 
@@ -183,13 +205,17 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
         try {
             modelManager.revokeAll(user);
         } catch (Exception e) {
-            
+            log.info( "error due to " + e.getMessage() );
         }
         group = groupManager.getGroupById(group.getId());
         assertEquals(0, ((TurbineGroup) group).getUserGroupRoleSet().size());
         role = securityService.getRoleManager().getRoleByName("TEST_REVOKEALLUSER_ROLE");
 
         // assertFalse(((TurbineRole) role).getGroups().contains(group));
+        // cleanup ;
+        deleteGroup( group );
+        deleteRole();
+        deleteUser( user );
 
     }
 
@@ -210,9 +236,9 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
             modelManager.grant(user, group, role);
         } catch (DataBackendException e ){
             if (e.getCause() != null && e.getCause() instanceof ConstraintViolationException) {
-                System.out.println( "error due to " + e.getCause().getMessage() );
+                log.info( "error due to " + e.getCause().getMessage() );
             } else {
-                System.out.println( "error due to " + e.getMessage() );
+                log.info( "error due to " + e.getMessage() );
             }
         }
         boolean ugrFound = false;
@@ -229,7 +255,19 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
         assertTrue(ugrFound);
         assertTrue(ugrTest.getGroup().equals(group));
         assertTrue(ugrTest.getUser().equals(user));
-
+        
+        try {
+            modelManager.revoke(user, group, role);
+        } catch (DataBackendException e ){
+            if (e.getCause() != null && e.getCause() instanceof ConstraintViolationException) {
+                log.info( "error due to " + e.getCause().getMessage() );
+            } else {
+                log.info( "error due to " + e.getMessage() );
+            }
+        }
+        deleteGroup( group );
+        deleteRole();
+        deleteUser( user );
     }
     @Test
     public void testRevokeUserGroupRole() throws Exception
@@ -247,18 +285,18 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
             modelManager.grant(user, group, role);
         } catch (DataBackendException e ){
             if (e.getCause() != null && e.getCause() instanceof ConstraintViolationException) {
-                System.out.println( "error due to " + e.getCause().getMessage() );
+                log.info( "error due to " + e.getCause().getMessage() );
             } else {
-                System.out.println( "error due to " + e.getMessage() );
+                log.info( "error due to " + e.getMessage() );
             }
         }
         try {
             modelManager.revoke(user, group, role);
         } catch (DataBackendException e ){
             if (e.getCause() != null && e.getCause() instanceof ConstraintViolationException) {
-                System.out.println( "error due to " + e.getCause().getMessage() );
+                log.info( "error due to " + e.getCause().getMessage() );
             } else {
-                System.out.println( "error due to " + e.getMessage() );
+                log.info( "error due to " + e.getMessage() );
             }
         }
         boolean ugrFound = false;
@@ -271,6 +309,10 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
             }
         }
         assertFalse(ugrFound);
+        deleteGroup( group );
+        deleteRole();
+        deleteUser( user );
+       
     }
 
     private void checkAndAddPermission( Permission permission )
@@ -292,13 +334,13 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
         permission.setId( dbPermission.getId() );
 
     }
-
-    // adds user but might be 
+    
+    // adds user 
     private User checkAndAddUser( User user, String password )
         throws DataBackendException, UnknownEntityException, EntityExistsException
     {
         if (user instanceof ExtendedUser) {
-            // set first last name which might be required almost always
+            // set first last name which might be required  (cft. schema definition)
             ((ExtendedUser)user).setFirstName( user.getName() );
             ((ExtendedUser)user).setLastName(  user.getName() );
         }
@@ -313,7 +355,6 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
     private Group checkAndAddGroup( Group group )
                     throws DataBackendException, UnknownEntityException, EntityExistsException
     {
-        Group dbGroup;
         // cleanup if using real db
         if (securityService.getGroupManager().checkExists( group )) {
             return securityService.getGroupManager().getGroupByName( group.getName() );
@@ -350,7 +391,6 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
         } else {
             this.role =dbRole;
         }
-       
     }
     
     private void checkAndGrant( Permission permission )
@@ -360,7 +400,7 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
         try {
             modelManager.grant(role, permission);
         } catch (DataBackendException e) {
-            System.out.println( "Might be duplicate TODO ACL check" + e.getMessage() );
+            log.info( "Might be duplicate TODO ACL check" + e.getMessage() );
         }
     }
     
@@ -371,8 +411,78 @@ public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Tes
         try {
             modelManager.revoke(role, permission);
         } catch (DataBackendException e) {
-            System.out.println( "Might be duplicate TODO ACL check" + e.getMessage() );
+            log.info( "Might be duplicate TODO ACL check" + e.getMessage() );
+        }
+    }
+    
+    private void deleteUser( User user )
+    {
+        if (onDeleteCascade) {
+            try {
+               userManager.removeUser( user );
+               log.info( "try to delete user " + user.getName() );
+             } catch (Exception e) {
+               log.error( "deleting user " + user.getName() + " failed. " + e.getMessage());
+               if (e.getCause() != null && e.getCause() instanceof ConstraintViolationException) {
+                    log.info( "error due to " + e.getCause().getMessage() );
+                } else {
+                    log.info( "error due to " + e.getMessage() );
+                }
+             }
+        } else {
+            log.info( "onDeleteCascade false, user " + user.getName() + " not deleted!");
+        }
+    }
+    
+    private void deleteRole()
+    {
+        log.info("deleting role ");
+        if (role != null) {
+            try
+            {
+                log.info("deleting role "+ role.getName());
+                roleManager.removeRole( role );
+                role =null;
+            }
+            catch ( Exception e )
+            {
+                // fail
+                log.error( e.getMessage(),e);
+            }
         }
     }
 
+    private void deletePermission(Permission permission)
+    {
+        log.info("deleting permission *");
+        if (role != null) {
+            try
+            {
+                log.info("deleting permission "+ permission.getName());
+                permissionManager.removePermission(  permission );
+            }
+            catch ( Exception e )
+            {
+                // fail
+                log.error( e.getMessage(),e);
+            }
+        }
+    }
+    
+    private void deleteGroup(Group group)
+    {
+        log.info("deleting group *");
+        if (role != null) {
+            try
+            {
+                log.info("deleting group "+ group.getName());
+                groupManager.removeGroup(  group );
+            }
+            catch ( Exception e )
+            {
+                // fail
+                log.error( e.getMessage(),e);
+            }
+        }
+    }
 }
