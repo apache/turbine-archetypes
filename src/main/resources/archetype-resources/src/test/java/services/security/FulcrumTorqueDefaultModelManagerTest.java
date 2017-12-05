@@ -33,7 +33,7 @@ import org.junit.Ignore;
  * @author gkallidis
  * @version $Id$
  */
-public class TurbineTorqueDefaultModelManagerTest
+public class FulcrumTorqueDefaultModelManagerTest
     extends AbstractTurbineTorqueModelManagerTest
 {
 
