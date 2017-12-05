@@ -56,7 +56,7 @@ import org.slf4j.LoggerFactory;
  * @version $Id$
  * 
  */
-public abstract class AbstractTurbineTorqueModelManagerTest extends BaseUnit4Test
+public abstract class AbstractFulcrumTorqueModelManagerTest extends BaseUnit4Test
 {
     protected Role role;
 

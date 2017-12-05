@@ -123,7 +123,7 @@ action.login=LoginUser in TurbineResources.properties and changing Login.vm appr
 ## Tests
 
 Prerequisites
-- at least Turbine version 4.0.1 
+- ignored tests require at least Turbine version 4.0.1 
 - database was build successfully e.g. with archetype.
 - running mysql
 
