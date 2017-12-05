@@ -34,7 +34,7 @@ import org.junit.Ignore;
  * @version $Id$
  */
 public class FulcrumTorqueDefaultModelManagerTest
-    extends AbstractTurbineTorqueModelManagerTest
+    extends AbstractFulcrumTorqueModelManagerTest
 {
 
     @Override
