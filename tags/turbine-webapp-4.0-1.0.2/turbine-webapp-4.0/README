@@ -1,0 +1,5 @@
+If you get that goal integration-test of maven-archetype-plugin fails with 
+
+'Cannot run additions goals." cft. https://issues.apache.org/jira/browse/ARCHETYPE-488.
+
+Fastest workaround (Dez 2016) ist to copy  mvn.cmd to mvn.bat.
