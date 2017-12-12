@@ -184,7 +184,7 @@ under the License.
             <dependency>
               <artifactId>mysql-connector-java</artifactId>
               <groupId>mysql</groupId>
-              <version>5.1.40</version>
+              <version>5.1.44</version>
             </dependency>
           </dependencies>
           <!-- this is mysql specific -->
@@ -374,8 +374,8 @@ under the License.
         <maven.compile.target>1.6</maven.compile.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <fulcrum.json>1.1.1</fulcrum.json>
-        <fulcrum.security>1.1.1</fulcrum.security>
-        <turbine.core>4.0</turbine.core>
+        <fulcrum.security>1.1.2-SNAPSHOT</fulcrum.security>
+        <turbine.core>4.0.1-SNAPSHOT</turbine.core>
         <slf4j.version>1.7.25</slf4j.version>
         <skipTests>true</skipTests>
     </properties>
