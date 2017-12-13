@@ -100,6 +100,13 @@
       </includes>
     </fileSet>
     <fileSet filtered="true" packaged="false" encoding="UTF-8">
+      <directory>src/main/webapp/META-INF</directory>
+      <includes>
+        <include>**/*.xml</include>
+        <include>**/*.properties</include>
+      </includes>
+    </fileSet>
+    <fileSet filtered="true" packaged="false" encoding="UTF-8">
       <directory>src/main/webapp/WEB-INF</directory>
       <includes>
         <include>**/*.xml</include>
