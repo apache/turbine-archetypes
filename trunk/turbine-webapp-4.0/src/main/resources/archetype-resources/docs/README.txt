@@ -174,5 +174,5 @@ Be aware of settings and some smaller restrictions, which mostly will be fixed i
 - LoginUser action is included (to check for anonymous user, may be fixed in future release)
 - OM (Torque Object Mapper) stub classes are included (until configurable in schema with Torque version 2.1)
 - TurbineConfiguration returns a Commons configuration object, even if field is not assignable (will be fixed in Turbine 4.0, you can then assign e.g. to String instead, cft. SecureScreen)
-- Database connection is done initially by default with JNDI. If you want to change it, check Torque.properties and jetty-env.xml.  
+- Database connection is done initially by default with JNDI. If you want to change it, check Torque.properties and (1) for Tomcat, META-INF/context.xml or (2) for Jetty, WEB-INF/jetty-env.xml.  
 
