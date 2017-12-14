@@ -22,10 +22,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.apache.fulcrum.security.ModelManager;
 import org.apache.fulcrum.security.entity.ExtendedUser;
 import org.apache.fulcrum.security.entity.Group;
 import org.apache.fulcrum.security.entity.Permission;
 import org.apache.fulcrum.security.entity.Role;
+import org.apache.fulcrum.security.model.turbine.TurbineAccessControlList;
 import org.apache.fulcrum.security.model.turbine.TurbineModelManager;
 import org.apache.fulcrum.security.model.turbine.entity.TurbineUser;
 import org.apache.fulcrum.security.model.turbine.entity.TurbineUserGroupRole;
@@ -38,9 +40,9 @@ import org.apache.turbine.annotation.AnnotationProcessor;
 import org.apache.turbine.annotation.TurbineService;
 import org.apache.turbine.om.security.DefaultUserImpl;
 import org.apache.turbine.om.security.User;
-import org.apache.turbine.services.security.SecurityService;
 import org.apache.turbine.services.ServiceManager;
 import org.apache.turbine.services.TurbineServices;
+import org.apache.turbine.services.security.SecurityService;
 import org.apache.turbine.util.TurbineConfig;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -67,6 +69,8 @@ public class TurbineSecurityServiceTest
     SecurityService turbineSecurityService;
 
     static TurbineConfig tc;
+    
+    ModelManager modelManager;
 
     boolean onDeleteCascade = true;
 
@@ -90,17 +94,18 @@ public class TurbineSecurityServiceTest
         
         ServiceManager serviceManager = TurbineServices.getInstance();
         fulcrumSecurityService = (org.apache.fulcrum.security.SecurityService) serviceManager.getService( org.apache.fulcrum.security.SecurityService.ROLE );
+        
 //      setConfigurationFileName("src/test/conf/torque/fulcrumComponentConfiguration.xml");
 //      setRoleFileName("src/test/conf/torque/fulcrumRoleConfiguration.xml");
 //      fulcrumSecurityService  = (org.apache.fulcrum.security.SecurityService) lookup(org.apache.fulcrum.security.SecurityService.ROLE);
-//
+//      factory = (ACLFactory) lookup(ACLFactory.ROLE);
+//      modelManager  = (TurbineModelManager) lookup(TurbineModelManager.ROLE);
     }
 
     @Test
     public void testAccountExists()
         throws Exception
     {
-
         // User user = new org.apache.turbine.om.security.DefaultUserImpl(new TurbineUserImpl());
         User user = turbineSecurityService.getUserInstance();
         user.setAccessCounter( 5 );
@@ -184,7 +189,6 @@ public class TurbineSecurityServiceTest
             group = turbineSecurityService.addGroup( group ); // assign here to delete later as
             role = turbineSecurityService.getRoleInstance( "TEST_Role" );
             role = turbineSecurityService.addRole( role );
-
             // Turbine security service returns a wrapped instance: org.apache.turbine.om.security.DefaultUserImpl
             // which implements org.apache.turbine.om.security.User
             user = turbineSecurityService.getUserInstance( "Clint" );
@@ -206,8 +210,15 @@ public class TurbineSecurityServiceTest
             existingRole = turbineSecurityService.getRoleByName( "turbineadmin" );
             turbineSecurityService.grant( user, existingGroup, existingRole );
             assertTrue( user.getUserGroupRoleSet().size() == 3 );
+
+            TurbineAccessControlList tacl = turbineSecurityService.<TurbineAccessControlList>getACL( user );
+            
+            assertTrue(tacl.hasRole( existingRole, existingGroup ) );
+            assertTrue(tacl.hasRole( "turbineuser" ));
+            
             turbineSecurityService.revoke( user, existingGroup, existingRole );
-            user = turbineSecurityService.getUser( "Clint" );
+
+            //user = turbineSecurityService.getUser( "Clint" );
             assertTrue( user.getUserGroupRoleSet().size() == 2 );
             userGroupRoleCheck( group, role, user.getUserDelegate() );
             // compare
@@ -221,8 +232,16 @@ public class TurbineSecurityServiceTest
             userManager.addUser( fulcrumUser, "clint2" );
             ( (TurbineModelManager) fulcrumSecurityService.getModelManager() ).grant( fulcrumUser, group, role );
             userGroupRoleCheck( group, role, fulcrumUser );
+            
+            tacl = turbineSecurityService.getACL( user );
+            // revoked
+            assertFalse(tacl.hasRole( existingRole, existingGroup ) );
+;
+            
+            
         } catch (EntityExistsException e) {
-          // cft. finally   
+          // cft. finally
+            fail();
         } catch (Exception e) {
             log.error( "error" , e);
             fail();
@@ -239,10 +258,14 @@ public class TurbineSecurityServiceTest
                 deleteGroup( group );
             if ( role != null )
                 deleteRole( role );
-
         }
+    }
+    
+    public void testCreatingTurbineACLandModel() throws Exception
+    {
 
     }
+
 
     /**
      * Fulcrum contract check
@@ -254,7 +277,7 @@ public class TurbineSecurityServiceTest
      * @throws DataBackendException
      * @throws UnknownEntityException
      */
-    private void userGroupRoleCheck( Group group, Role role, TurbineUser user )
+    private void userGroupRoleCheck( Group group, Role role, TurbineUser user ) throws DataBackendException
     {
 
         boolean ugrFound = false;
@@ -334,6 +357,7 @@ public class TurbineSecurityServiceTest
                 group = turbineSecurityService.getGroupByName(group.getName() );
             }
             log.info( "deleting group " + group.getName() );
+            
             turbineSecurityService.removeGroup( group );
             group = null;
         }

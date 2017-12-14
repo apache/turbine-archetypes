@@ -77,10 +77,10 @@ public  class TurbineUser
     }
     
     /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$HretrieveAttachedObjects(java.sql.Connection)
+     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$HretrieveAttachedObjects(java.sql.Connection, , Boolean lazy)
      */
     @Override
-	public void retrieveAttachedObjects(Connection con) throws TorqueException
+	public void retrieveAttachedObjects(Connection con, Boolean lazy) throws TorqueException
     {
         Set<TurbineUserGroupRole> userGroupRoleSet = new HashSet<TurbineUserGroupRole>();
 
