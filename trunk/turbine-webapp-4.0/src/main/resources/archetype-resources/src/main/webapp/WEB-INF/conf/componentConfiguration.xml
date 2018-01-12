@@ -130,8 +130,12 @@
      -->
      
      <userManager>
-     <className>${package}.om.TurbineUser</className>
+        <className>${package}.om.TurbineUser</className>
         <peerClassName>${package}.om.TurbineUserPeerImpl</peerClassName>
+        <userGroupRoleManager>
+	        <!-- className>org.apache.fulcrum.security.torque.om.TurbineUserGroupRole</className-->
+	        <peerClassName>${package}.om.TurbineUserGroupRolePeerImpl</peerClassName>
+	    </userGroupRoleManager>
     </userManager>
     <groupManager>
         <className>${package}.om.TurbineGroup</className>
