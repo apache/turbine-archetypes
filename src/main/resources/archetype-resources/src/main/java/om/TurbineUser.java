@@ -75,27 +75,5 @@ public  class TurbineUser
         setEntityName(v);
 
     }
-    
-    /**
-     * @see org.apache.fulcrum.security.torque.TorqueAbstractSecurityEntity$HretrieveAttachedObjects(java.sql.Connection, , Boolean lazy)
-     */
-    @Override
-	public void retrieveAttachedObjects(Connection con, Boolean lazy) throws TorqueException
-    {
-        Set<TurbineUserGroupRole> userGroupRoleSet = new HashSet<TurbineUserGroupRole>();
-
-        List<${package}.om.TurbineUserGroupRole> ugrs = getTurbineUserGroupRoles();
-
-        for (${package}.om.TurbineUserGroupRole ttugr : ugrs)
-        {
-            TurbineUserGroupRole ugr = new TurbineUserGroupRole();
-            ugr.setUser(this);
-            ugr.setRole(ttugr.getTurbineRole());
-            ugr.setGroup(ttugr.getTurbineGroup(con));
-            userGroupRoleSet.add(ugr);
-        }
-
-        setUserGroupRoleSet(userGroupRoleSet);
-    }
 
 }

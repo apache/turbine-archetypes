@@ -104,7 +104,7 @@
 
   </table>
 
-  <table name="TURBINE_USER_GROUP_ROLE">
+  <table name="TURBINE_USER_GROUP_ROLE" interface="org.apache.fulcrum.security.torque.peer.TurbineUserGroupRoleModelPeerMapper">
     <column name="USER_ID" required="true" primaryKey="true" type="INTEGER"/>
     <column name="GROUP_ID" required="true" primaryKey="true" type="INTEGER"/>
     <column name="ROLE_ID" required="true" primaryKey="true" type="INTEGER"/>
