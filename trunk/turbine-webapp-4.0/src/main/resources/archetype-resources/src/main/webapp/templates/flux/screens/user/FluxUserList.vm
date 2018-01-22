@@ -1,0 +1,38 @@
+#set ( $headings = ["Username","First Name", "Last Name", "Email", "Admin" ] )
+
+
+<div class="w3-container w3-padding"> <h2>Current Users</h2>  </div>
+
+<table class="w3-table w3-striped  w3-bordered">
+	<tr>
+		#foreach ($heading in $headings)
+			<th>$heading</th> 
+		#end
+	</tr>
+
+	#foreach ($user in $flux.getUsers() )
+	<tr>
+		<td>$!user.Name</td>
+		<td>$!user.FirstName</td>
+		<td>$!user.LastName</td>
+		<td><a href=mailto:$!user.Email>$!user.Email</a></td> 
+		<td><a href="$link.setPage("user,FluxUserForm.vm").addQueryData("username","$user.Name").addQueryData("mode","modify")">Details</a>
+			&nbsp; <a href="$link.setPage("user,FluxUserRoleForm.vm").addQueryData("username","$user.Name").addQueryData("mode","modify")">Roles</a>
+			&nbsp; <a href="$link.setPage("user,FluxUserForm.vm").addQueryData("username","$user.Name").addQueryData("mode","delete")">Remove</a>
+		</td>
+	</tr>
+	#end
+
+</table>
+<p>
+		<div class="w3-container w3-padding w3-center">
+			<a class="w3-btn w3-blue w3-round" style="width: 180px;"
+				href="$link.setPage("user,FluxUserForm.vm").addQueryData("mode","insert")">Add
+				New User</a>
+		</div>
+
+#if ($showEmbeddedMenu)
+  <hr size="1" noshade>
+  #parse ("screens/FluxEmbeddedMenu.vm")
+#end
+		
