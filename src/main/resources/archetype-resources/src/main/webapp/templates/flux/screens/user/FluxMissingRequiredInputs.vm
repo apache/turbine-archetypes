@@ -1,0 +1,15 @@
+#*
+@author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+@author <a href="mailto:jeff@jivecast.com">Jeffery Painter</a>
+@version $Id: FluxMissingRequiredInputs.vm,v 1.1.1.1 2017-11-26 23:07:21 painter Exp $
+*#
+
+<div class="w3-panel w3-red">
+The following fields are required and must be entered before
+this request can be processed:
+<ul>
+#foreach ($missingRequiredInput in $missingRequiredInputs)
+	<li>$missingRequiredInput</li>
+#end
+</ul>
+</div>

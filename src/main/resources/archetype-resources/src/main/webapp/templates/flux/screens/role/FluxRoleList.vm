@@ -1,0 +1,42 @@
+#**
+
+Used to display the roles currently being used in
+the application.
+
+*#
+#set ( $headings = ["Role Name"] )
+
+<div class="w3-container w3-padding"> <h2>Current Roles</h2>  </div>
+
+<table class="w3-table w3-striped  w3-bordered">
+        <tr>
+          #foreach ($heading in $headings)
+          <th>$heading</th>
+          #end
+        </tr>
+        
+        #foreach ($role in $flux.Roles)
+	        #if ( $role.Name != "super_admin" )
+	        <tr>
+	        	<td> $role.Name </td>
+	          <td>
+	              <a href="$link.setPage("permission,FluxRolePermissionList.vm").addPathInfo("role",$role.Name)">Permissions</a> &nbsp;
+	              <a href="$link.setPage("role,FluxRoleForm.vm").addPathInfo("role",$role.Name).addQueryData("mode","modify")">Details</a> &nbsp;
+	              <a href="$link.setPage("role,FluxRoleForm.vm").addPathInfo("role",$role.Name).addQueryData("mode","delete")">Remove</a>
+	          </td>
+	        </tr>
+	        #end
+        #end
+        
+</table>
+
+		<div class="w3-container w3-padding w3-center">
+			<a class="w3-btn w3-blue w3-round" style="width: 180px;"
+				href="$link.setPage("role,FluxRoleForm.vm").addQueryData("mode","insert")">Add New Role</a>
+		</div>
+
+
+#if ($showEmbeddedMenu)
+  <hr size="1" noshade>
+  #parse ("screens/FluxEmbeddedMenu.vm")
+#end
