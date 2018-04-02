@@ -1,7 +1,7 @@
 package ${package}.flux.tools;
 
 /*
- * Copyright 2001-2017 The Apache Software Foundation.
+ * Copyright 2001-2018 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,9 @@ import java.util.List;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.fulcrum.pool.Recyclable;
 import org.apache.fulcrum.security.acl.AccessControlList;
 import org.apache.fulcrum.security.entity.Group;
 import org.apache.fulcrum.security.entity.Permission;
@@ -35,7 +38,6 @@ import org.apache.turbine.annotation.TurbineConfiguration;
 import org.apache.turbine.annotation.TurbineService;
 import org.apache.turbine.om.security.User;
 import org.apache.turbine.services.pull.ApplicationTool;
-import org.apache.turbine.services.pull.RunDataApplicationTool;
 import org.apache.turbine.services.security.SecurityService;
 import org.apache.turbine.util.RunData;
 import org.apache.turbine.util.template.SelectorBox;
@@ -43,17 +45,12 @@ import org.apache.turbine.util.template.SelectorBox;
 /**
  * The pull api for flux templates
  *
- * @version $Id: FluxTool.java,v 1.13 2017/11/16 11:24:41 painter Exp $
+ * @version $Id: FluxTool.java,v 1.13 2018/04/02 13:24:41 painter Exp $
  */
-public class FluxTool implements ApplicationTool, RunDataApplicationTool {
+public class FluxTool implements ApplicationTool, Recyclable {
 
-	/** Injected service instance */
-	@TurbineService
-	private SecurityService security;
-
-	/** Injected configuration instance */
-	@TurbineConfiguration
-	private Configuration conf;
+	/** Used for logging */
+	protected static final Log log = LogFactory.getLog(FluxTool.class);
 
 	/** The object containing request specific data */
 	private RunData data;
@@ -70,15 +67,26 @@ public class FluxTool implements ApplicationTool, RunDataApplicationTool {
 	/** A User object for use within the Flux API. */
 	private User user = null;
 
-	public void init(Object data) {
-		this.data = (RunData) data;
+	/** Injected service instance */
+	@TurbineService
+	private SecurityService security;
+
+	/** Injected configuration instance */
+	@TurbineConfiguration
+	private Configuration conf;
+
+	/**
+	 * Constructor
+	 */
+	public FluxTool() {
 	}
 
 	/**
-	 * Constructor does initialization stuff
+	 * Prepares flux tool for a single request
 	 */
-	public FluxTool() {
-
+	@Override
+	public void init(Object runData) {
+		this.data = (RunData) runData;
 	}
 
 	public Group getGroup() throws Exception {
@@ -206,15 +214,12 @@ public class FluxTool implements ApplicationTool, RunDataApplicationTool {
 	}
 
 	/**
+	 * This is a tie to the DB implementation something should be added the
+	 * pluggable pieces to allow decent parameterized searching.
 	 */
 	public SelectorBox getUserFieldList() throws Exception {
-		/**
-		 * This is a tie to the DB implementation something should be added the
-		 * pluggable pieces to allow decent parameterized searching.
-		 */
 
 		Object[] names = { TurbineUserPeer.LOGIN_NAME, TurbineUserPeer.FIRST_NAME, TurbineUserPeer.LAST_NAME };
-
 		Object[] values = { "User Name", "First Name", "Last Name" };
 
 		return new SelectorBox("fieldList", names, values);
@@ -224,26 +229,69 @@ public class FluxTool implements ApplicationTool, RunDataApplicationTool {
 	 * Select all the users and place them in an array that can be used within the
 	 * UserList.vm template.
 	 */
-	@SuppressWarnings("unchecked")
-	public List<User> getUsers() throws Exception {
-		Criteria criteria = new Criteria();
-		String fieldList = data.getParameters().getString("fieldList");
+	public List<User> getUsers() {
+		try {
+			Criteria criteria = new Criteria();
+			String fieldList = data.getParameters().getString("fieldList");
 
-		if (fieldList != null) {
-			// This is completely database centric.
-			String searchField = data.getParameters().getString("searchField");
-			criteria.where(fieldList, searchField, Criteria.LIKE);
+			if (fieldList != null) {
+				// This is completely database centric.
+				String searchField = data.getParameters().getString("searchField");
+				criteria.where(fieldList, searchField, Criteria.LIKE);
+			}
+
+			return (List<User>) security.getUserManager().retrieveList(criteria);
+		} catch (Exception e) {
+			log.error("Could not retrieve user list: " + e.toString());
+			return null;
 		}
-
-		return (List<User>) security.getUserManager().retrieveList(criteria);
 	}
 
-	public void refresh(RunData data) {
-		this.data = data;
-	}
-
+	/**
+	 * Implementation of ApplicationTool interface is not needed for this tool as it
+	 * is request scoped
+	 */
+	@Override
 	public void refresh() {
-		// nothing to do here
+		// empty
 	}
 
+	// ****************** Recyclable implementation ************************
+	private boolean disposed;
+
+	/**
+	 * Recycles the object for a new client. Recycle methods with parameters must be
+	 * added to implementing object and they will be automatically called by pool
+	 * implementations when the object is taken from the pool for a new client. The
+	 * parameters must correspond to the parameters of the constructors of the
+	 * object. For new objects, constructors can call their corresponding recycle
+	 * methods whenever applicable. The recycle methods must call their super.
+	 */
+	@Override
+	public void recycle() {
+		disposed = false;
+	}
+
+	/**
+	 * Disposes the object after use. The method is called when the object is
+	 * returned to its pool. The dispose method must call its super.
+	 */
+	@Override
+	public void dispose() {
+		group = null;
+		role = null;
+		permission = null;
+		user = null;
+		disposed = true;
+	}
+
+	/**
+	 * Checks whether the recyclable has been disposed.
+	 *
+	 * @return true, if the recyclable is disposed.
+	 */
+	@Override
+	public boolean isDisposed() {
+		return disposed;
+	}
 }
