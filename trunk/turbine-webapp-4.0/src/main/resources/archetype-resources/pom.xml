@@ -374,9 +374,9 @@ under the License.
         <maven.compile.target>1.6</maven.compile.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <fulcrum.json>1.1.1</fulcrum.json>
-        <fulcrum.intake>1.2.3-SNAPSHOT</fulcrum.intake>
+        <fulcrum.intake>1.2.3</fulcrum.intake>
         <fulcrum.security>1.1.2</fulcrum.security>
-        <turbine.core>4.0.1-SNAPSHOT</turbine.core>
+        <turbine.core>4.0.1</turbine.core>
         <slf4j.version>1.7.25</slf4j.version>
         <skipTests>true</skipTests>
     </properties>
