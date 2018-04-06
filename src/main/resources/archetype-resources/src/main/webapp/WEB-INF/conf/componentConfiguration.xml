@@ -132,16 +132,16 @@
      <userManager>
         <className>${package}.om.TurbineUser</className>
         <peerClassName>${package}.om.TurbineUserPeerImpl</peerClassName>
-        <userGroupRoleManager>
+        <userGroupRoleManager><!-- using custom peers requires now since fulcrum security 1.1.2 this element -->
 	        <!-- className>org.apache.fulcrum.security.torque.om.TurbineUserGroupRole</className-->
 	        <peerClassName>${package}.om.TurbineUserGroupRolePeerImpl</peerClassName>
 	    </userGroupRoleManager>
     </userManager>
-    <groupManager>
+    <groupManager><!-- might have lazy="true" attribute -->
         <className>${package}.om.TurbineGroup</className>
         <peerClassName>${package}.om.TurbineGroupPeerImpl</peerClassName>
     </groupManager>
-    <roleManager>
+    <roleManager><!-- might have lazy="true" attribute -->
         <className>${package}.om.TurbineRole</className>
         <peerClassName>${package}.om.TurbineRolePeerImpl</peerClassName>
     </roleManager>
