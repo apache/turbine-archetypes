@@ -1,0 +1,63 @@
+#**
+
+@author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+@author <a href="mailto:jeff@jivecast.com">Jeffery Painter</a>
+@version $Id: FluxUserRoleForm.vm,v 1.1.1.1 2017-11-26 23:07:21 painter Exp $
+
+*#
+
+#set ($user = $flux.User)
+#set ($acl = $flux.ACL)
+
+<h2>Roles for $user.FirstName $user.LastName</h2>
+
+<form method="post" action="$link.setAction("user.FluxUserAction").setPage("user,FluxUserList.vm")">
+
+<input type="hidden" name="username" value="$user.Name">
+<table class="w3-table w3-bordered">
+  <tr>
+    <th> &nbsp; </th>
+      
+    #foreach ($role in $flux.Roles)
+      #if ( $role.Name != "super_admin" )
+	    <th>
+	        <b>$role.Name</b>
+	    </th>
+	  #end
+    #end
+  
+  </tr>
+
+
+  #foreach ($group in $flux.Groups)
+  <tr>
+    <td>
+        <b>$group.Name</b>
+    </td>
+
+    #foreach ($role in $flux.Roles)
+	    #if ( $role.Name != "super_admin" )
+		    #if ($acl.hasRole($role, $group))
+		      #set ($checked = "checked")
+		    #else
+		      #set ($checked = "")
+		    #end
+		    
+		    <td align="center">
+		      <input type="checkbox" class="w3-checkbox" name="${group.Name}${role.Name}" $checked>
+		    </td>
+		#end
+    #end
+    
+  </tr>
+  #end
+  
+  <tr>
+    <td>
+        <input type="submit" name="eventSubmit_doRoles" value="Update Roles">
+    </td>
+  </tr>
+
+</table>
+
+</form>

@@ -1,0 +1,43 @@
+#**
+
+@author <a href="mailto:jeff@jivecast.com">Jeffery Painter</a>
+@author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+@version $Id: FluxGroupList.vm,v 1.1.1.1 2017-11-26 23:07:21 painter Exp $
+
+*#
+
+$page.setTitle("Group Adminstration")
+$page.setBgColor($ui.bgcolor)
+
+#set ( $headings = ["Group Name"] )
+
+<div class="w3-container w3-padding"> <h2>Current Groups</h2>  </div>
+
+<table class="w3-table w3-striped  w3-bordered">
+	<tr>
+	#foreach ($heading in $headings)
+		<th>$heading</th>
+	#end
+	</tr>
+        
+	#foreach ($group in $flux.Groups)
+	<tr>
+		<td>$group.Name</td>
+		<td>
+			<a href="$link.setPage("group,FluxGroupForm.vm").addPathInfo("group",$group.Name).addQueryData("mode","modify")">Details</a> &nbsp;
+			<a href="$link.setPage("group,FluxGroupForm.vm").addPathInfo("group",$group.Name).addQueryData("mode","delete")">Remove</a>
+		</td>
+	</tr>
+	#end
+</table>
+
+
+<div class="w3-container w3-padding w3-center">
+	<a class="w3-btn w3-blue w3-round" style="width: 180px;"
+		href="$link.setPage("group,FluxGroupForm.vm").addQueryData("mode","insert")">Add Group</a>
+</div>
+
+#if ($showEmbeddedMenu)
+  <hr size="1" noshade>
+  #parse ("screens/FluxEmbeddedMenu.vm")
+#end

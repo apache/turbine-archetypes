@@ -1,0 +1,13 @@
+#*
+
+@author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+@author <a href="mailto:jeff@jivecast.com">Jeffery Painter</a>
+@version $Id: FluxUserAlreadyExists.vm,v 1.1.1.1 2017-11-26 23:07:21 painter Exp $
+
+*#
+
+<div class="w3-panel w3-red">
+The username <b>$username</b> is currently is use. Usernames
+must be unique for all users, please choose another username.
+</div>
+

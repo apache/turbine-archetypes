@@ -1,0 +1,15 @@
+#**
+
+@author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+@version $Id: FluxIndex.vm,v 1.1.1.1 2003-06-19 23:07:21 painter Exp $
+
+*#
+
+$page.setBgColor($ui.bgcolor)
+$page.setTitle("Home Page")
+
+<font face="$ui.sansSerifFonts">
+
+This is the administration application.
+
+</font>

@@ -1,0 +1,13 @@
+#**
+
+@author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+@author <a href="mailto:jeff@jivecast.com">Jeffery Painter</a>
+@version $Id: FluxGroupAlreadyExists.vm,v 1.1.1.1 2017-11-26 23:07:21 painter Exp $
+
+*#
+
+<div class="w3-panel w3-red">
+The group name <b>$name</b> is currently is use. Group names
+must be unique, please choose another group name.
+</div>
+

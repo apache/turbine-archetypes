@@ -1,0 +1,51 @@
+## Licensed to the Apache Software Foundation (ASF) under one
+## or more contributor license agreements.  See the NOTICE file
+## distributed with this work for additional information
+## regarding copyright ownership.  The ASF licenses this file
+## to you under the Apache License, Version 2.0 (the
+## "License"); you may not use this file except in compliance
+## with the License.  You may obtain a copy of the License at
+##
+##   http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing,
+## software distributed under the License is distributed on an
+## "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+## KIND, either express or implied.  See the License for the
+## specific language governing permissions and limitations
+## under the License. 
+   <div id="tabs" class="no-js">
+  #foreach ($author in $authors)
+    <div class="tabs-nav-container">
+      <a href="#" class="tabs-nav #if($velocityCount ==1)is-active#end">$author.firstName $author.lastName</a>
+    </div>
+  #end
+  #foreach ($author in $authors)
+     <div class="tab #if($velocityCount ==1)is-active#end">
+       <div class="tab-content"> 
+        <section>
+            <header>Author´s Book Record Box</header>
+            <nav>$author.firstName $author.lastName</nav>
+            #set($books = $author.books)
+             <main> 
+               #foreach ($book in $books)
+               <book><a href="#">
+                $book.title 
+               </a>  (subject: $book.subject)
+               </book>
+               #end
+              </main>
+              <footer>$velocityCount</footer>
+        </section>
+        </div>
+    </div>
+  #end
+  
+   </div>
+   
+    <p>Authors: $authors.size()</p>
+   
+   <script>
+  /* 
+  */
+</script>

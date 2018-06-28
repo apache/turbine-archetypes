@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+-->
+<web-app id="WebApp_ID" version="2.5" 
+    xmlns="http://java.sun.com/xml/ns/j2ee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+<!-- ======================================================================== -->
+<!--                                                                          -->
+<!-- Web Application descriptor                                               -->
+<!--                                                                          -->
+<!-- ======================================================================== -->
+
+<!-- ======================================================================== -->
+<!--                                                                          -->
+<!-- Uncomment the following block if you want to use the Session Service     -->
+<!--                                                                          -->
+<!-- ======================================================================== -->
+<!--
+  <listener>
+    <listener-class>org.apache.turbine.services.session.SessionListener</listener-class>
+  </listener>
+-->
+
+  <servlet>
+    <description>${turbine_app_name}</description>
+    <servlet-name>Turbine</servlet-name>
+    <servlet-class>org.apache.turbine.Turbine</servlet-class>
+    <init-param>
+      <param-name>applicationRoot</param-name>
+      <param-value>webContext</param-value>
+    </init-param>
+    <init-param>
+      <param-name>loggingRoot</param-name>
+      <param-value>/.</param-value>
+    </init-param>
+    <init-param>
+      <param-name>properties</param-name>
+      <param-value>WEB-INF/conf/TurbineResources.properties</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Turbine</servlet-name>
+    <url-pattern>/app/*</url-pattern>
+  </servlet-mapping>
+
+<!-- ======================================================================== -->
+<!--                                                                          -->
+<!-- Redirect the home page of the application to the turbine servlet         -->
+<!--                                                                          -->
+<!-- ======================================================================== -->
+
+  <welcome-file-list>
+    <welcome-file>app</welcome-file>
+  </welcome-file-list>
+  
+  
+ <!-- ======================================================================== -->
+<!--                                                                          -->
+<!-- JNDI Ressource                                                           -->
+<!-- ======================================================================== -->
+  
+   <resource-ref>
+    <res-ref-name>${turbine_database_jndipath}</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+
+<!-- ======================================================================== -->
+<!--                                                                          -->
+<!-- Make sure that templates and logs are not available through              -->
+<!-- the servlet container. Remove security constraints or add an authen-     -->
+<!-- tication role if you need access to these paths.                         -->
+<!--                                                                          -->
+<!-- ======================================================================== -->
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>templates</web-resource-name>
+      <url-pattern>/templates/*</url-pattern>
+    </web-resource-collection>
+    <web-resource-collection>
+      <web-resource-name>logs</web-resource-name>
+      <url-pattern>/logs/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint/>
+  </security-constraint>
+</web-app>

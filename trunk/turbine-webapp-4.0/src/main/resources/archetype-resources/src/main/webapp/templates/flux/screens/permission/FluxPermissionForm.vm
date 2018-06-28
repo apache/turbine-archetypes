@@ -1,0 +1,48 @@
+#**
+
+@author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+@version $Id: FluxPermissionForm.vm,v 1.1.1.1 2003-06-19 23:07:21 painter Exp $
+
+*#
+
+#if ($errorTemplate)
+	#parse ($errorTemplate)
+#end
+
+<form 
+	method="post" 
+	action="$link.setPage("permission,FluxPermissionList.vm").setAction("permission.FluxPermissionAction")">
+  
+	<table class="w3-table w3-striped  w3-bordered">
+      <tr>
+        #formCell ("Permission Name" "permission" $!flux.Permission.Name)
+      </tr>
+	</table>
+
+
+          #*
+            Check for a mode, the update and delete buttons
+            shouldn't appear when inserting a new user.
+          *#
+
+          #if ($flux.Mode == "modify")
+            <input type="hidden" name="oldName" value="$!flux.Permission.Name">
+			<div class="w3-container w3-padding w3-center">
+            	<input class="w3-btn w3-blue w3-round" style="width: 180px;" type="submit" name="eventSubmit_doUpdate" value="Update Permission"/>
+            </div>
+          #elseif ($flux.Mode == "delete")
+			<div class="w3-container w3-padding w3-center">
+            	<input class="w3-btn w3-blue w3-round" style="width: 180px;" type="submit" name="eventSubmit_doDelete" value="Confirm Deletion"/>
+			</div>
+          #else
+			<div class="w3-container w3-padding w3-center">
+            	<input class="w3-btn w3-blue w3-round" style="width: 180px;" type="submit" name="eventSubmit_doInsert" value="Add Permission"/>
+			</div>
+          #end
+
+</form>
+
+#if ($showEmbeddedMenu)
+  <hr size="1" noshade>
+  #parse ("screens/FluxEmbeddedMenu.vm")
+#end

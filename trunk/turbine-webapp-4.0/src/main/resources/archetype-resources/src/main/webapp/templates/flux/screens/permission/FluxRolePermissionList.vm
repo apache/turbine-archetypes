@@ -1,0 +1,56 @@
+#** 
+
+This template is used to display the permissions
+for a role.
+
+@author <a href="mailto:jeff@jivecast.com">Jeffery Painter</a>
+@author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+@version $Id: FluxRolePermissionForm.vm,v 1.1.1.1 2017-11-26 23:07:21 painter Exp $
+
+*#
+
+#set ( $role = $flux.Role )
+
+## Load permissions
+#set ( $permissions = $flux.Permissions )
+<h2>Permissions for the $role.Name role</h2>
+
+<form method="post" action="$link.setAction("role.FluxRoleAction").setPage("role,FluxRoleList.vm")">
+
+	<input type="hidden" name="role" value="$role.Name">
+
+	<table class="w3-table w3-bordered">
+		<tr>
+			<th> Permission </th>
+			<th> Assign to Role </th>
+		</tr>
+		
+		#foreach ($permission in $permissions)
+		<tr>
+		    <td align="right"> <b>$!permission.Name</b> </td>
+			<td align="center">
+			#if ($role.Permissions.contains($permission))
+		      #set ($checked = "checked")
+		    #else
+		      #set ($checked = "")
+		    #end
+				<input type="checkbox" name="${role.Name}${permission.Name}" $checked>
+			</td>
+	  </tr>
+	  #end
+	  
+	  <tr>
+	    <td>
+	        <input class="w3-button w3-blue" type="submit" name="eventSubmit_doPermissions" value="Update Permissions">
+	    </td>
+	  </tr>
+	</table>  
+	
+</form>
+  
+#if ($showEmbeddedMenu)
+    <hr size="1" noshade>
+    #parse ("screens/FluxEmbeddedMenu.vm")
+#end
+  
+
