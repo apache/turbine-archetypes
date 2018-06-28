@@ -1,0 +1,151 @@
+## Licensed to the Apache Software Foundation (ASF) under one
+## or more contributor license agreements.  See the NOTICE file
+## distributed with this work for additional information
+## regarding copyright ownership.  The ASF licenses this file
+## to you under the Apache License, Version 2.0 (the
+## "License"); you may not use this file except in compliance
+## with the License.  You may obtain a copy of the License at
+##
+##   http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing,
+## software distributed under the License is distributed on an
+## "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+## KIND, either express or implied.  See the License for the
+## specific language governing permissions and limitations
+## under the License.
+
+##
+## $Id: TurbineMacros.vm 222027 2016-10-20 16:11:37Z painter $
+##
+## Put your Application macros in this file.
+##
+
+#* ------------------------------------------------------------------
+#    Global Macros
+*# ------------------------------------------------------------------
+
+#* ------------------------------------------------------------------
+#    Drop down select option for yes/no questions
+*# ------------------------------------------------------------------
+#macro (selectYesNo $label $selection)
+	<select name="$label">
+		#if ( $selection == "true" )
+			<option value="1" selected>Yes</option>
+			<option value="0">No</option>
+		#else
+			<option value="1">Yes</option>
+			<option value="0" selected>No</option>
+		#end
+	</select>
+#end
+
+
+#* ------------------------------------------------------------------
+#    Standard action form controls - Using w3.css styling
+*# ------------------------------------------------------------------
+
+#macro (insert)
+    <input type="submit" name="eventSubmit_doInsert" value="Insert"/>
+#end
+
+#macro (save)
+    <input type="submit" name="eventSubmit_doUpdate" value="Update"/>
+#end
+
+#macro (remove)
+    <input type="submit" name="eventSubmit_doDelete" value="Remove"/>
+#end
+
+
+#macro (warning $msg)
+<div class="w3-panel w3-orange w3-card-8">
+	$msg
+</div>
+#end
+
+#macro (error $msg)
+<div class="w3-panel w3-red w3-card-8">
+	$msg
+</div>
+#end
+
+#macro(info $msg)
+<div class="w3-panel w3-blue w3-card-8">
+	$msg
+</div>
+#end
+
+
+#* ------------------------------------------------------------------
+#
+# Macros that are used for displaying input forms. Using w3.css styling
+#
+*# ------------------------------------------------------------------
+
+#macro (formLabel $label)
+	<label>$!label</label>
+#end
+
+#macro (fileUpload $label $name)
+	<label>$!label</label>
+	<input class="w3-input" type="file" name="$!name">
+#end
+
+#macro (formCheckBox $label $name $checked)
+   #formLabel( $label )
+   #checkBox( $name $checked )
+#end
+
+#macro (checkBox $name $checked)
+	<input id="$!name" class="w3-check" type="checkbox" checked="$!checked">
+#end
+
+#macro (formLabelRequired $label)
+	<label class="w3-label w3-validate">$!label</label>
+#end
+
+#macro (formTextField $name $value)
+	<input class="w3-input" type="text" name="$!name" value="$!value">
+#end
+
+#macro (smallFormTextField $name $value)
+	<input class="w3-input" type="text" name="$!name" value="$!value">
+#end
+
+#macro (textField $name $value)
+	<input class="w3-input" type="text" name="$!name" value="$!value">
+#end
+
+#macro (textareaField $label $name $value)
+	<p>
+		<label class="w3-label">$label</label>
+		<textarea class="w3-input" style="width:90%" rows="6" name="$name" required>$!value</textarea>
+	</p>
+	
+#end
+
+#macro (formPasswordCell $label $name $value)
+	<p>
+	#formLabel( $label )
+	<input class="w3-input" type="password" name="$!name" value="$!value">
+	</p>
+#end
+
+#macro (formCellRequired $label $name $value)
+	<p>
+	  #formLabelRequired($label)
+  	  #formTextField($name $value)
+  	</p>
+#end
+
+#macro (formCell $label $name $value)
+  #formLabel($label)
+  #formTextField($name $value)
+#end
+
+#macro (smallFormCell $label $name $value)
+  #formLabel($label)
+  #smallFormTextField($name $value)
+#end
+

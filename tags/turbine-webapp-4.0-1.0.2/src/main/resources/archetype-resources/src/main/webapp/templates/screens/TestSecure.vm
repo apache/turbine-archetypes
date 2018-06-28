@@ -1,0 +1,27 @@
+#if ( $data.getMessage() )
+	#info( $data.getMessage() )
+#end
+
+## its null for anon 
+#if ( $!related.getUserrole() )
+<h1> Secured #if ($!user) User#else Role #end Access Page </h1>
+     #if ($!user && $!success)<div align="center"><h1>$success</h1></div>#end
+     <p>   
+          #if ($user)
+             Hi "$user.firstName, $user.lastName"
+          #else
+          Role: $related.getUserrole()
+          #end
+         <script type="text/javascript">
+          var jsonObject;
+          #if ($user)
+           jsonObject = $related.getJson($user,"org.apache.turbine.om.security.User", null, true,"lastLogin", "permStorage");
+           if (jsonObject != undefined && jsonObject.permStorage == undefined) {
+              alert("successfully read JSON:" + jsonObject.lastLogin);
+           } else {
+              alert("error json object not as expected" + JSON.stringify(jsonObject));
+           }
+         #end
+        </script>
+     </p>
+#end

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+-->
+<document>
+  <properties>
+    <title>Changes</title>
+    <author email="tv@apache.org">Thomas Vandahl</author>
+  </properties>
+
+  <body>
+    <release version="1.0.2" date="in Subversion">
+      <action type="update" dev="gk" due-to="Jeffery Painter">
+         Added security test to show Turbine Fulcrum Torque consistency
+      </action>
+      <action type="fix" dev="gk" due-to="Jeffery Painter">
+         Fix OM classes and schema, SQL autoincrement by default used
+      </action>
+      <action type="update" dev="gk">
+        war plugin 3.2, mysql connector 5.1.44 Update
+      </action>
+      <action type="update" dev="gk">
+        Integrate JSON, Localization, Model Examples
+      </action>
+      <action type="update" dev="gk">
+        Using Torque Services, Code Cleanup, Removing Classes
+      </action>
+      <action type="update" dev="gk">
+        Turbine 4.0, JUNit 4.12
+      </action>
+    </release> 
+   <release version="1.0.1" date="in Subversion">
+       <action dev="gk" type="add">
+       Password change action, Check anonymous login
+      </action>
+      <action dev="gk" type="update">
+       JNDI Jetty Update
+      </action>
+      <action dev="tv" type="add">
+       Add testing in place with "integration-test"
+      </action>
+      <action dev="tv" type="update">
+       Turbine annotations, use auto detect Torque adapter
+      </action>
+       <action dev="gk" type="update">
+       Fulcrum Torque Security added manager, om classes
+      </action>
+      <action dev="painter" type="add">
+       Added readme, docs, helper sql..
+      </action>
+       <action dev="painter" type="update">
+       MySQL is now default
+      </action>
+      <action dev="gk" type="update">
+       Update schema to torque / intake 4.0, dependencies, configurations
+       Update to MemoryGroupManagerImpl, Fulcrum     
+      </action>
+      <action dev="gk" type="add">
+        Jetty support
+      </action>
+      <action dev="tv" type="fix">
+        TRB-95
+      </action>
+      <action dev="gk" type="update ">
+        Update to Turbine 4-M2
+      </action>
+    </release>
+    <release version="1.0.0" date="2012-11-06">
+      <action dev="tv" type="fix">
+        Fixed missing dependencies and wrong class names as reported on the mailing list
+      </action>
+      <action dev="tv" type="add">
+        Add information required for a release to the POM
+      </action>
+      <action dev="tv" type="add">
+        Initial version
+      </action>
+    </release>
+  </body>
+</document>

@@ -1,0 +1,42 @@
+#**
+
+@author <a href="mailto:jeff@jivecast.com">Jeffery Painter</a>
+@author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+@version $Id: FluxPermissionList.vm,v 1.1.1.1 2017-11-26 23:07:21 painter Exp $
+
+*#
+
+## Load permissions
+#set ( $permissions = $flux.Permissions )
+
+<h2>All Permissions</h2>
+
+#set ( $headings = ["Permission Name"] )
+
+<table class="w3-table w3-bordered">
+        <tr>
+          #foreach ($heading in $headings)
+          <th>$heading</th>
+          #end
+        </tr>
+  
+        #foreach ($permission in $permissions )
+        <tr>
+          <td> $permission.Name </td>
+          <td>
+              <a href="$link.setPage("permission,FluxPermissionForm.vm").addPathInfo("permission",$permission.Name).addQueryData("mode","modify")">Details</a> &nbsp;
+              <a href="$link.setPage("permission,FluxPermissionForm.vm").addPathInfo("permission",$permission.Name).addQueryData("mode","delete")">Remove</a>
+          </td>
+        </tr>
+        #end
+</table>
+
+<div class="w3-container w3-padding w3-center">
+	<a class="w3-btn w3-blue w3-round" style="width: 180px;"
+		href="$link.setPage("permission,FluxPermissionForm.vm").addQueryData("mode","insert")">Add New Permission</a>
+</div>
+
+#if ($showEmbeddedMenu)
+  <hr size="1" noshade>
+  #parse ("screens/FluxEmbeddedMenu.vm")
+#end

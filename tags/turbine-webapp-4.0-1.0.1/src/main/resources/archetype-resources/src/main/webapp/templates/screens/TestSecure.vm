@@ -1,0 +1,5 @@
+#if ( $data.getMessage() )
+	#info( $data.getMessage() )
+#end
+
+<h1> Secured Access Page </h1>

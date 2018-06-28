@@ -1,0 +1,66 @@
+#**
+
+Display the details of a user.
+
+@author <a href="mailto:jeff@jivecast.com">Jeffery Painter</a>
+@author <a href="mailto:jvanzyl@periapt.com">Jason van Zyl</a>
+@version $Id: FluxUserForm.vm,v 1.10 2017-11-17 19:21:40 painter Exp $
+
+*#
+
+<!-- Primary edit screen -->
+<form 
+    name="user" 
+    method="post" 
+    action="$link.setAction("user.FluxUserAction").setPage("user,FluxUserList.vm")">
+	
+	#set ( $user = $flux.User )
+	
+	<div class="w3-container w3-padding w3-gray">
+			
+		<div class="w3-row-padding">
+	
+			<!-- User Info -->
+			<div class="w3-half">
+				<div class="w3-card-8 w3-padding w3-white">
+					<div id="newUser" style="display: block;">
+					<h2>User Details</h2>
+					#formCell( "Username" "username" $!user.Name ) 
+		            #formCell( "First Name" "firstName" $!user.FirstName ) 
+		            #formCell( "Last Name" "lastName" $!user.LastName ) 
+		            #formCell( "Email" "email" $!user.Email ) 
+					</div>
+				</div>
+			</div>
+			<div class="w3-half">				
+				<div id="userPassword" class="w3-card-8 w3-padding w3-white">
+					<h2>Password</h2>
+					
+					<p>
+						Password required for user to login. If you are just 
+						updating a user's details, leave the password field 
+						blank, otherwise, new password will be set 
+					
+					#formPasswordCell( "New Password" "password" "" )
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<p>
+	#if ($flux.Mode == "modify")
+		<input type="submit" name="eventSubmit_doUpdate" value="Update User">
+	#elseif ($flux.Mode == "delete")
+		<input type="submit" name="eventSubmit_doDelete" value="Delete User">
+	#else
+		<input type="submit" name="eventSubmit_doInsert" value="Add User">
+	#end
+                
+    <p>
+    
+    #if ($showEmbeddedMenu)
+        <hr size="1" noshade>
+        #parse ("screens/FluxEmbeddedMenu.vm")
+    #end
+
+</form>

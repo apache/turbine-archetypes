@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+#*
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+*#
+
+<!-- ======================================================================== -->
+<!--                                                                          -->
+<!--  Default Intake file for Turbine Skeleton                                -->
+<!--                                                                          -->
+<!-- $Id: intake.xml 615350 2008-01-25 21:28:10Z tv $                         -->
+<!--                                                                          -->
+<!-- ======================================================================== -->
+
+<input-data xmlns="http://turbine.apache.org/schema/intake/4.0"
+    basePackage="${package}.">
+    <group name="example" key="example" mapToObject="om.Table1">
+        <field name="TestCol2" key="testCol2" type="String"/>
+    </group>
+    <group name="Login" key="login">
+    <field name="Username" key="u" type="String">
+      <!-- l10n keys -->
+      <rule name="required" value="true">username_required_msg</rule>
+      <rule name="minLength" value="4">username_min_length_msg</rule>
+      <!--rule name="mask" value=".+@.+\..+">username_mask_msg</rule-->
+    </field>
+    <field name="Password" key="p" type="String">
+      <rule name="required" value="true">password_msg</rule>
+    </field>
+</group>
+</input-data>
