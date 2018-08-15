@@ -267,8 +267,8 @@ under the License.
       </dependency>
       <dependency>
           <groupId>javax.servlet</groupId>
-          <artifactId>servlet-api</artifactId>
-          <version>2.5</version>
+          <artifactId>javax.servlet-api</artifactId>
+          <version>3.0.1</version>
           <scope>provided</scope>
       </dependency>
       <dependency>
@@ -370,13 +370,13 @@ under the License.
     </dependencies>
 
     <properties>
-        <maven.compile.source>1.6</maven.compile.source>
-        <maven.compile.target>1.6</maven.compile.target>
+        <maven.compile.source>1.8</maven.compile.source>
+        <maven.compile.target>1.8</maven.compile.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <fulcrum.json>1.1.1</fulcrum.json>
         <fulcrum.intake>1.2.3</fulcrum.intake>
         <fulcrum.security>1.1.2</fulcrum.security>
-        <turbine.core>4.0.1</turbine.core>
+        <turbine.core>5.0-SNAPSHOT</turbine.core>
         <slf4j.version>1.7.25</slf4j.version>
         <skipTests>true</skipTests>
     </properties>
