@@ -5,7 +5,7 @@
     <Arg>
         <New class="org.apache.commons.dbcp.BasicDataSource">
            <Set name="driverClassName">${turbine_database_driver}</Set>
-            <Set name="url">${turbine_database_url}${turbine_database_name}</Set>
+            <Set name="url">${turbine_database_url}${turbine_database_name}?serverTimezone=${turbine_database_timezone}</Set>
             <Set name="username">${turbine_database_user}</Set>
             <Set name="password">${turbine_database_password}</Set>
             <Set name="validationQuery">SELECT 1</Set>

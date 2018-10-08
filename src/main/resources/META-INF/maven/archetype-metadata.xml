@@ -40,10 +40,13 @@
       <defaultValue>jdbc/turbine</defaultValue>
     </requiredProperty>
     <requiredProperty key="turbine_database_driver">
-      <defaultValue>com.mysql.jdbc.Driver</defaultValue>
+      <defaultValue>com.mysql.cj.jdbc.Driver</defaultValue>
     </requiredProperty>
     <requiredProperty key="turbine_database_url">
       <defaultValue>jdbc:mysql://localhost:3306/</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="turbine_database_timezone">
+      <defaultValue>UTC</defaultValue>
     </requiredProperty>
     <requiredProperty key="turbine_database_user">
       <defaultValue>db_user</defaultValue>

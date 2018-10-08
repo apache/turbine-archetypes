@@ -29,7 +29,7 @@ import org.apache.turbine.om.security.User;
 import org.apache.turbine.pipeline.PipelineData;
 import org.apache.turbine.services.security.SecurityService;
 import org.apache.velocity.context.Context;
-import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration2.Configuration;
 
 /**
  * This class provides a sample implementation for creating a secured screen

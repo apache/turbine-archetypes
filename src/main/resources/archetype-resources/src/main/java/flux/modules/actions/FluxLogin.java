@@ -21,7 +21,7 @@ package ${package}.flux.modules.actions;
  *
  */
 
-import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.fulcrum.security.util.FulcrumSecurityException;
 import org.apache.fulcrum.security.util.UnknownEntityException;

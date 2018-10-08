@@ -57,6 +57,7 @@ mvn archetype:generate \
   -Dturbine_database_user=db_username \
   -Dturbine_database_password=db_password \
   -Dturbine_database_name=helloworld \
+  -Dturbine_database_timezone=UTC \
   -Dturbine_database_url=jdbc:mysql://localhost:3306/ \
   -Dgoals=generate-sources,pre-integration-test
 

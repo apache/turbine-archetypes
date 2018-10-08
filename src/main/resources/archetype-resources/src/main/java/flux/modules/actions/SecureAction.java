@@ -16,7 +16,7 @@ package ${package}.flux.modules.actions;
  * limitations under the License.
  */
 
-import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration2.Configuration;
 import org.apache.fulcrum.localization.LocalizationService;
 import org.apache.fulcrum.security.model.turbine.TurbineAccessControlList;
 import org.apache.turbine.Turbine;
