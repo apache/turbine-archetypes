@@ -83,7 +83,7 @@ under the License.
              <plugin>
                 <groupId>org.apache.torque</groupId>
                 <artifactId>torque-maven-plugin</artifactId>
-                <version>4.0</version>
+                <version>#var("torque.version")</version>
                 <configuration>
                     <schemaDir>#var("project.basedir")/src/main/torque-schema</schemaDir>
                     <useClasspath>true</useClasspath>
@@ -145,7 +145,7 @@ under the License.
                  <dependency>
                     <groupId>org.apache.torque</groupId>
                     <artifactId>torque-templates</artifactId>
-                    <version>4.0</version>
+                    <version>#var("torque.version")</version>
                   </dependency>
               </dependencies>
           </plugin>
@@ -398,6 +398,7 @@ under the License.
         <maven.compile.source>1.8</maven.compile.source>
         <maven.compile.target>1.8</maven.compile.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+        <torque.version>4.0</torque.version>
         <fulcrum.json>1.1.2-SNAPSHOT</fulcrum.json>
         <fulcrum.intake>2.0.0-SNAPSHOT</fulcrum.intake>
         <fulcrum.security>1.1.3-SNAPSHOT</fulcrum.security>
