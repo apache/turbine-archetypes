@@ -171,7 +171,11 @@ under the License.
           <configuration>
             <!-- Please update with your database configuration -->
             <driver>${turbine_database_driver}</driver>
+
+            <!--  The serverTimezone parameter is required for MySQL.
+            	You may need to remove it for other databases -->
             <url>${turbine_database_url}${turbine_database_name}?serverTimezone=${turbine_database_timezone}</url>
+
             <username>${turbine_database_user}</username>
             <password>${turbine_database_password}</password>
             <onError>continue</onError>
@@ -333,7 +337,7 @@ under the License.
       <dependency>
         <groupId>org.apache.fulcrum</groupId>
         <artifactId>fulcrum-cache</artifactId>
-        <version>1.1.0</version>
+        <version>1.1.1-SNAPSHOT</version>
       </dependency>
        <dependency>
         <groupId>org.apache.fulcrum</groupId>
