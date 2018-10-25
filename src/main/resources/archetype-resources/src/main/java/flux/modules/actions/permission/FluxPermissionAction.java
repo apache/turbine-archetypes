@@ -17,13 +17,13 @@ package ${package}.flux.modules.actions.permission;
  */
 
 import org.apache.commons.configuration2.Configuration;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.fulcrum.security.entity.Role;
 import org.apache.fulcrum.security.torque.om.TurbinePermission;
 import org.apache.fulcrum.security.torque.om.TurbinePermissionPeer;
 import org.apache.fulcrum.security.util.RoleSet;
-import org.apache.fulcrum.yaafi.framework.util.StringUtils;
 import org.apache.torque.criteria.Criteria;
 import org.apache.turbine.annotation.TurbineConfiguration;
 import org.apache.turbine.annotation.TurbineService;

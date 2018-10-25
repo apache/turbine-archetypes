@@ -17,12 +17,12 @@ package ${package}.flux.modules.actions.group;
  */
 
 import org.apache.commons.configuration2.Configuration;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.fulcrum.security.entity.Group;
 import org.apache.fulcrum.security.util.EntityExistsException;
 import org.apache.fulcrum.security.util.UnknownEntityException;
-import org.apache.fulcrum.yaafi.framework.util.StringUtils;
 import org.apache.turbine.annotation.TurbineConfiguration;
 import org.apache.turbine.annotation.TurbineService;
 import org.apache.turbine.pipeline.PipelineData;
