@@ -36,6 +36,15 @@ under the License.
                 <directory>src/main/java</directory>
                 <includes>
                     <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
                 </includes>
             </resource>
             <!-- (target) resource and filtering is not used  at all ? 
@@ -174,7 +183,7 @@ under the License.
 
             <!--  The serverTimezone parameter is required for MySQL.
             	You may need to remove it for other databases -->
-            <url>${turbine_database_url}${turbine_database_name}?serverTimezone=${turbine_database_timezone}</url>
+            <url>${turbine_database_url}${turbine_database_name}?serverTimezone=${turbine_database_timezone}&amp;useSSL=false&amp;verifyServerCertificate=false&amp;requireSSL=false</url>
 
             <username>${turbine_database_user}</username>
             <password>${turbine_database_password}</password>
@@ -236,11 +245,9 @@ under the License.
             <scanIntervalSeconds>10</scanIntervalSeconds>
             <dumpOnStart>true</dumpOnStart>
             <reload>manual</reload>
-            <connectors>
-            <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+            <httpConnector>
               <port>8081</port>
-            </connector>
-            </connectors>
+            </httpConnector>
             <!--webApp>
               <contextPath>/app</contextPath>
             </webApp-->
@@ -250,14 +257,19 @@ under the License.
     </build>
 
     <dependencies>
-    
-    <!-- update with the database driver of your choice -->
-    <dependency>
-      <artifactId>mysql-connector-java</artifactId>
-      <groupId>mysql</groupId>
-      <version>8.0.12</version>
-    </dependency>    
-
+   
+      <!-- update with the database driver of your choice -->
+      <dependency>
+        <artifactId>mysql-connector-java</artifactId>
+        <groupId>mysql</groupId>
+        <version>8.0.12</version>
+      </dependency>
+       <!-- Allow lookup of #var("web:rootDir") in log4j2 file -->
+        <dependency>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-web</artifactId>
+          <version>#var("log4j2.version")</version>
+        </dependency>
         <!-- Required for Java 9 and higher -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
@@ -304,22 +316,7 @@ under the License.
             </exclusion>
           </exclusions>
       </dependency>
-      <!-- slf4j still optional in 4.0 -->
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-       <dependency>     <!-- delegate slf4j to log4j -->
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>${slf4j.version}</version>
-       </dependency>
-       <dependency>     <!-- redirect JCL to slf4j -->
-        <groupId>org.slf4j</groupId>
-        <artifactId>jcl-over-slf4j</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
+      <!-- slf4j already non optional/required  slf4j in T5.0-->
       <dependency>
         <groupId>org.apache.fulcrum</groupId>
         <artifactId>fulcrum-yaafi</artifactId>
@@ -353,6 +350,12 @@ under the License.
         <groupId>org.apache.fulcrum</groupId>
         <artifactId>fulcrum-security-torque</artifactId>
         <version>#var("fulcrum.security")</version>
+        <exclusions>
+         <exclusion><!-- will we mapped in jcl-over-slf4j -->
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.fulcrum</groupId>
@@ -402,12 +405,12 @@ under the License.
         <maven.compile.source>1.8</maven.compile.source>
         <maven.compile.target>1.8</maven.compile.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+        <log4j2.version>2.11.1</log4j2.version>
         <torque.version>4.0</torque.version>
         <fulcrum.json>2.0.0-SNAPSHOT</fulcrum.json>
         <fulcrum.intake>2.0.0-SNAPSHOT</fulcrum.intake>
         <fulcrum.security>1.1.3-SNAPSHOT</fulcrum.security>
         <turbine.core>5.0-SNAPSHOT</turbine.core>
-        <slf4j.version>1.7.25</slf4j.version>
         <skipTests>true</skipTests>
     </properties>
     
@@ -421,12 +424,10 @@ under the License.
                         <groupId>org.mortbay.jetty</groupId>
                         <artifactId>maven-jetty-plugin</artifactId>
                         <configuration>
-                            <connectors>
-                                <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                                    <port>15000</port>
-                                    <maxIdleTime>60000</maxIdleTime>
-                                </connector>
-                            </connectors>
+                          <httpConnector>
+                            <port>8081</port>
+                            <idleTimeout>60000</idleTimeout>
+                          </httpConnector>
                         </configuration>
                     </plugin>
                 </plugins>

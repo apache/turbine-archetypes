@@ -37,10 +37,6 @@
 			<param-value>webContext</param-value>
 		</init-param>
 		<init-param>
-			<param-name>loggingRoot</param-name>
-			<param-value>/.</param-value>
-		</init-param>
-		<init-param>
 			<param-name>properties</param-name>
 			<param-value>WEB-INF/conf/TurbineResources.properties</param-value>
 		</init-param>

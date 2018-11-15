@@ -128,5 +128,11 @@
         <include>**/*</include>
       </includes>
     </fileSet>
+     <fileSet filtered="false" packaged="false">
+        <directory>src/main/webapp/logs</directory>
+        <includes>
+          <include>**/*</include>
+        </includes>
+    </fileSet>
   </fileSets>
 </archetype-descriptor>

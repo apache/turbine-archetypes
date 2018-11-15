@@ -21,9 +21,9 @@ Notice
 
 About this archetype 
 
-Turbine Version: Turbine 4.0. 
+Turbine Version: Turbine 5.0. 
 
-# Quick Guide to using the new Turbine 4.0 maven archetype 
+# Quick Guide to using the new Turbine 5.0 maven archetype 
 for skeleton application generation
 
 ## Local database Setup
@@ -31,7 +31,7 @@ for skeleton application generation
 First, you should have a local database installed and configured prior to 
 beginning the application setup below.
 
-As we are using MySQL bey default you need to create the database in MySQL, e.g. with
+As we are using MySQL by default you need to create the database in MySQL (server version should be at least 5.5, because of new sql driver), e.g. with
 
 mysql -u <user> -p
 mysql> create database helloWorld;
@@ -41,14 +41,14 @@ or other tools. The database should have been started and the database user gran
 
 ## Maven archetype 
 
-Next, you can invoke the Maven archetype for turbine-webapp-4.0 from 
+Next, you can invoke the Maven archetype for turbine-webapp-5.0 from 
 the command line as shown below - please update values starting 
 with 'groupId' as appropriate.
 
 mvn archetype:generate \
   -DarchetypeGroupId=org.apache.turbine \
-  -DarchetypeArtifactId=turbine-webapp-4.0 \
-  -DarchetypeVersion=1.0.1-SNAPSHOT \
+  -DarchetypeArtifactId=turbine-webapp-5.0 \
+  -DarchetypeVersion=1.0.3-SNAPSHOT \
   -DgroupId=com.mycompany.webapp \
   -DartifactId=myhelloworld \
   -Dversion=1.0 \
@@ -59,16 +59,37 @@ mvn archetype:generate \
   -Dturbine_database_name=helloworld \
   -Dturbine_database_timezone=UTC \
   -Dturbine_database_url=jdbc:mysql://localhost:3306/ \
-  -Dgoals=generate-sources,pre-integration-test
+  -Dgoals=generate-sources,integration-test
+
+### Digression
+
+You may use 
+
+mvn archetype:generate -DarchetypeCatalog=local
+
+to avoid declaring the Darchetype* variables.
+
+This requires you provide a local catalog in $HOME\.m2\archetype-catalog.xml. Find further information here: https://maven.apache.org/archetype/archetype-models/archetype-catalog/archetype-catalog.html.
+
+##### Example
+<archetype-catalog ...>
+ <archetype>
+      <groupId>org.apache.turbine</groupId>
+      <artifactId>turbine-webapp-5.0</artifactId>
+      <version>1.0.3-SNAPSHOT</version>
+      <description>This archetype sets up a web application project based on Apache Turbine 5.0</description>
+    </archetype>
+  </archetypes>
+</archetype-catalog>
 
 ### Notes
 
-When invoking archetype:generate like above, you already have set Turbine goals generate-sources,pre-integration-test 
+When invoking archetype:generate like above, you already have set Turbine goals generate-sources,integration-test 
 and you can then skip them later.
 
 Be aware, when you set both mvn commands goals (which are maven phases actually), i.e  with
 
--Dgoals=generate-sources, pre-integration-test 
+-Dgoals=generate-sources, integration-test 
 
 you have to create the database (see above) before finishing the (interactive) archetype commands. 
 Otherwise you could catch up doing this later and after that is done calling the phases afterwards as mentioned below.
@@ -103,7 +124,7 @@ mvn clean install
 If you get an error like "The driver has not received any packets" probably the database is not up and running or the port may be another one.
 
 Last step on the command line is run the server by invoking 
-mvn jetty:run         ## Now you can launch your new Turbine application
+mvn jetty:run         ## Now you can launch your new Turbine application by default http://localhost:8080/app
 
 ### Logs 
 

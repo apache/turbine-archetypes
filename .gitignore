@@ -1,3 +1,6 @@
 /target
 .settings
+.idea
+.gitattributes
+*.iml
 .externalToolBuilders/
