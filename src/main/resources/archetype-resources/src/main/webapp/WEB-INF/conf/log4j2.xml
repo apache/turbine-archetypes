@@ -33,10 +33,10 @@
        <Console name="console" target="SYSTEM_OUT">
           <PatternLayout pattern="%d [%t] %-5p | %c - %m%n"/>
       </Console>
-      <File name="app" fileName="#var('web:rootDir')/logs/application.log">
+      <File name="app" fileName="#var('web:rootDir')#var('sys:file.separator')logs#var('sys:file.separator')application.log">
           <PatternLayout pattern="%d [%t] %-5p %c - %m%n"/>
       </File>
-      <File name="avalon" fileName="#var('web:rootDir')/logs/avalon.log">
+      <File name="avalon" fileName="#var('web:rootDir')#var('sys:file.separator')logs#var('sys:file.separator')avalon.log">
           <PatternLayout pattern="%d [%t] %-5p %c - %m%n"/>
       </File>
       <File name="scheduler" fileName="#var('web:rootDir')/logs/scheduler.log">
@@ -48,39 +48,39 @@
       <File name="sql" fileName="#var('web:rootDir')/logs/sql.log">
           <PatternLayout pattern="%d [%t] %-5p %c - %m%n"/>
       </File>
-      <File name="turbine" fileName="#var('web:rootDir')/logs/turbine.log">
+      <File name="turbine" fileName="#var('web:rootDir')#var('sys:file.separator')logs#var('sys:file.separator')turbine.log">
           <PatternLayout pattern="%d [%t] %-5p %c - %m%n"/>
       </File>
-      <File name="velocity" fileName="#var('web:rootDir')/logs/velocity.log">
+      <File name="velocity" fileName="#var('web:rootDir')#var('sys:file.separator')logs#var('sys:file.separator')velocity.log">
           <PatternLayout pattern="%d [%t] %-5p %c - %m%n"/>
       </File> 
     </Appenders>
     <Loggers>
       <Logger name="avalon" additivity="false" level="DEBUG">
-          <appender-ref ref="avalon"/>
+          <AppenderRef ref="avalon"/>
       </Logger>
       <Logger name="org.apache.torque" additivity="false" level="INFO">
-          <appender-ref ref="torque"/>
+          <AppenderRef ref="torque"/>
       </Logger>
        <Logger name="org.apache.torque.util" additivity="false" level="DEBUG">
-          <appender-ref ref="sql"/>
-          <appender-ref ref="console"/>
+          <AppenderRef ref="sql"/>
+          <AppenderRef ref="console"/>
       </Logger>
       <Logger name="org.apache.turbine" additivity="false" level="INFO">
-          <appender-ref ref="turbine"/>
+          <AppenderRef ref="turbine"/>
       </Logger>
       <Logger name="scheduler" additivity="false" level="INFO">
-          <appender-ref ref="scheduler"/>
+          <AppenderRef ref="scheduler"/>
       </Logger>
       <Logger name="velocity" additivity="false" level="INFO">
-          <appender-ref ref="velocity"/>
+          <AppenderRef ref="velocity"/>
       </Logger>
       <Logger name="org.apache.${package}" additivity="false" level="DEBUG">
-          <appender-ref ref="app"/>
+          <AppenderRef ref="app"/>
       </Logger>
       <Root level="INFO">
-          <appender-ref ref="app"/>
-          <appender-ref ref="console"/>
+          <AppenderRef ref="app"/>
+          <AppenderRef ref="console"/>
       </Root>
     </Loggers>
 </Configuration>
