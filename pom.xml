@@ -42,6 +42,10 @@
     <url>http://svn.apache.org/viewvc/turbine/maven/archetypes/trunk/turbine-webapp-5.0/</url>
   </scm>
   
+  <properties>
+	<turbine_database_url>jdbc:mysql://localhost:3306/</turbine_database_url>
+  </properties>
+  
 <build>
     <extensions>
       <extension>
@@ -50,6 +54,33 @@
         <version>3.0.1</version>
       </extension>
     </extensions>
+	
+	<plugins>
+	<!-- filtering for docker -->
+	<plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <!-- here the phase you need -->
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/test-classes</outputDirectory>
+			  <resources>          
+                <resource>
+                  <directory>src/test/resources</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>              
+            </configuration>            
+          </execution>
+        </executions>
+      </plugin>
+	</plugins>
 
     <pluginManagement>
       <plugins>
@@ -64,5 +95,22 @@
       </plugins>
     </pluginManagement>
   </build>
+  
+  <profiles>
+		<!-- to test in integration-test -->
+        <profile>
+            <id>docker</id>
+            <activation>
+              <property>
+                <name>docker</name>
+              </property>
+             </activation>
+             <properties>
+				<turbine_database_url>jdbc:mysql://db:3306/</turbine_database_url>
+				<!-- to provide your locale maven repo, required if you need local snapshot builds -->
+				<app_volume_local_repo>${settings.localRepository}</app_volume_local_repo>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
