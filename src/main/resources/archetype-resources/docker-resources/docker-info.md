@@ -1,9 +1,10 @@
 # Installation
 
-- If not done, run build
+- If not yet done, run build
 ```
 $ mvn clean install -Pdocker
 ```
+
 Change into docker resource folder
 ``` 
 cd docker-resources
@@ -15,7 +16,6 @@ docker-compose down
 docker-compose down -v
 docker system prune
 docker volume rm $(docker volume ls -qf dangling=true)
-
 ``` 
 
 Build Services
@@ -24,41 +24,35 @@ Build Services
 ``` 
 DB_CONTEXT is set to allow starting the db container standalone (in folder db, e.g. with docker build --tag my-db .) to test it.
 
+Builds db, populates it with (hard coded data and prepares application.
+
 Start all services
 ``` 
 docker-compose up
 ``` 
+Jetty is run and exposes the webapp to http://localhost:80801/app
 
-Test Database
+
+#Test Database
+
+## start service
 
 ```
-# start service
 docker-compose up db
 docker-compose run db /bin/sh --build-arg DB_CONTEXT=./docker-resources/db
-#or
+```
+Extract data
+```
  docker-compose exec db mysql -u root --password=... -e "show databases;" --build-arg DB_CONTEXT=./docker-resources/db
  docker-compose exec db sh -c 'exec mysqldump --all-databases -uroot -p...' --build-arg DB_CONTEXT=./docker-resources/db > dump.sql
-
-// check mysql in service container db
+ // check mysql in service container db
 # mysql -u root -h db -P 3306 -p
 
 ```
 
-##  Unable to setup unix socket lock file.
-touch /var/run/mysqld/mysqld.sock.lock
+# Windows
 
-## ERROR 2003 (HY000): Can't connect to MySQL server on 'db' (111)
-
-
-#Facts
-
-- Check volumes
-
-OS Problems
-
-Windows
-
-- Replace Backslashes to Slashes in docker-compose form localRepository
+- Replace backslashes to slashes in docker-compose.yml in localRepository
 
 - check COMPOSE_CONVERT_WINDOWS_PATHS, https://docs.docker.com/compose/reference/envvars/#compose_convert_windows_paths
 
