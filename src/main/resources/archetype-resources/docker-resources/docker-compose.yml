@@ -1,0 +1,68 @@
+# service configuration for our dockerized Java app
+version: '3'
+
+services:
+  app:
+    # use the Dockerfile next to this file
+    build:
+        context: ../
+        dockerfile: ./docker-resources/app/Dockerfile
+    # optional environment variable configuration for app
+    # this runs the app server in the container
+    #command: mvn package jetty:run -Pdocker
+    command: mvn jetty:run
+    ports:
+      - "8081:8081"
+      - "8080:8080"
+    # makes the app container aware of the DB container   
+    depends_on:
+      - db 
+    # 
+    #expose:
+    #  - "3000"
+    volumes:
+      - ../:/myapp
+      - "${app_volume_local_repo}:/m2repo"
+    #networks:
+    #  - db
+
+  db:
+      # set the build context 
+    build: 
+      context: ../
+      dockerfile: ./docker-resources/db/Dockerfile
+      args:
+        - DB_CONTEXT=${DB_CONTEXT}
+    
+    environment:
+      - MYSQL_DATABASE=${turbine_database_name}
+      - MYSQL_HOST= 
+      - MYSQL_ROOT_PASSWORD=default
+      - MYSQL_USER=${turbine_database_user}
+      - MYSQL_PASSWORD=${turbine_database_password}
+      - DB_CONTEXT=./docker-resources/db
+      #- MYSQL_RANDOM_ROOT_PASSWORD=yes
+      
+    volumes:
+      - "./db/mysql/init:/docker-entrypoint-initdb.d" 
+      - mysql_log:/mysql:rw 
+      # parent folder -> /etc/mysql/conf.d/*.cnf settings taking precedence.
+      - "/db/mysql/conf:/etc/mysql/conf.d"
+      # default mysql persistent data
+      #- db_data:/var/lib/mysql2:rw  
+      - "./db/mysql/data:/data" 
+    restart: always     
+    ports:
+    # host: port
+      - "13306:3306" 
+    #networks:
+    #  - db
+    #command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci]
+    command: --default-authentication-plugin=mysql_native_password
+
+volumes:
+  #db_data:
+  mysql_log:
+  
+#networks:
+#  db:

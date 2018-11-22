@@ -54,6 +54,9 @@
     <requiredProperty key="turbine_database_password">
       <defaultValue>db_password</defaultValue>
     </requiredProperty>
+	 <requiredProperty key="app_volume_local_repo">
+      <defaultValue>${settings.localRepository}</defaultValue>
+    </requiredProperty>
   </requiredProperties>
   <fileSets>
     <fileSet filtered="true" packaged="true">
@@ -130,6 +133,13 @@
     </fileSet>
      <fileSet filtered="false" packaged="false">
         <directory>src/main/webapp/logs</directory>
+        <includes>
+          <include>**/*</include>
+        </includes>
+    </fileSet>
+    
+    <fileSet filtered="true" packaged="false">
+        <directory>docker-resources</directory>
         <includes>
           <include>**/*</include>
         </includes>
