@@ -54,8 +54,11 @@
     <requiredProperty key="turbine_database_password">
       <defaultValue>db_password</defaultValue>
     </requiredProperty>
-	 <requiredProperty key="app_volume_local_repo">
+	<requiredProperty key="app_volume_local_repo">
       <defaultValue>${settings.localRepository}</defaultValue>
+    </requiredProperty>
+	<requiredProperty key="docker">
+      <defaultValue>false</defaultValue>
     </requiredProperty>
   </requiredProperties>
   <fileSets>

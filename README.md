@@ -8,11 +8,22 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
+#### Host system installation
 * Java 8 JDK or later 
 * [MySQl](https://www.mysql.com/) - Database Server
 * [Maven](https://maven.apache.org/) - Dependency Management
 
 You should have Java 8 or later installed.  The archetype sets up a new application using MySQL as the default database store.  However, you can adjust this to use any database supported by Apache Torque 4.0. Therefore, you should be at least have a database instance where you have access rights to create a new database schema and populate it with the tables the application generates.  Finally, this is a maven archetype, so of course you should install a local version of Maven (tested with 3.5.4).
+
+#### Docker (alpha/experimental)
+
+Use docker to rapidly start development without Mysql installing on your local machine. It requires Java 8 and Maven in the hosting system (see above) and additionally
+
+* Docker version > 17 (Docker-Desktopm Windows)
+
+To install the Docker Archetype into the local repository, run
+
+* Run mvn clean install -Pdocker
 
 
 ### Installing

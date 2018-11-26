@@ -9,8 +9,7 @@ services:
         dockerfile: ./docker-resources/app/Dockerfile
     # optional environment variable configuration for app
     # this runs the app server in the container
-    #command: mvn package jetty:run -Pdocker
-    command: mvn jetty:run
+    command: mvn clean package jetty:run -Pdocker
     ports:
       - "8081:8081"
       - "8080:8080"
