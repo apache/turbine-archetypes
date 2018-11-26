@@ -14,13 +14,19 @@ Optional Cleanup
 ``` 
 docker-compose down
 docker-compose down -v
-docker system prune
+
 docker volume rm $(docker volume ls -qf dangling=true)
+docker system prune
 ``` 
 
 Build Services
 ``` 
  docker-compose build --no-cache --build-arg DB_CONTEXT=./docker-resources/db
+ 
+ // build only app
+ // docker-compose build --no-cache app
+ // docker-compose build --no-cache --build-arg DB_CONTEXT=./docker-resources/db db
+ 
 ``` 
 DB_CONTEXT is set to allow starting the db container standalone (in folder db, e.g. with docker build --tag my-db .) to test it.
 
@@ -29,28 +35,36 @@ Builds db, populates it with (hard coded data and prepares application.
 Start all services
 ``` 
 docker-compose up
+
+// docker-compose up db
 ``` 
 Jetty is run and exposes the webapp to http://localhost:80801/app
 
+#Test Services: App, Database
 
-#Test Database
-
-## start service
+## Start service
 
 ```
-docker-compose up db
-docker-compose run db /bin/sh --build-arg DB_CONTEXT=./docker-resources/db
+docker-compose run --rm db /bin/sh --build-arg DB_CONTEXT=./docker-resources/db
 ```
-Extract data
+Extract data in db-Service
 ```
- docker-compose exec db mysql -u root --password=... -e "show databases;" --build-arg DB_CONTEXT=./docker-resources/db
- docker-compose exec db sh -c 'exec mysqldump --all-databases -uroot -p...' --build-arg DB_CONTEXT=./docker-resources/db > dump.sql
  // check mysql in service container db
-# mysql -u root -h db -P 3306 -p
+ // # mysql -u root -h db -P 3306 -p
+ // docker-compose exec db mysql -u root --password=... -e "show databases;" --build-arg DB_CONTEXT=./docker-resources/db
+ // docker-compose exec db sh -c 'exec mysqldump --all-databases -uroot -p...' --build-arg DB_CONTEXT=./docker-resources/db > dump.sql
 
+```
+- Service app
+```
+docker-compose up app 
+docker-compose run --rm app /bin/sh 
+// ls -la /myapp // should list pom.xml ...
 ```
 
 # Windows
+
+## Powershell
 
 - Replace backslashes to slashes in docker-compose.yml in localRepository
 
@@ -65,6 +79,13 @@ Extract data
 
 	1. docker rm $(docker ps -a -q)
 	2. Stop the Docker on your machine & restart it.
+
+## Windows Subsystem for Linux (WSL)
+
+- Check file permissions of archetype generated files (chmod -R a+rw docker-resources, chmod -R a+rw src .
+
+- https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly
+
 
 
 Resetting / Preparation (optional)
