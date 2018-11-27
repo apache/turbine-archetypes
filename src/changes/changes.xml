@@ -25,7 +25,10 @@
 
   <body>
 	<release version="1.0.3" date="in Gitbox">
-	  <action type="update" dev="jp">
+	   <action type="update" dev="gk">
+         Added Docker profile (maven + mysql) for development
+      </action>
+      <action type="update" dev="jp">
          Update to from lang to lang3
       </action>
 	  <action type="update" dev="jp">
