@@ -44,6 +44,8 @@
   
   <properties>
 	<turbine_database_url>jdbc:mysql://localhost:3306/</turbine_database_url>
+    <docker>false</docker>
+    <app_volume_local_repo>not_used</app_volume_local_repo>
   </properties>
   
 <build>
@@ -109,6 +111,7 @@
 				<turbine_database_url>jdbc:mysql://db:3306/</turbine_database_url>
 				<!-- to provide your locale maven repo, required if you need local snapshot builds -->
 				<app_volume_local_repo>${settings.localRepository}</app_volume_local_repo>
+                <docker>true</docker>
             </properties>
         </profile>
     </profiles>

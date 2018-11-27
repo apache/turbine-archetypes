@@ -209,6 +209,7 @@ under the License.
                   <goal>execute</goal>
                 </goals>
                 <configuration>
+                  <skip>${docker}</skip>
                   <orderFile>ascending</orderFile>
                   <fileset>
                     <basedir>#var("project.build.directory")/generated-sql/torque/mysql</basedir>
@@ -217,7 +218,7 @@ under the License.
                       <include>*.sql</include>
                     </includes>
                   </fileset>
-              </configuration>
+                </configuration>
             </execution>
             <execution>
               <id>create-data</id>
@@ -226,6 +227,7 @@ under the License.
                 <goal>execute</goal>
               </goals>
               <configuration>
+                <skip>${docker}</skip>
                 <orderFile>ascending</orderFile>
                 <srcFiles>
                   <srcFile>#var("project.basedir")/docs/sample-mysql-data/_application-data.sql</srcFile>
