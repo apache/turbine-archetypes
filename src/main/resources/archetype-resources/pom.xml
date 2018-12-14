@@ -197,7 +197,7 @@ under the License.
             <dependency>
               <artifactId>mysql-connector-java</artifactId>
               <groupId>mysql</groupId>
-              <version>8.0.12</version>
+              <version>8.0.13</version>
             </dependency>
           </dependencies>
           <!-- this is mysql specific -->
@@ -262,7 +262,7 @@ under the License.
       <dependency>
         <artifactId>mysql-connector-java</artifactId>
         <groupId>mysql</groupId>
-        <version>8.0.12</version>
+        <version>8.0.13</version>
       </dependency>
        <!-- Allow lookup of #var("web:rootDir") in log4j2 file -->
         <dependency>
