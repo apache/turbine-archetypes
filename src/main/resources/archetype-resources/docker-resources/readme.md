@@ -2,11 +2,13 @@
 
 This docker environment is to test/develop a Turbine app using a docker test database. 
 
-It uses two services: **app** (maven:3-jdk-8) and **db** (mysql:latest), see docker-compose.yml. 
+It is based on one docker-compose.yml file and two Dockerfiles.
+
+Docker compose uses two services: **app** (maven:3-jdk-8) and **db** (mysql:latest). 
 
 ## Note
-- Mysql should easily be replacable by mariadb. 
-- Instead of using maven the app service as a build using a Jetty container might be the better choice as currently console reloading might not work).
+- Mysql should easily be replacable by Mariadb. 
+- Instead of using maven as the app service a Jetty container might be the better choice as currently console reloading might not work.
 
 # Installation
 
@@ -15,52 +17,65 @@ It uses two services: **app** (maven:3-jdk-8) and **db** (mysql:latest), see doc
 ```sh
 cd docker-resources
 ``` 
+
+## Check Docker Compose file (optional)
+
 - Check services in docker-compose.yml (volumes) 
 ``` 
 docker-compose config
 ```   
 - Check **src/main/webapp/WEB-INF/jetty-env.xml**. It should reference the service name (db) not localhost.
-```
+
+```xml
 <Set name="url">jdbc:mysql://db:3306/turbine</Set>
 ```
+
+## Cleanup or restart (optional)
+
 - Optionally Check system, Cleanup
-```
-docker-compose ps
-```
-- If services are already installed, activate by 
-```
-docker-compose up
-```    
+
+    docker-compose ps
+    docker-compose down
+    docker-compose down -v
+
+- If services are already installed, activate/start by 
+    docker-compose up
+  
 - or remove by
-```
-docker-compose down and docker-compose down -v
-```
-- If not yet done, run as an initial step a local maven build. Maven install build is set as a **command** in app service, that is this done then also.
+    docker-compose down and docker-compose down -v
+
+- Starting the app service will build the app and start jetty as a Maven install + Jetty start. 
+This command is set as a **command** in the app service in docker compose.
 The docker profile should be activated by default (if not add -Pdocker). 
 
-```sh
-$ mvn clean install -f ../pom.xml
-```
+Optionally test the build process on the host with mvn clean install -f ../pom.xml.
 
 ### Build Services
- 
+
+ - Set DB_CONTEXT=./docker-resources/db if not yet done for the db service on docker-compose.yml or provide as cli argument:
+
     docker-compose build --no-cache --build-arg DB_CONTEXT=./docker-resources/db
+     .. or just build it
  
- .. or build separately
- 
+```sh
+    docker-compose build --no-cache
+```
+
+ .. optionally build it separately
     docker-compose build --no-cache --build-arg DB_CONTEXT=./docker-resources/db db
     
  .. building app service first/only requires removing the dependency in docker-compose.yml(comment depends_on: db)
- 
     docker-compose build --no-cache app
 
-DB_CONTEXT is set to allow starting the db container standalone (in folder db, e.g. with docker build --tag my-db .) 
-to test it. The db service is build and populated till now with hard coded data, it is a dependency for the service app (see app/Dockerfile).
+DB_CONTEXT is set to allow starting the db container standalone (in folder db, e.g. with docker build --tag my-db .)
+to test it. 
+CAVEAT: The db service is build and populated until now with hard coded data. 
+It is a dependency for the service app (see app/Dockerfile).
 
 
 ### Starting Services
 
-Start both services in  one step
+Start both services in one step
 ``` 
 docker-compose up
 ```    
@@ -69,17 +84,18 @@ docker-compose up
 docker-compose -d up
 docker-compose start
 ``` 
-// docker-compose up db
 
-Jetty is run and exposes the webapp to **http://localhost:8081/app**
+This will start first the db service, then the app service. Jetty is run and exposes the webapp to **http://localhost:8081/app**.
+By default remote debugging is activated (port 9000), which could be removed/commented in docker-compose.yml.
+You could follow the logs with docker-compose logs -f app or docker-compose -logs -f db.
 
 #### Lifecycle (developers only)
 
 - If you generate the archetype itself, you might have to stop the services before cleaning up (docker-compose stop).
 
-### Test Services: Db, App
+## Debugging Services: Db, App
 
-## Db Service 
+### Db Service 
 ``` 
 docker-compose run --rm db /bin/sh --build-arg DB_CONTEXT=./docker-resources/db
 ``` 
@@ -93,9 +109,10 @@ Extract data in db service
     docker-compose exec db mysql -u root --password=... -e "show databases;" --build-arg DB_CONTEXT=./docker-resources/db
     docker-compose exec db sh -c 'exec mysqldump --all-databases -uroot -p...' --build-arg DB_CONTEXT=./docker-resources/db > dump.sql
 
-## App Service
+### App Service
+
+This will start app and db (as it depends on app):
 ```sh
-docker-compose up app 
 docker-compose run --rm app /bin/sh 
 ``` 
 In the container, check:
@@ -103,9 +120,11 @@ In the container, check:
 ls -la /myapp // should list pom.xml ...
 ```
 
-# Windows
+# System Specific Informations
 
-## Powershell
+## Windows
+
+### Powershell
 
 - Replace in volume path backslashes to slashes "/" in docker-compose.yml in localRepository
 
@@ -119,7 +138,7 @@ ls -la /myapp // should list pom.xml ...
   - Remove containers (if any): docker rm $(docker ps -a -q)
   - If error still there, restart Docker on your machine & restart it.
 
-## Windows Subsystem for Linux (WSL)
+### Windows Subsystem for Linux (WSL)
 
 - Check file permissions of archetype generated files (chmod -R a+rw docker-resources, chmod -R a+rw src .
 
@@ -132,12 +151,12 @@ ls -la /myapp // should list pom.xml ...
 
     docker-compose rm -v
 
-###  Delete all images
+### Delete all images
+
     docker rmi $(docker images -q)
 
 ### Still more docker commands ...
 
-```
   docker ps  
  
   // delete intermediate images, volumes
@@ -152,4 +171,3 @@ ls -la /myapp // should list pom.xml ...
   
   # stops all running containers  
   docker stop $(docker ps -a -q)
-```
