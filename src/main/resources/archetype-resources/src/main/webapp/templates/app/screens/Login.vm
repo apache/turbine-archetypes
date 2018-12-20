@@ -40,7 +40,7 @@
 <p/>
   #if (! $data.user.hasLoggedIn()) 
   
-  <div class="w3-display-middle w3-card-8 w3-center w3-light-grey" style="max-width: 500px">
+  <div class="w3-display-middle w3-card-8 w3-center w3-light-grey" style="max-width: 500px; z-index: 2;">
 
 		<form class="w3-container w3-light-grey" name="login" method="post" enctype="application/x-www-form-urlencoded" action="$link.setAction("LoginUserIntake").setPage($data.templateInfo.screenTemplate)">
        <div class="w3-section">
