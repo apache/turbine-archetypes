@@ -11,7 +11,5 @@ ADD src/ /myapp/src/
 WORKDIR /myapp
 
 # build app outside docker, if you use snapshots
+# no build stage volumes: https://github.com/moby/moby/issues/38366
 # RUN mvn -f /myapp/pom.xml clean package
-
-# do this not in build
-#  mvn jetty:run

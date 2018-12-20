@@ -7,18 +7,25 @@ services:
     build:
         context: ../
         dockerfile: ./docker-resources/app/Dockerfile
-    # optional environment variable configuration for app
+    # uncomment, if no remote debugging app is required
+    environment:
+        - MAVEN_OPTS=-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9000
+    
     # this runs the app server in the container
     command: mvn clean package jetty:run -Pdocker
     ports:
       - "8081:8081"
       - "8080:8080"
+      # remote debugging port, uncomment if not needed
+      - "9000:9000"
+
     # makes the app container aware of the DB container   
     depends_on:
       - db 
     # 
     #expose:
     #  - "3000"
+
     volumes:
       - ../:/myapp
       - "${app_volume_local_repo}:/m2repo"
@@ -53,7 +60,8 @@ services:
     restart: always     
     ports:
     # host: port
-      - "13306:3306" 
+      - "13306:3306"
+      
     #networks:
     #  - db
     #command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci]
