@@ -37,9 +37,9 @@
   <inceptionYear>2011</inceptionYear>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/turbine/maven/archetypes/trunk/turbine-webapp-5.0/</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/turbine/maven/archetypes/trunk/turbine-webapp-5.0/</developerConnection>
-    <url>http://svn.apache.org/viewvc/turbine/maven/archetypes/trunk/turbine-webapp-5.0/</url>
+    <connection>scm:git:https://github.com/apache/turbine-archetypes</connection>
+    <developerConnection>scm:git:https://github.com/apache/turbine-archetypes</developerConnection>
+    <url>scm:git:https://github.com/apache/turbine-archetypes</url>
   </scm>
   
 <build>
