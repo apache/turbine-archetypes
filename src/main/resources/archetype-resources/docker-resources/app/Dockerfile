@@ -10,6 +10,8 @@ ADD src/ /myapp/src/
 
 WORKDIR /myapp
 
-# build app outside docker, if you use snapshots
+# build app outside docker
 # no build stage volumes: https://github.com/moby/moby/issues/38366
+# run build process outside, requires having maven and java installed in host system.
+# uncomment only, if you have NO snapshots and you a reason to build it inside the container
 # RUN mvn -f /myapp/pom.xml clean package

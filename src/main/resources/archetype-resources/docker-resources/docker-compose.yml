@@ -12,7 +12,8 @@ services:
         - MAVEN_OPTS=-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9000
     
     # this runs the app server in the container
-    command: mvn clean package jetty:run -Pdocker
+    #command: mvn clean package jetty:run -Pdocker
+    command: mvn jetty:run
     ports:
       - "8081:8081"
       - "8080:8080"
@@ -38,16 +39,24 @@ services:
       context: ../
       dockerfile: ./docker-resources/db/Dockerfile
       args:
-        - DB_CONTEXT=${DB_CONTEXT}
+        - DB_CONTEXT=./docker-resources/db
+        - MYSQL_DATABASE=turbine
+        #- MYSQL_ROOT_PASSWORD=default
+        - MYSQL_RANDOM_ROOT_PASSWORD=yes
+        - MYSQL_USER=db_user
+        - MYSQL_PASSWORD=db_password
+        - MYSQL_ONETIME_PASSWORD=false
     
     environment:
-      - MYSQL_DATABASE=${turbine_database_name}
+      - MYSQL_DATABASE=turbine
       - MYSQL_HOST= 
-      - MYSQL_ROOT_PASSWORD=default
-      - MYSQL_USER=${turbine_database_user}
-      - MYSQL_PASSWORD=${turbine_database_password}
+      #- MYSQL_ROOT_PASSWORD=default
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_USER=db_user
+      - MYSQL_PASSWORD=db_password
       - DB_CONTEXT=./docker-resources/db
-      #- MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_ONETIME_PASSWORD=false
+      #- MYSQL_ALLOW_EMPTY_PASSWORD=yes
       
     volumes:
       - "./db/mysql/init:/docker-entrypoint-initdb.d" 
