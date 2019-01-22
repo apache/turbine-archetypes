@@ -40,7 +40,6 @@ import org.apache.turbine.om.security.User;
 import org.apache.turbine.services.pull.ApplicationTool;
 import org.apache.turbine.services.security.SecurityService;
 import org.apache.turbine.util.RunData;
-import org.apache.turbine.util.template.SelectorBox;
 
 /**
  * The pull api for flux templates
@@ -207,22 +206,29 @@ public class FluxTool implements ApplicationTool, Recyclable {
 
 	/**
 	 */
-	public SelectorBox getFieldList() throws Exception {
-		Object[] names = { "username", "firstname", "middlename", "lastname" };
-		Object[] values = { "Username", "First Name", "Middle Name", "Last Name" };
-		return new SelectorBox("fieldList", names, values);
+	public String getFieldList() throws Exception {
+        StringBuilder selectorBox = new StringBuilder();
+        selectorBox.append("<select name=\"fieldList\">");
+        selectorBox.append("<option value=\"username\">Username</option>");
+        selectorBox.append("<option value=\"firstname\">First Name</option>");
+        selectorBox.append("<option value=\"middlename\">Middle Name</option>");
+        selectorBox.append("<option value=\"lastname\">Last Name</option>");
+        selectorBox.append("</select>");
+		return selectorBox.toString();
 	}
 
 	/**
 	 * This is a tie to the DB implementation something should be added the
 	 * pluggable pieces to allow decent parameterized searching.
 	 */
-	public SelectorBox getUserFieldList() throws Exception {
-
-		Object[] names = { TurbineUserPeer.LOGIN_NAME, TurbineUserPeer.FIRST_NAME, TurbineUserPeer.LAST_NAME };
-		Object[] values = { "User Name", "First Name", "Last Name" };
-
-		return new SelectorBox("fieldList", names, values);
+	public String getUserFieldList() throws Exception {
+        StringBuilder selectorBox = new StringBuilder();
+        selectorBox.append("<select name=\"fieldList\">");
+        selectorBox.append("<option value=\"" + TurbineUserPeer.LOGIN_NAME + "\">User Name</option>");
+        selectorBox.append("<option value=\"" + TurbineUserPeer.FIRST_NAME + "\">First Name</option>");
+        selectorBox.append("<option value=\"" + TurbineUserPeer.LAST_NAME + "\">Last Name</option>");
+        selectorBox.append("</select>");
+		return selectorBox.toString();
 	}
 
 	/**
