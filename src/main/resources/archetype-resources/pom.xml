@@ -243,7 +243,9 @@ under the License.
         <plugin>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-maven-plugin</artifactId>
-            <version>9.4.12.v20181114</version>
+            <!-- latest one that seems to be working, 
+                v20181111 and v20181114 coming up not found on maven central -->
+            <version>9.4.12.v20180830</version>
           <configuration>
             <scanIntervalSeconds>10</scanIntervalSeconds>
             <dumpOnStart>true</dumpOnStart>
