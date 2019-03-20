@@ -1,7 +1,7 @@
 package ${package}.flux.modules.actions;
 
 /*
- * Copyright 2001-2017 The Apache Software Foundation.
+ * Copyright 2001-2019 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -53,9 +53,11 @@ public class FluxAction extends VelocitySecureAction {
 	 * flux.admin.role which you should define
 	 */
 	@Override
-	protected boolean isAuthorized(PipelineData data) throws Exception {
+	protected boolean isAuthorized(PipelineData pipelineData) throws Exception {
 		boolean isAuthorized = false;
 
+		RunData data = (RunData) pipelineData;
+		
 		/*
 		 * Grab the Flux Admin role listed in the Flux.properties file that is included
 		 * in the the standard TurbineResources.properties file.
@@ -63,15 +65,15 @@ public class FluxAction extends VelocitySecureAction {
 		String fluxAdminRole = Turbine.getConfiguration().getString("flux.admin.role");
 
 		// Get the Turbine ACL implementation
-		TurbineAccessControlList acl = getRunData(data).getACL();
+		TurbineAccessControlList acl = data.getACL();
 
 		if (acl == null || !(acl.hasRole(fluxAdminRole))) {
 			String msg = localizationService.getString(localizationService.getDefaultBundleName(),
 					localizationService.getLocale(((RunData) data).getRequest()), "no_permission");
 
-			getRunData(data).setMessage(msg);
+			data.setMessage(msg);
 
-			getRunData(data).setScreenTemplate("Login.vm");
+			data.setScreenTemplate("Login.vm");
 			isAuthorized = false;
 		} else if (acl.hasRole(fluxAdminRole)) {
 			isAuthorized = true;
@@ -90,8 +92,9 @@ public class FluxAction extends VelocitySecureAction {
 	 * @exception Exception,
 	 *                a generic exception.
 	 */
-	public void doPerform(PipelineData data, Context context) throws Exception {
-		User user = getRunData(data).getUser();
+	public void doPerform(PipelineData pipelineData, Context context) throws Exception {
+		RunData data = (RunData) pipelineData;
+		User user = data.getUser();
 		context.put("user", user);
 	}
 }

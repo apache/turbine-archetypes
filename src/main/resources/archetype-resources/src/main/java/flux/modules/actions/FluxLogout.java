@@ -1,7 +1,7 @@
 package ${package}.flux.modules.actions;
 
 /*
- * Copyright 2001-2017 The Apache Software Foundation.
+ * Copyright 2001-2019 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ import org.apache.turbine.util.RunData;
  * specified in the resources file
  *
  */
-public class FluxLogout extends Action {
+public class FluxLogout implements Action {
 
 	/** Injected service instance */
 	@TurbineService
@@ -59,10 +59,9 @@ public class FluxLogout extends Action {
 	 * @exception FulcrumSecurityException
 	 *                a problem occurred in the security service.
 	 */
-	@Override
-	public void doPerform(PipelineData pipelineData) throws FulcrumSecurityException {
-
-		RunData data = getRunData(pipelineData);
+	public void doPerform(PipelineData pipelineData) throws FulcrumSecurityException 
+	{
+		RunData data = (RunData) pipelineData;
 		// Session validator did not run, so RunData is not populated
 		User user = data.getUserFromSession();
 

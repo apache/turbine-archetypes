@@ -1,7 +1,7 @@
 package ${package}.flux.modules.screens;
 
 /*
- * Copyright 2001-2017 The Apache Software Foundation.
+ * Copyright 2001-2019 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import org.apache.turbine.annotation.TurbineService;
 import org.apache.turbine.modules.screens.VelocitySecureScreen;
 import org.apache.turbine.pipeline.PipelineData;
 import org.apache.turbine.services.security.SecurityService;
+import org.apache.turbine.util.RunData;
 import org.apache.velocity.context.Context;
 
 /**
@@ -65,9 +66,10 @@ public abstract class FluxScreen extends VelocitySecureScreen {
 	}
 
 	@Override
-	protected boolean isAuthorized(PipelineData data) throws Exception {
+	protected boolean isAuthorized(PipelineData pipelineData) throws Exception {
 		boolean isAuthorized = false;
-
+		RunData data = (RunData) pipelineData;
+		
 		/*
 		 * Grab the Flux Admin role listed in the Flux.properties file that is included
 		 * in the the standard TurbineResources.properties file.
@@ -75,18 +77,18 @@ public abstract class FluxScreen extends VelocitySecureScreen {
 		String fluxAdminRole = Turbine.getConfiguration().getString("flux.admin.role");
 
 		// Get the Turbine ACL implementation
-		TurbineAccessControlList acl = getRunData(data).getACL();
+		TurbineAccessControlList acl = data.getACL();
 
 		if (acl == null) {
 			// commons configuration getProperty: prefix removed, the key for the value ..
 			// is an empty string, the result an object
-			getRunData(data).setScreenTemplate((String) templateLogin.getProperty(""));
+			data.setScreenTemplate((String) templateLogin.getProperty(""));
 			isAuthorized = false;
 		} else if (acl.hasRole(fluxAdminRole)) {
 			isAuthorized = true;
 		} else {
-			getRunData(data).setScreenTemplate((String) templateHomepage.getProperty(""));
-			getRunData(data).setMessage("You do not have access to this part of the site.");
+			data.setScreenTemplate((String) templateHomepage.getProperty(""));
+			data.setMessage("You do not have access to this part of the site.");
 			isAuthorized = false;
 		}
 		return isAuthorized;

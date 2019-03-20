@@ -72,7 +72,7 @@ public class LoginUser
     public void doPerform(PipelineData pipelineData)
             throws FulcrumSecurityException
     {
-        RunData data = getRunData(pipelineData);
+        RunData data = (RunData) pipelineData;
         String username = data.getParameters().getString(LoginUser.CGI_USERNAME, "");
 
         if (StringUtils.isEmpty(username))

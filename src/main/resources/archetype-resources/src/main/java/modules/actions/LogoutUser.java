@@ -39,8 +39,7 @@ import org.apache.turbine.util.RunData;
  * @author <a href="mailto:peter@courcoux.biz">Peter Courcoux</a>
  * @version $Id: LogoutUser.java 1706239 2015-10-01 13:18:35Z tv $
  */
-public class LogoutUser
-        extends Action
+public class LogoutUser implements Action
 {
     /** Injected service instance */
     @TurbineService
@@ -72,7 +71,7 @@ public class LogoutUser
     public void doPerform(PipelineData pipelineData)
             throws FulcrumSecurityException
     {
-        RunData data = getRunData(pipelineData);
+        RunData data = (RunData) pipelineData;
         // Session validator did not run, so RunData is not populated
         User user = data.getUserFromSession();
 
@@ -88,7 +87,7 @@ public class LogoutUser
             security.saveUser(user);
         }
 
-        data.setMessage(conf.getString(TurbineConstants.LOGOUT_MESSAGE));
+		((RunData) data).setMessage(conf.getString(TurbineConstants.LOGOUT_MESSAGE));
 
         // This will cause the acl to be removed from the session in
         // the Turbine servlet code.

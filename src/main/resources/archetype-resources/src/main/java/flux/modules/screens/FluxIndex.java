@@ -1,7 +1,7 @@
 package ${package}.flux.modules.screens;
 
 /*
- * Copyright 2001-2017 The Apache Software Foundation.
+ * Copyright 2001-2019 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -61,9 +61,8 @@ public class FluxIndex extends VelocitySecureScreen {
 	@Override
 	protected boolean isAuthorized(PipelineData pipelineData) throws Exception {
 
-		RunData data = getRunData(pipelineData);
-
 		boolean isAuthorized = false;
+		RunData data = (RunData) pipelineData;
 
 		/*
 		 * Grab the Flux Admin role listed in the Flux.properties file that is included

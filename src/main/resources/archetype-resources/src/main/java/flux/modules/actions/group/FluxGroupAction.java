@@ -1,7 +1,7 @@
 package ${package}.flux.modules.actions.group;
 
 /*
- * Copyright 2001-2017 The Apache Software Foundation.
+ * Copyright 2001-2019 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ public class FluxGroupAction extends FluxAction {
 	 *                a generic exception.
 	 */
 	public void doInsert(PipelineData pipelineData, Context context) throws Exception {
-		RunData data = getRunData(pipelineData);
+		RunData data = (RunData) pipelineData;
 
 		String name = data.getParameters().getString(GROUP_ID);
 		if (!StringUtils.isEmpty(name)) {
@@ -101,7 +101,7 @@ public class FluxGroupAction extends FluxAction {
 	 *                a generic exception.
 	 */
 	public void doUpdate(PipelineData pipelineData, Context context) throws Exception {
-		RunData data = getRunData(pipelineData);
+		RunData data = (RunData) pipelineData;
 		String groupName = data.getParameters().getString("oldName");
 		if (!StringUtils.isEmpty(groupName)) {
 			Group group = security.getGroupByName(groupName);
@@ -135,7 +135,7 @@ public class FluxGroupAction extends FluxAction {
 	 */
 	public void doDelete(PipelineData pipelineData, Context context) throws Exception {
 
-		RunData data = getRunData(pipelineData);
+		RunData data = (RunData) pipelineData;
 
 		try {
 			Group group = security.getGroupByName(data.getParameters().getString(GROUP_ID));
@@ -164,7 +164,7 @@ public class FluxGroupAction extends FluxAction {
 	 *                a generic exception.
 	 */
 	public void doPerform(PipelineData pipelineData, Context context) throws Exception {
-		RunData data = getRunData(pipelineData);
+		RunData data = (RunData) pipelineData;
 		log.info("Running do perform!");
 		data.setMessage("Can't find the requested action!");
 	}
