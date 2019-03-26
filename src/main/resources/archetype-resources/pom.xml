@@ -407,7 +407,7 @@ under the License.
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <log4j2.version>2.11.1</log4j2.version>
         <torque.version>4.0</torque.version>
-        <fulcrum.json>2.0.0-SNAPSHOT</fulcrum.json>
+        <fulcrum.json>2.0.0</fulcrum.json>
         <fulcrum.intake>2.0.0</fulcrum.intake>
         <fulcrum.security>1.1.3-SNAPSHOT</fulcrum.security>
         <turbine.core>5.0-SNAPSHOT</turbine.core>
