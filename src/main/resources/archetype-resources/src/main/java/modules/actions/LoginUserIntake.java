@@ -19,7 +19,6 @@ package ${package}.modules.actions;
 * under the License.
 *#
 
-
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -42,9 +41,9 @@ import org.apache.turbine.services.security.SecurityService;
 import org.apache.turbine.util.RunData;
 
 /**
- * This is where we authenticate the user logging into the system
- * against a user in the database. If the user exists in the database
- * that users last login time will be updated.
+ * This is where we authenticate the user logging into the system against a user
+ * in the database. If the user exists in the database that users last login
+ * time will be updated.
  *
  * @author <a href="mailto:mbryson@mont.mindspring.com">Dave Bryson</a>
  * @author <a href="mailto:hps@intermeta.de">Henning P. Schmiedehausen</a>
@@ -52,135 +51,117 @@ import org.apache.turbine.util.RunData;
  * @author <a href="mailto:peter@courcoux.biz">Peter Courcoux</a>
  * @version $Id$
  */
-public class LoginUserIntake
-        extends org.apache.turbine.modules.actions.LoginUser
-{
+public class LoginUserIntake extends org.apache.turbine.modules.actions.LoginUser {
 
-    /** Logging */
-    private static Log log = LogFactory.getLog(LoginUserIntake.class);
+	/** Logging */
+	private static Log log = LogFactory.getLog(LoginUserIntake.class);
 
-    /** Injected service instance */
-    @TurbineService
-    private SecurityService security;
-    
-    /** Injected configuration instance */
-    @TurbineConfiguration
-    private Configuration conf;
+	/** Injected service instance */
+	@TurbineService
+	private SecurityService security;
 
+	/** Injected configuration instance */
+	@TurbineConfiguration
+	private Configuration conf;
 
+	/**
+	 * Checks for anonymous user, else calls parent method.
+	 *
+	 * @param pipelineData Turbine information.
+	 * @exception FulcrumSecurityException could not get instance of the anonymous
+	 *                                     user
+	 */
+	@Override
+	public void doPerform(PipelineData pipelineData) throws FulcrumSecurityException 
+	{
+		RunData data = (RunData) pipelineData;
 
-    /**
-     * Checks for anonymous user, else calls parent method.
-     *
-     * @param     pipelineData Turbine information.
-     * @exception FulcrumSecurityException could not get instance of the
-     *            anonymous user
-     */
-    @Override
-    public void doPerform(PipelineData pipelineData)
-            throws FulcrumSecurityException
-    {
-        RunData data = getRunData(pipelineData);
-        	
-       try
-        {
-          // Get intake group          
-    	    // context only available after ExecutePageValve, could not invoke (IntakeTool)context.get("intake") using pook service instead
-          PoolService poolService =  (PoolService)TurbineServices.getInstance().getService(PoolService.ROLE);
-          IntakeTool intake = (IntakeTool) poolService.getInstance(IntakeTool.class);
-          
-          intake.init(data);
-          Group group = intake.get("Login", IntakeTool.DEFAULT_KEY);
-          String username = (String)group.get("Username").getValue();
-          if (StringUtils.isEmpty(username))
-            {
-                return;
-            }
+		try 
+		{
+			// Get intake group
+			// context only available after ExecutePageValve, could not invoke
+			// (IntakeTool)context.get("intake") using pook service instead
+			PoolService poolService = (PoolService) TurbineServices.getInstance().getService(PoolService.ROLE);
+			IntakeTool intake = (IntakeTool) poolService.getInstance(IntakeTool.class);
 
-          if (username.equals(security.getAnonymousUser().getName()))
-            {
-                data.setMessage("Anonymous user cannot login");
-                reset(data);
-                return;
-            }
-            
-        	if (username.equals(security.getAnonymousUser().getName()))
-            {
-                throw new Exception("Anonymous user cannot login");
-            }
-        	
-            String password = (String)group.get("Password").getValue();
-            // Authenticate the user and get the object.
-            User user = security.getAuthenticatedUser(username, password);
+			intake.init(data);
+			Group group = intake.get("Login", IntakeTool.DEFAULT_KEY);
+			String username = (String) group.get("Username").getValue();
+			if (StringUtils.isEmpty(username)) 
+			{
+				return;
+			}
 
-            // Store the user object.
-            data.setUser(user);
+			if (username.equals(security.getAnonymousUser().getName())) 
+			{
+				data.setMessage("Anonymous user cannot login");
+				reset(data);
+				return;
+			}
 
-            // Mark the user as being logged in.
-            user.setHasLoggedIn(Boolean.TRUE);
+			if (username.equals(security.getAnonymousUser().getName())) 
+			{
+				throw new Exception("Anonymous user cannot login");
+			}
 
-            // Set the last_login date in the database.
-            user.updateLastLogin();
+			String password = (String) group.get("Password").getValue();
+			
+			// Authenticate the user and get the object.
+			User user = security.getAuthenticatedUser(username, password);
 
-            // This only happens if the user is valid; otherwise, we
-            // will get a valueBound in the User object when we don't
-            // want to because the username is not set yet.  Save the
-            // User object into the session.
-            data.save();
+			// Store the user object.
+			data.setUser(user);
 
-            /*
-             * If the setPage("template.vm") method has not
-             * been used in the template to authenticate the
-             * user (usually Login.vm), then the user will
-             * be forwarded to the template that is specified
-             * by the "template.home" property as listed in
-             * TR.props for the webapp.
-             */
+			// Mark the user as being logged in.
+			user.setHasLoggedIn(Boolean.TRUE);
 
-        }
-        catch (Exception e)
-        {
-            if (e instanceof DataBackendException || e instanceof IntakeException)
-            {
-                log.error(e);
-            }
+			// Set the last_login date in the database.
+			user.updateLastLogin();
 
-            // Set Error Message and clean out the user.
-            data.setMessage(conf.getString(TurbineConstants.LOGIN_ERROR, ""));
-            User anonymousUser = security.getAnonymousUser();
-            data.setUser(anonymousUser);
-            
-            String loginTemplate = conf.getString(
-                    TurbineConstants.TEMPLATE_LOGIN);
+			// This only happens if the user is valid; otherwise, we
+			// will get a valueBound in the User object when we don't
+			// want to because the username is not set yet. Save the
+			// User object into the session.
+			data.save();
 
-            if (StringUtils.isNotEmpty(loginTemplate))
-            {
-                // We're running in a templating solution
-                data.setScreenTemplate(loginTemplate);
-            }
-            else
-            {
-                data.setScreen(conf.getString(TurbineConstants.SCREEN_LOGIN));
-            }
-        }
-    }
+			/*
+			 * If the setPage("template.vm") method has not been used in the template to
+			 * authenticate the user (usually Login.vm), then the user will be forwarded to
+			 * the template that is specified by the "template.home" property as listed in
+			 * TR.props for the webapp.
+			 */
 
-  private void reset(RunData data) throws UnknownEntityException {
-    User anonymousUser = security.getAnonymousUser();
-    data.setUser(anonymousUser);
+		} catch (Exception e) {
+			if (e instanceof DataBackendException || e instanceof IntakeException) {
+				log.error(e);
+			}
 
-    if (StringUtils.isNotEmpty(conf.getString(TurbineConstants.TEMPLATE_LOGIN,"")))
-    {
-        // We're running in a templating solution
-        data.setScreenTemplate(
-            conf.getString(TurbineConstants.TEMPLATE_LOGIN));
-    }
-    else
-    {
-        data.setScreen(
-            conf.getString(TurbineConstants.SCREEN_LOGIN));
-    }
-  }
+			// Set Error Message and clean out the user.
+			data.setMessage(conf.getString(TurbineConstants.LOGIN_ERROR, ""));
+			User anonymousUser = security.getAnonymousUser();
+			data.setUser(anonymousUser);
+
+			String loginTemplate = conf.getString(TurbineConstants.TEMPLATE_LOGIN);
+
+			if (StringUtils.isNotEmpty(loginTemplate)) {
+				// We're running in a templating solution
+				data.setScreenTemplate(loginTemplate);
+			} else {
+				data.setScreen(conf.getString(TurbineConstants.SCREEN_LOGIN));
+			}
+		}
+	}
+
+	private void reset(RunData data) throws UnknownEntityException {
+		User anonymousUser = security.getAnonymousUser();
+		data.setUser(anonymousUser);
+
+		if (StringUtils.isNotEmpty(conf.getString(TurbineConstants.TEMPLATE_LOGIN, ""))) {
+			// We're running in a templating solution
+			data.setScreenTemplate(conf.getString(TurbineConstants.TEMPLATE_LOGIN));
+		} else {
+			data.setScreen(conf.getString(TurbineConstants.SCREEN_LOGIN));
+		}
+	}
 
 }
-

@@ -58,7 +58,7 @@ public class Index extends VelocitySecureScreen
      * return always <code>true</code>true, to show this screen as default
      */
     @Override
-    protected boolean isAuthorized(PipelineData data) throws Exception
+    protected boolean isAuthorized(PipelineData pipelineData) throws Exception
     {
     	// use data.getACL() 
     	return true;

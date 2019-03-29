@@ -1,7 +1,7 @@
 package ${package}.flux.modules.actions.permission;
 
 /*
- * Copyright 2001-2017 The Apache Software Foundation.
+ * Copyright 2001-2019 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -65,7 +65,7 @@ public class FluxPermissionAction extends FluxAction {
 	 */
 	public void doInsert(PipelineData pipelineData, Context context) throws Exception {
 
-		RunData data = getRunData(pipelineData);
+		RunData data = (RunData) pipelineData;
 		String name = data.getParameters().getString(PERM_ID);
 		if (!StringUtils.isEmpty(name)) {
 			// create the permission
@@ -93,7 +93,7 @@ public class FluxPermissionAction extends FluxAction {
 	 *                a generic exception.
 	 */
 	public void doUpdate(PipelineData pipelineData, Context context) throws Exception {
-		RunData data = getRunData(pipelineData);
+		RunData data = (RunData) pipelineData;
 
 		String old_name = data.getParameters().getString("oldName");
 		String name = data.getParameters().getString(PERM_ID);
@@ -130,7 +130,7 @@ public class FluxPermissionAction extends FluxAction {
 	 *                a generic exception.
 	 */
 	public void doDelete(PipelineData pipelineData, Context context) throws Exception {
-		RunData data = getRunData(pipelineData);
+		RunData data = (RunData) pipelineData;
 
 		try {
 			String permName = data.getParameters().getString(PERM_ID);
@@ -168,7 +168,7 @@ public class FluxPermissionAction extends FluxAction {
 	 *                a generic exception.
 	 */
 	public void doPerform(PipelineData pipelineData, Context context) throws Exception {
-		RunData data = getRunData(pipelineData);
+		RunData data = (RunData) pipelineData;
 		log.info("Running do perform!");
 		data.setMessage("Can't find the requested action!");
 	}

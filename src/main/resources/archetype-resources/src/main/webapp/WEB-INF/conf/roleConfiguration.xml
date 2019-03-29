@@ -61,11 +61,6 @@
         default-class="org.apache.fulcrum.pool.DefaultPoolService"/>
 
     <role
-        name="org.apache.fulcrum.upload.UploadService"
-        shorthand="upload"
-        default-class="org.apache.fulcrum.upload.DefaultUploadService"/>
-
-    <role
         name="org.apache.fulcrum.parser.ParserService"
         shorthand="parser"
         default-class="org.apache.fulcrum.parser.DefaultParserService"/>
