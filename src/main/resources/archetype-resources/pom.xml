@@ -411,7 +411,7 @@ under the License.
         <torque.version>4.0</torque.version>
         <fulcrum.json>2.0.0</fulcrum.json>
         <fulcrum.intake>2.0.0</fulcrum.intake>
-        <fulcrum.security>1.1.3-SNAPSHOT</fulcrum.security>
+        <fulcrum.security>1.1.3</fulcrum.security>
         <turbine.core>5.0-SNAPSHOT</turbine.core>
         <skipTests>true</skipTests>
     </properties>
