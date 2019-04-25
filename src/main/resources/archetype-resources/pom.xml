@@ -200,7 +200,7 @@ under the License.
             <dependency>
               <artifactId>mysql-connector-java</artifactId>
               <groupId>mysql</groupId>
-              <version>8.0.13</version>
+              <version>8.0.15</version>
             </dependency>
           </dependencies>
           <!-- this is mysql specific -->
@@ -267,7 +267,7 @@ under the License.
       <dependency>
         <artifactId>mysql-connector-java</artifactId>
         <groupId>mysql</groupId>
-        <version>8.0.13</version>
+        <version>8.0.15</version>
       </dependency>
        <!-- Allow lookup of #var("web:rootDir") in log4j2 file -->
         <dependency>
@@ -276,6 +276,7 @@ under the License.
           <version>#var("log4j2.version")</version>
         </dependency>
         <!-- Required for Java 9 and higher -->
+        <!-- 
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
@@ -291,7 +292,8 @@ under the License.
             <artifactId>jaxb-core</artifactId>
             <version>2.3.0</version>
         </dependency>
-
+ 		-->
+ 		
       <dependency>
           <groupId>javax.activation</groupId>
           <artifactId>activation</artifactId>
@@ -409,7 +411,7 @@ under the License.
         <torque.version>4.0</torque.version>
         <fulcrum.json>2.0.0</fulcrum.json>
         <fulcrum.intake>2.0.0</fulcrum.intake>
-        <fulcrum.security>1.1.3-SNAPSHOT</fulcrum.security>
+        <fulcrum.security>1.1.3</fulcrum.security>
         <turbine.core>5.0-SNAPSHOT</turbine.core>
         <skipTests>true</skipTests>
     </properties>

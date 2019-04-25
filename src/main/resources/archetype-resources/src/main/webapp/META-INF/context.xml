@@ -4,7 +4,7 @@
     <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>
     <Resource name="${turbine_database_jndipath}" global="${turbine_database_jndipath}" auth="Container" type="javax.sql.DataSource" 
         driverClassName="${turbine_database_driver}" 
-        url="${turbine_database_url}${turbine_database_name}" 
+        url="${turbine_database_url}${turbine_database_name}?serverTimezone=${turbine_database_timezone}"
         username="${turbine_database_user}" password="${turbine_database_password}" 
         maxTotal="100" maxIdle="20" minIdle="5" maxWaitMillis="10000"/>
 </Context>
