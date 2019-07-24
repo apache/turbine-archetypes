@@ -32,7 +32,7 @@
 
   <name>Archetype - Turbine 5.0 WebApp</name>
   <description>This archetype sets up a web application project based on Apache Turbine 5.0</description>
-  <url>http://turbine.apache.org</url>
+  <url>https://turbine.apache.org</url>
 
   <inceptionYear>2011</inceptionYear>
 
@@ -42,7 +42,7 @@
     <url>scm:git:https://github.com/apache/turbine-archetypes</url>
   </scm>
   
-<build>
+  <build>
     <extensions>
       <extension>
         <groupId>org.apache.maven.archetype</groupId>
