@@ -39,7 +39,7 @@ public class ShowRecords  extends SecureAction
 	    super.doPerform( pipelineData, context );
 	    List<Author> authors = AuthorPeer.doSelect( new Criteria() );//all
 	    context.put( "authors", authors );
-	    RunData data = getRunData(pipelineData);
+	    RunData data = (RunData) pipelineData;
 	    data.setScreenTemplate(Character.toLowerCase(getClass().getSimpleName().charAt(0)) + 
 	    		getClass().getSimpleName().substring(1) + ".vm"
 	    ); 

@@ -1,7 +1,7 @@
 package ${package}.flux.modules.actions.role;
 
 /*
- * Copyright 2001-2017 The Apache Software Foundation.
+ * Copyright 2001-2019 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ package ${package}.flux.modules.actions.role;
 import java.util.Iterator;
 
 import org.apache.commons.configuration2.Configuration;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.fulcrum.security.entity.Permission;
@@ -29,6 +28,7 @@ import org.apache.fulcrum.security.torque.om.TurbineUserGroupRolePeer;
 import org.apache.fulcrum.security.util.EntityExistsException;
 import org.apache.fulcrum.security.util.PermissionSet;
 import org.apache.fulcrum.security.util.UnknownEntityException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.torque.criteria.Criteria;
 import org.apache.turbine.annotation.TurbineConfiguration;
 import org.apache.turbine.annotation.TurbineService;
@@ -38,6 +38,7 @@ import org.apache.turbine.util.RunData;
 import org.apache.velocity.context.Context;
 
 import ${package}.flux.modules.actions.FluxAction;
+
 
 /**
  * Action to manager roles in Turbine.
@@ -57,7 +58,7 @@ public class FluxRoleAction extends FluxAction {
 	private Configuration conf;
 
 	public void doInsert(PipelineData pipelineData, Context context) throws Exception {
-		RunData data = getRunData(pipelineData);
+		RunData data = (RunData) pipelineData;
 		Role role = security.getRoleInstance();
 		data.getParameters().setProperties(role);
 
@@ -91,7 +92,7 @@ public class FluxRoleAction extends FluxAction {
 	 *                a generic exception.
 	 */
 	public void doUpdate(PipelineData pipelineData, Context context) throws Exception {
-		RunData data = getRunData(pipelineData);
+		RunData data = (RunData) pipelineData;
 		Role role = security.getRoleByName(data.getParameters().getString("oldName"));
 		String name = data.getParameters().getString(ROLE_ID);
 		if (role != null && !StringUtils.isEmpty(name)) {
@@ -117,7 +118,7 @@ public class FluxRoleAction extends FluxAction {
 	 *                a generic exception.
 	 */
 	public void doDelete(PipelineData pipelineData, Context context) throws Exception {
-		RunData data = getRunData(pipelineData);
+		RunData data = (RunData) pipelineData;
 
 		try {
 			// find the role
@@ -158,7 +159,7 @@ public class FluxRoleAction extends FluxAction {
 	 */
 	public void doPermissions(PipelineData pipelineData, Context context) throws Exception {
 
-		RunData data = getRunData(pipelineData);
+		RunData data = (RunData) pipelineData;
 		/*
 		 * Grab the role we are trying to update. Always not null
 		 */
@@ -215,7 +216,7 @@ public class FluxRoleAction extends FluxAction {
 	 */
 	public void doPerform(PipelineData pipelineData, Context context) throws Exception {
 		log.info("Running do perform!");
-		getRunData(pipelineData).setMessage("Can't find the requested action!");
+		( (RunData) pipelineData).setMessage("Can't find the requested action!");
 	}
 
 	/**

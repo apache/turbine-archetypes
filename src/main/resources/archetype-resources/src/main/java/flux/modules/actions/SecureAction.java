@@ -1,7 +1,7 @@
 package ${package}.flux.modules.actions;
 
 /*
- * Copyright 2001-2017 The Apache Software Foundation.
+ * Copyright 2001-2019 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -64,9 +64,8 @@ public class SecureAction extends VelocitySecureAction {
 	@Override
 	protected boolean isAuthorized(PipelineData pipelineData) throws Exception {
 
-		RunData data = getRunData(pipelineData);
-
 		boolean isAuthorized = false;
+		RunData data = (RunData) pipelineData;
 
 		/*
 		 * Grab the Flux Admin role listed in the Flux.properties file that is included
@@ -109,8 +108,10 @@ public class SecureAction extends VelocitySecureAction {
 	 * @exception Exception,
 	 *                a generic exception.
 	 */
-	public void doPerform(PipelineData data, Context context) throws Exception {
-		User user = getRunData(data).getUser();
+	public void doPerform(PipelineData pipelineData, Context context) throws Exception 
+	{
+		RunData data = (RunData) pipelineData;
+		User user = data.getUser();
 		context.put("user", user);
 	}
 }

@@ -1,7 +1,7 @@
 package ${package}.flux.modules.actions.user;
 
 /*
- * Copyright 2001-2017 The Apache Software Foundation.
+ * Copyright 2001-2019 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ public class FluxUserAction extends FluxAction {
 	 * system.
 	 */
 	public void doInsert(PipelineData pipelineData, Context context) throws Exception {
-		RunData data = getRunData(pipelineData);
+		RunData data = (RunData) pipelineData;
 
 		/*
 		 * Grab the username entered in the form.
@@ -110,7 +110,7 @@ public class FluxUserAction extends FluxAction {
 	 * before allowing the user info to be update in the database.
 	 */
 	public void doUpdate(PipelineData pipelineData, Context context) throws Exception {
-		RunData data = getRunData(pipelineData);
+		RunData data = (RunData) pipelineData;
 		String username = data.getParameters().getString("username");
 		if (!StringUtils.isEmpty(username)) {
 			if (security.accountExists(username)) {
@@ -155,13 +155,18 @@ public class FluxUserAction extends FluxAction {
 	public void doDelete(PipelineData pipelineData, Context context) throws Exception {
 
 		try {
-			RunData data = getRunData(pipelineData);
+			RunData data = (RunData) pipelineData;
 			String username = data.getParameters().getString("username");
 			if (!StringUtils.isEmpty(username)) {
 				if (security.accountExists(username)) {
 
 					// find the user object and remove using security mgr
 					User user = security.getUser(username);
+
+					// get the turbine user id
+					int id = (int) user.getId();
+
+					// remove the turbine user
 					security.removeUser(user);
 
 				} else {
@@ -178,7 +183,7 @@ public class FluxUserAction extends FluxAction {
 	 * Update the roles that are to assigned to a user for a project.
 	 */
 	public void doRoles(PipelineData pipelineData, Context context) throws Exception {
-		RunData data = getRunData(pipelineData);
+		RunData data = (RunData) pipelineData;
 
 		try {
 			/*
@@ -255,7 +260,7 @@ public class FluxUserAction extends FluxAction {
 	 */
 	public void doPerform(PipelineData pipelineData, Context context) throws Exception {
 		log.info("Running do perform!");
-		getRunData(pipelineData).setMessage("Can't find the requested action!");
+		( (RunData) pipelineData).setMessage("Can't find the requested action!");
 	}
 
 }
