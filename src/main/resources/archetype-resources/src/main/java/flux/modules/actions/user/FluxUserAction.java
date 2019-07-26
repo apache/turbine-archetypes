@@ -34,10 +34,11 @@ import org.apache.velocity.context.Context;
 import ${package}.flux.modules.actions.FluxAction;
 
 /**
- * Change Password action.
- *
+ * Change user action
  */
-public class FluxUserAction extends FluxAction {
+public class FluxUserAction extends FluxAction 
+{
+	/** Logging **/
 	private static Log log = LogFactory.getLog(FluxUserAction.class);
 
 	/** Injected service instance */
@@ -48,7 +49,8 @@ public class FluxUserAction extends FluxAction {
 	 * ActionEvent responsible for inserting a new user into the Turbine security
 	 * system.
 	 */
-	public void doInsert(PipelineData pipelineData, Context context) throws Exception {
+	public void doInsert(PipelineData pipelineData, Context context) throws Exception 
+	{
 		RunData data = (RunData) pipelineData;
 
 		/*
@@ -57,12 +59,14 @@ public class FluxUserAction extends FluxAction {
 		String username = data.getParameters().getString("username");
 		String password = data.getParameters().getString("password");
 
-		if (!StringUtils.isEmpty(username) && !StringUtils.isEmpty(password)) {
+		if (!StringUtils.isEmpty(username) && !StringUtils.isEmpty(password)) 
+		{
 			/*
 			 * Make sure this account doesn't already exist. If the account already exists
 			 * then alert the user and make them change the username.
 			 */
-			if (security.accountExists(username)) {
+			if (security.accountExists(username)) 
+			{
 				context.put("username", username);
 				context.put("errorTemplate", "user,FluxUserAlreadyExists.vm");
 
@@ -70,9 +74,12 @@ public class FluxUserAction extends FluxAction {
 				data.getParameters().add("mode", "insert");
 				data.setScreen("user,FluxUserForm.vm");
 				return;
-			} else {
+			} 
+			else 
+			{
 
-				try {
+				try 
+				{
 					/*
 					 * Create a new user modeled directly from the SecurityServiceTest method
 					 */
@@ -83,7 +90,9 @@ public class FluxUserAction extends FluxAction {
 					// Use security to force the password
 					security.forcePassword(user, password);
 
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					log.error("Error adding new user: " + e);
 
 					context.put("username", username);
@@ -106,35 +115,32 @@ public class FluxUserAction extends FluxAction {
 	}
 
 	/**
-	 * ActionEvent responsible updating a user. Must check the input for integrity
-	 * before allowing the user info to be update in the database.
+	 * ActionEvent responsible updating a user
 	 */
-	public void doUpdate(PipelineData pipelineData, Context context) throws Exception {
+	public void doUpdate(PipelineData pipelineData, Context context) throws Exception 
+	{
 		RunData data = (RunData) pipelineData;
 		String username = data.getParameters().getString("username");
-		if (!StringUtils.isEmpty(username)) {
-			if (security.accountExists(username)) {
-
-				// This wrapped user does work for change password though... see below
+		if (!StringUtils.isEmpty(username)) 
+		{
+			if (security.accountExists(username)) 
+			{
+				// Load the wrapped user object
 				User user = security.getUser(username);
+				User tmp_user = security.getUser(username);
 				if (user != null) {
 
-					// update all properties from form
+					// Update user details except for the password
 					data.getParameters().setProperties(user);
-
-					// save the changes to the user account
+					user.setPassword(tmp_user.getPassword());
 					security.saveUser(user);
 
-					// get the new password from form submit
+					// Test if Admin provided new password
 					String password = data.getParameters().getString("password");
-
-					// Only update if we received a new (non-empty) password
-					if (!StringUtils.isEmpty(password)) {
-
+					if (!StringUtils.isEmpty(password)) 
+					{
 						// Change user password
 						security.changePassword(user, user.getPassword(), password);
-
-						// this still works
 						security.forcePassword(user, password);
 					} else {
 						data.setMessage("Cannot provide an empty password");
@@ -150,16 +156,19 @@ public class FluxUserAction extends FluxAction {
 	}
 
 	/**
-	 * ActionEvent responsible for removing a user from the Tambora system.
+	 * ActionEvent responsible for removing a user
 	 */
-	public void doDelete(PipelineData pipelineData, Context context) throws Exception {
+	public void doDelete(PipelineData pipelineData, Context context) throws Exception 
+	{
 
-		try {
+		try 
+		{
 			RunData data = (RunData) pipelineData;
 			String username = data.getParameters().getString("username");
-			if (!StringUtils.isEmpty(username)) {
-				if (security.accountExists(username)) {
-
+			if (!StringUtils.isEmpty(username)) 
+			{
+				if (security.accountExists(username)) 
+				{
 					// find the user object and remove using security mgr
 					User user = security.getUser(username);
 
@@ -174,7 +183,9 @@ public class FluxUserAction extends FluxAction {
 					data.setMessage("User not found!");
 				}
 			}
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			log.error("Could not remove user: " + e);
 		}
 	}
@@ -182,17 +193,21 @@ public class FluxUserAction extends FluxAction {
 	/**
 	 * Update the roles that are to assigned to a user for a project.
 	 */
-	public void doRoles(PipelineData pipelineData, Context context) throws Exception {
+	public void doRoles(PipelineData pipelineData, Context context) throws Exception 
+	{
 		RunData data = (RunData) pipelineData;
 
-		try {
+		try 
+		{
 			/*
 			 * Get the user we are trying to update. The username has been hidden in the
 			 * form so we will grab the hidden username and use that to retrieve the user.
 			 */
 			String username = data.getParameters().getString("username");
-			if (!StringUtils.isEmpty(username)) {
-				if (security.accountExists(username)) {
+			if (!StringUtils.isEmpty(username)) 
+			{
+				if (security.accountExists(username)) 
+				{
 					User user = security.getUser(username);
 
 					// Get the Turbine ACL implementation
@@ -204,9 +219,11 @@ public class FluxUserAction extends FluxAction {
 					GroupSet groups = security.getAllGroups();
 					RoleSet roles = security.getAllRoles();
 
-					for (Group group : groups) {
+					for (Group group : groups) 
+					{
 						String groupName = group.getName();
-						for (Role role : roles) {
+						for (Role role : roles) 
+						{
 							String roleName = role.getName();
 
 							/*
@@ -258,7 +275,8 @@ public class FluxUserAction extends FluxAction {
 	/**
 	 * Implement this to add information to the context.
 	 */
-	public void doPerform(PipelineData pipelineData, Context context) throws Exception {
+	public void doPerform(PipelineData pipelineData, Context context) throws Exception 
+	{
 		log.info("Running do perform!");
 		( (RunData) pipelineData).setMessage("Can't find the requested action!");
 	}
