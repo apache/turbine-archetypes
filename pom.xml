@@ -46,8 +46,9 @@
     <docker>false</docker>
     <app_volume_local_repo>not_used</app_volume_local_repo>
   </properties>
-  
- <build>
+
+  <build>
+
     <extensions>
       <extension>
         <groupId>org.apache.maven.archetype</groupId>

@@ -36,7 +36,7 @@ cd docker-resources
 
 ## Check Docker Compose file (optional)
 
-- Check services in docker-compose.yml (volumes). You might map  your local maven repostory like this:
+- Check services in docker-compose.yml (volumes). You might map your local maven repostory like this:
 
 ```sh
   volumes:
@@ -45,6 +45,7 @@ cd docker-resources
  ```yml
 
 - Check format:
+
 ``` 
 docker-compose config
 ```
@@ -143,7 +144,6 @@ In the container, check:
 ls -la /myapp // should list pom.xml ...
 ```
 
-
 ### Build Services
 
 The app service uses later a volume, which maps to the local maven repository, which you may need/not need.
@@ -167,6 +167,7 @@ In any case, you need then to rebuild the image.
 DB_CONTEXT is set to allow starting the db container standalone (in folder db, e.g. with docker build --tag my-db .)
 to test it.  CAVEAT: The db service is build and populated until now with hard coded data. 
 It is a dependency for the service app (see app/Dockerfile).
+
 
 # System Specific Informations
 

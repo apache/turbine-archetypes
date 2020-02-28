@@ -56,7 +56,7 @@ ENV MYSQL_ONETIME_PASSWORD=${MYSQL_ONETIME_PASSWORD}
 #       it has been declared, those changes will be discarded.
 
 RUN ["/usr/local/bin/docker-entrypoint.sh", "mysqld", "--datadir", "/initialized-db"]
-#RUN /docker-entrypoint.sh mysqld --datadir=/initialized-db && sleep 10 
+
 
 FROM mysql:8.0.19
 
