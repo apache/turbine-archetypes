@@ -29,9 +29,7 @@ services:
 
     volumes:
       - ../:/myapp
-      - "${app_volume_local_repo}:/m2repo"
-    #networks:
-    #  - db
+      - '${app_volume_local_repo}:/m2repo'
 
   db:
       # set the build context 

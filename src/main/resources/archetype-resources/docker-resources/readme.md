@@ -36,7 +36,15 @@ cd docker-resources
 
 ## Check Docker Compose file (optional)
 
-- Check services in docker-compose.yml (volumes) 
+- Check services in docker-compose.yml (volumes). You might map  your local maven repostory like this:
+
+```sh
+  volumes:
+    - ../:/myapp
+    - '<localpath>:/m2repo'
+ ```yml
+
+- Check format:
 ``` 
 docker-compose config
 ```
@@ -50,37 +58,24 @@ docker-compose config
 
 - Optionally Check system or cleanup, e.g. with docker-compose down, docker-compose down -v or docker sytem prune (removes any container on system).
 
+## Start
+
 - If services are already installed, activate/start by 
+
+```sh
     docker-compose up
+```
 
 - Starting the app service will build the app and start jetty with Maven on port 8081. 
 This command is set as a **command** in the app service in docker compose. 
 
-If not yet done, build on the host with mvn clean install -f ../pom.xml -Pdocker.
+If not yet done, build on the host with 
 
-### Build Services
-
-The app service uses later a volume, which maps to the local maven repository, which you may need/not need.
-The db service uses mysql-latest (currently 8.x), you may replace it with a fixed release tag, e.g. 5.6.
-
- - Build it
- 
 ```sh
-    docker-compose build --no-cache
+mvn clean install -f ../pom.xml -Pdocker
 ```
 
- .. optionally build it separately
-    docker-compose build --no-cache --build-arg DB_CONTEXT=./docker-resources/db db
-    
- .. building app service first/only requires removing the dependency in docker-compose.yml(comment depends_on: db)
-    docker-compose build --no-cache app
-
-DB_CONTEXT is set to allow starting the db container standalone (in folder db, e.g. with docker build --tag my-db .)
-to test it.  CAVEAT: The db service is build and populated until now with hard coded data. 
-It is a dependency for the service app (see app/Dockerfile).
-
-
-### Starting Services
+### Start and Stopp the service
 
 Start both services in one step
 ``` 
@@ -93,8 +88,29 @@ docker-compose start
 ``` 
 
 This will start first the db service, then the app service. Jetty is run exposing the webapp to **http://localhost:8081/app**.
+
+Login should work with user admin/password or user/password.
+
+
 By default remote debugging is activated (port 9000), which could be removed/commented in docker-compose.yml.
-You could follow the logs with docker-compose logs -f app or docker-compose logs -f db.
+
+You could follow the logs  (in folder docker-resources) with 
+
+``` sh
+docker-compose logs -f app
+``` 
+
+ or 
+ 
+``` sh
+ docker-compose logs -f db.
+ ``` 
+
+Stop by Ctrl-C or
+``` 
+docker-compose down
+``` 
+
 
 #### Lifecycle (developers only)
 
@@ -126,6 +142,31 @@ In the container, check:
 ```sh
 ls -la /myapp // should list pom.xml ...
 ```
+
+
+### Build Services
+
+The app service uses later a volume, which maps to the local maven repository, which you may need/not need.
+The db service uses mysql (currently 8.0.x), you may replace it with a fixed release tag, e.g. 5.6. 
+
+In any case, you need then to rebuild the image.
+
+
+ - Build the image 
+ 
+```sh
+    docker-compose build --no-cache
+```
+
+ .. optionally build it separately
+    docker-compose build --no-cache --build-arg DB_CONTEXT=./docker-resources/db db
+    
+ .. building app service first/only requires removing the dependency in docker-compose.yml(comment depends_on: db)
+    docker-compose build --no-cache app
+
+DB_CONTEXT is set to allow starting the db container standalone (in folder db, e.g. with docker build --tag my-db .)
+to test it.  CAVEAT: The db service is build and populated until now with hard coded data. 
+It is a dependency for the service app (see app/Dockerfile).
 
 # System Specific Informations
 

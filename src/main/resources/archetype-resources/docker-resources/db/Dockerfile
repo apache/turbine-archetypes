@@ -1,7 +1,7 @@
 #using multi-stage
 
 # mariadb use docker-entrypoint 
-FROM mysql:latest as builder
+FROM mysql:8.0.19 as builder
 
 # That file does the DB initialization but also runs mysql daemon, by removing the last line it will only init
 RUN ["/bin/sed", "-i", "s/exec \"$@\"/echo \"not running $@\"/", "/usr/local/bin/docker-entrypoint.sh"]
@@ -58,7 +58,7 @@ ENV MYSQL_ONETIME_PASSWORD=${MYSQL_ONETIME_PASSWORD}
 RUN ["/usr/local/bin/docker-entrypoint.sh", "mysqld", "--datadir", "/initialized-db"]
 #RUN /docker-entrypoint.sh mysqld --datadir=/initialized-db && sleep 10 
 
-FROM mysql:latest
+FROM mysql:8.0.19
 
 # my.cnf setting data-dir 
 COPY --from=builder /initialized-db /var/lib/mysql
