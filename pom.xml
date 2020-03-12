@@ -27,7 +27,7 @@
   </parent>
   <groupId>org.apache.turbine</groupId>
   <artifactId>turbine-webapp-5.0</artifactId>
-  <version>1.0.3</version>
+  <version>2.0.0-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>
 
   <name>Archetype - Turbine 5.0 WebApp</name>
@@ -40,7 +40,7 @@
     <connection>scm:git:https://github.com/apache/turbine-archetypes</connection>
     <developerConnection>scm:git:https://github.com/apache/turbine-archetypes</developerConnection>
     <url>scm:git:https://github.com/apache/turbine-archetypes</url>
-    <tag>turbine-webapp-5.0-1.0.3-rc</tag>
+    <tag>HEAD</tag>
   </scm>
   
   <build>
