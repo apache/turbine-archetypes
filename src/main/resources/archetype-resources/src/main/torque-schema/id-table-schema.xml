@@ -26,10 +26,10 @@
 <!--                                                                           -->
 <!-- ========================================================================= -->
 
-<database xmlns="http://db.apache.org/torque/4.0/templates/database"
+<database xmlns="http://db.apache.org/torque/5.0/templates/database"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://db.apache.org/torque/4.0/templates/database
-        http://db.apache.org/torque/4.0/templates/database-strict.xsd"
+  xsi:schemaLocation="http://db.apache.org/torque/5.0/templates/database
+        https://db.apache.org/torque/xsd/database-5-0-strict.xsd"
   name="${turbine_database_name}"
   defaultIdMethod="native">
 

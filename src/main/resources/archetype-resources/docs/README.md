@@ -16,17 +16,17 @@ KIND, either express or implied. See the License for the
 specific language governing permissions and limitations
 under the License.
 *#
+ 
 
-Notice
+# Quick Guide to using the new Turbine 5.1 maven archetype for skeleton application generation
 
-About this archetype 
 
-Turbine Version: Turbine 5.0. 
 
-# Quick Guide to using the new Turbine 5.0 maven archetype 
-for skeleton application generation
+## About this archetype 
 
-## Local database Setup
+Turbine Version: Turbine 5.1.
+
+### Local database Setup
 
 First, you should have a local database installed and configured prior to 
 beginning the application setup below.
@@ -39,16 +39,17 @@ mysql> \q
 
 or other tools. The database should have been started and the database user granted enough rights.
 
-## Maven archetype 
+### Maven archetype 
 
 Next, you can invoke the Maven archetype for turbine-webapp-5.0 from 
 the command line as shown below - please update values starting 
 with 'groupId' as appropriate.
 
+```sh
 mvn archetype:generate \
   -DarchetypeGroupId=org.apache.turbine \
-  -DarchetypeArtifactId=turbine-webapp-5.0 \
-  -DarchetypeVersion=1.0.3-SNAPSHOT \
+  -DarchetypeArtifactId=turbine-webapp-5.1 \
+  -DarchetypeVersion=2.0.0-SNAPSHOT \
   -DgroupId=com.mycompany.webapp \
   -DartifactId=myhelloworld \
   -Dversion=1.0 \
@@ -60,14 +61,17 @@ mvn archetype:generate \
   -Dturbine_database_timezone=UTC \
   -Dturbine_database_url=jdbc:mysql://localhost:3306/ \
   -Dgoals=generate-sources,integration-test
+```
 
-### Digression
+### Development
 
 You may use 
 
+```sh
 mvn archetype:generate -DarchetypeCatalog=local
+```
 
-to avoid declaring the Darchetype* variables.
+to avoid declaring the *archetype* variables.
 
 This requires you provide a local catalog in $HOME\.m2\archetype-catalog.xml. Find further information here: https://maven.apache.org/archetype/archetype-models/archetype-catalog/archetype-catalog.html.
 
@@ -75,8 +79,8 @@ This requires you provide a local catalog in $HOME\.m2\archetype-catalog.xml. Fi
 <archetype-catalog ...>
  <archetype>
       <groupId>org.apache.turbine</groupId>
-      <artifactId>turbine-webapp-5.0</artifactId>
-      <version>1.0.3-SNAPSHOT</version>
+      <artifactId>turbine-webapp-5.1</artifactId>
+      <version>2.0.0-SNAPSHOT</version>
       <description>This archetype sets up a web application project based on Apache Turbine 5.0</description>
     </archetype>
   </archetypes>
@@ -105,28 +109,36 @@ the configuration.
 
 Next, change into the newly generated project folder, in our case
 
+```sh
 cd myhelloworld
+```
 
-Skip next two steps, if the build was successfull
-mvn generate-sources  ## This will generate the OM layer and SQL 
-          ## code for creating the corresponding
-          ## database tables
+Skip next two steps, if the build was successfull.
 
-mvn integration-test      ## This executes the SQL code to create 
-          ## the application schema defined 
-          ## in src/main/torque-schema
+```sh
+mvn generate-sources
+```
+This will generate the OM layer and SQL code for creating the corresponding database tables.
+
+
+```sh
+mvn integration-test
+```
+This executes the SQL code to create the application schema defined  in src/main/torque-schema.
 
 You should now check the database tables and if some data is missing
 insert the sample data file in sample-mysql-data (Torque 4.0 has disabled the datasql task).
 
+```sh
 mvn clean install 
+```
 
-If you get an error like "The driver has not received any packets" probably the database is not up and running or the port may be another one.
+If you get an error like *"The driver has not received any packets"* probably the database is not up and running or the port may be another one.
 
 Last step on the command line is run the server by invoking 
 mvn jetty:run         
 
-## Now you can launch your new Turbine application by default http://localhost:8081/app (check port in pom.xml, if needed).
+- Now you can launch your new Turbine application by default [http://localhost:8081/app] (check port in pom.xml, if needed).
 
 ### Logs 
 
@@ -134,7 +146,7 @@ Find the Logs in src/main/webapp/logs and
 
 ### Application
 
-Open a web browser to http://localhost:8081/app
+Open a web browser to [http://localhost:8081/app]
 
 Login should work with user admin/password or user/password.
 
@@ -159,17 +171,21 @@ If running from integration test, check/update
 The security test is by default skipped as it requires a running mysql. It tests many of the Fulcrum Torque Turbine security aspects, 
 activate it by calling
 
+```sh
 mvn test -DskipTests=false
+```
 
 CAVEAT: If initialization fails, double check your database credentials! If invalid the error might be somewhat hidden behind a
  Torque exception!
 
-## Eclipse
+## IDE Integration, Eclipse
 
 To enable application development in Eclipse, run the following command 
 and then import the project into Eclipse.
 
+```sh
 mvn eclipse:eclipse
+```
 
 Once imported, update your project to be managed by Maven 
 -> Right click on the project name
@@ -184,7 +200,9 @@ your eclipse environment.
 
 You even could debug the app by setting the environment variable to something like this
 
+```
 set MAVEN_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n
+```
 
 before running the jetty server.
 

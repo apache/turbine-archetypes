@@ -12,7 +12,7 @@ package ${package}.om;
  */
 
 public  class TurbineRolePermission
-    extends ${package}.om.BaseTurbineRolePermission
+    extends ${package}.om.BaseTurbineRolePermission implements org.apache.fulcrum.security.torque.peer.TurbineRolePermissionPeerMapper
 {
     /**
 	 * 

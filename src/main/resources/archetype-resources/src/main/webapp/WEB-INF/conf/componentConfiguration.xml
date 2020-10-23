@@ -124,7 +124,7 @@
     
     <!-- 
      Custom Turbine ORM Torque classes could not yet be used: 
-     - requires Torque 4.1 or if using Torque 4.0 reqires manually adding the interfaces in T-classes
+     - requires Torque > 4 or if using Torque 4.0 reqires manually adding the interfaces in T-classes
      - requires attribute baseClass in fulcrum-turbine-schema.xml table elements set to appropriate org.apache.fulcrum.security.model.turbine.entity interfaces
      - requires attribute peerClass in fulcrum-turbine-schema.xml table elements set to org.apache.fulcrum.security.torque.peer.TorqueTurbinePeer 
      -->
