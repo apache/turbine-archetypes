@@ -403,14 +403,14 @@ under the License.
         <maven.compile.source>1.8</maven.compile.source>
         <maven.compile.target>1.8</maven.compile.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        <log4j2.version>2.13.3</log4j2.version>
-        <mysql.version>8.0.21</mysql.version>
+        <log4j2.version>2.14.1</log4j2.version>
+        <mysql.version>8.0.25</mysql.version>
         <torque.version>5.0</torque.version>
         <fulcrum.json>2.0.0</fulcrum.json>
-        <fulcrum.intake>2.0.1-SNAPSHOT</fulcrum.intake>
-        <fulcrum.security>2.0.0-SNAPSHOT</fulcrum.security>
+        <fulcrum.intake>2.0.0</fulcrum.intake>
+        <fulcrum.security>2.0.0</fulcrum.security>
         <fulcrum.yaafi>1.0.8</fulcrum.yaafi>
-        <fulcrum.testcontainer>1.0.8</fulcrum.testcontainer>
+        <fulcrum.testcontainer>1.0.9</fulcrum.testcontainer>
         <turbine.core>5.1-SNAPSHOT</turbine.core>
         <skipTests>true</skipTests>
     </properties>

@@ -23,7 +23,7 @@
     <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>20</version><!-- like turbine parent -->
+    <version>23</version><!-- like turbine parent -->
   </parent>
   <groupId>org.apache.turbine</groupId>
   <artifactId>turbine-webapp-5.1</artifactId>
