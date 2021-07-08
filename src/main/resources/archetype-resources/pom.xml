@@ -186,8 +186,7 @@ under the License.
 
             <!--  The serverTimezone parameter is required for MySQL.
             	You may need to remove it for other databases -->
-            <url>${turbine_database_url}${turbine_database_name}?serverTimezone=${turbine_database_timezone}&amp;useSSL=false&amp;verifyServerCertificate=false&amp;requireSSL=false</url>
-
+            <url>#var("turbine_database_url")${turbine_database_name}?serverTimezone=${turbine_database_timezone}&amp;useSSL=false&amp;verifyServerCertificate=false&amp;requireSSL=false</url>
             <username>${turbine_database_user}</username>
             <password>${turbine_database_password}</password>
             <onError>continue</onError>
@@ -212,6 +211,7 @@ under the License.
                   <goal>execute</goal>
                 </goals>
                 <configuration>
+                  <skip>${docker}</skip>
                   <orderFile>ascending</orderFile>
                   <fileset>
                     <basedir>#var("project.build.directory")/generated-sql/torque/mysql</basedir>
@@ -229,6 +229,7 @@ under the License.
                 <goal>execute</goal>
               </goals>
               <configuration>
+                <skip>${docker}</skip>
                 <orderFile>ascending</orderFile>
                 <srcFiles>
                   <srcFile>#var("project.basedir")/docs/sample-mysql-data/_application-data.sql</srcFile>
@@ -333,11 +334,10 @@ under the License.
        </dependency>
        <!-- include some optional dependencies required in example componentConfiguration.xml -->
 
-      <!-- cache 1.1.1-SNAPSHOT still not building properly -->
       <dependency>
         <groupId>org.apache.fulcrum</groupId>
         <artifactId>fulcrum-cache</artifactId>
-        <version>1.1.0</version>
+        <version>#var("fulcrum.cache")</version>
       </dependency>
       <dependency>
         <groupId>org.apache.fulcrum</groupId>
@@ -368,7 +368,7 @@ under the License.
       <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
         <artifactId>jackson-datatype-json-org</artifactId>
-        <!-- version>$dollar{jackson.version}</version-->
+        <!-- version>${jackson.version}</version-->
         <!--  https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.11.3 -->
         <version>2.11.3</version>
       </dependency>
@@ -406,13 +406,20 @@ under the License.
         <log4j2.version>2.14.1</log4j2.version>
         <mysql.version>8.0.25</mysql.version>
         <torque.version>5.0</torque.version>
-        <fulcrum.json>2.0.0</fulcrum.json>
+        <fulcrum.json>2.0.1</fulcrum.json>
         <fulcrum.intake>2.0.0</fulcrum.intake>
         <fulcrum.security>2.0.0</fulcrum.security>
         <fulcrum.yaafi>1.0.8</fulcrum.yaafi>
         <fulcrum.testcontainer>1.0.9</fulcrum.testcontainer>
+        <!--torque.version>5.1-SNAPSHOT</torque.version>
+        <fulcrum.intake>2.0.1-SNAPSHOT</fulcrum.intake>
+        <fulcrum.security>2.0.0-SNAPSHOT</fulcrum.security-->
+
         <turbine.core>5.1-SNAPSHOT</turbine.core>
         <skipTests>true</skipTests>
+        <docker>false</docker>
+        <turbine_database_url>${turbine_database_url}</turbine_database_url>
+        <app_volume_local_repo>NOT_USED</app_volume_local_repo>
     </properties>
     
     <profiles>
@@ -449,6 +456,40 @@ under the License.
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>docker</id>
+            <activation>
+                <activeByDefault>${docker}</activeByDefault>
+            </activation>
+             <build>
+                <plugins>
+                        <plugin>
+                       <groupId>org.codehaus.mojo</groupId>
+                       <artifactId>sql-maven-plugin</artifactId>
+                       <executions>
+                            <execution>
+                                <id>create-db</id>
+                                <configuration>
+                                    <skip>true</skip>
+                                </configuration>
+                            </execution>
+                            <execution>
+                               <id>create-data</id>
+                                <configuration>
+                                    <skip>true</skip>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                 </plugins>
+              </build>
+            <properties>
+                <turbine_database_url>jdbc:mysql://db:3306/</turbine_database_url>
+                <!-- to provide e.g. local snapshot builds -->
+                <app_volume_local_repo>#var("settings.localRepository")</app_volume_local_repo>
+                <docker>true</docker>
+            </properties>
         </profile>
     </profiles>
     

@@ -24,6 +24,11 @@
   </properties>
 
   <body>
+    <release version="2.0.0-SNAPSHOT" date="in Gitbox">
+       <action type="update" dev="gk">
+        integrate docker branch (optional profile docker)
+      </action>
+    </release>
 	<release version="1.0.3" date="in Gitbox">
 	  <action type="update" dev="jp">
          Update to from lang to lang3

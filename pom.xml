@@ -31,7 +31,7 @@
   <packaging>maven-archetype</packaging>
 
   <name>Archetype - Turbine 5.1 WebApp</name>
-  <description>This archetype sets up a web application project based on Apache Turbine 5.1</description>
+  <description>This archetype sets up a web application project based on Apache Turbine 5.x and Torque 5.x</description>
   <url>https://turbine.apache.org</url>
 
   <inceptionYear>2011</inceptionYear>
@@ -42,6 +42,12 @@
     <url>scm:git:https://github.com/apache/turbine-archetypes</url>
     <tag>HEAD</tag>
   </scm>
+  
+   <properties>
+	<turbine_database_url>jdbc:mysql://localhost:3306/</turbine_database_url>
+    <docker>false</docker>
+    <app_volume_local_repo>not_used</app_volume_local_repo>
+  </properties>
   
   <build>
     <extensions>
@@ -64,6 +70,50 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    
+   <plugins>
+        <!-- filtering for docker -->
+        <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>3.1.0</version>
+            <executions>
+              <execution>
+                <id>copy-resources</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${basedir}/target/test-classes</outputDirectory>
+                  <resources>          
+                    <resource>
+                      <directory>src/test/resources</directory>
+                      <filtering>true</filtering>
+                    </resource>
+                  </resources>              
+                </configuration>            
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
   </build>
+  
+    <profiles>
+    <!-- to test in integration-test -->
+        <profile>
+            <id>docker</id>
+            <activation>
+              <property>
+                <name>docker</name>
+              </property>
+             </activation>
+             <properties>
+                <turbine_database_url>jdbc:mysql://db:3306/</turbine_database_url>
+                <!-- to provide your locale maven repo, required if you need local snapshot builds -->
+                <app_volume_local_repo>${settings.localRepository}</app_volume_local_repo>
+                <docker>true</docker>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
