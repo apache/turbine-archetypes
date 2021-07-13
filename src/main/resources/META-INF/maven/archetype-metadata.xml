@@ -57,6 +57,9 @@
      <requiredProperty key="app_volume_local_repo">
         <defaultValue>${settings.localRepository}</defaultValue>
      </requiredProperty>
+     <requiredProperty key="docker">
+        <defaultValue>${docker}</defaultValue>
+     </requiredProperty>
   </requiredProperties>
   <fileSets>
     <fileSet filtered="true" packaged="true">

@@ -26,6 +26,10 @@ under the License.
 
 Turbine Version: Turbine 5.1.
 
+### Docker Setup
+
+See DOCKER-README.md
+
 ### Local database Setup
 
 First, you should have a local database installed and configured prior to 
@@ -136,7 +140,7 @@ mvn clean install
 If you get an error like *"The driver has not received any packets"* probably the database is not up and running or the port may be another one.
 
 Last step on the command line is run the server by invoking 
-mvn jetty:run         
+mvn -Pjetty
 
 - Now you can launch your new Turbine application by default [http://localhost:8081/app] (check port in pom.xml, if needed).
 

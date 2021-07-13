@@ -399,8 +399,7 @@ under the License.
         <fulcrum.cache>2.0.0</fulcrum.cache>
         <fulcrum.testcontainer>1.0.9</fulcrum.testcontainer>
         <torque.version>5.1-SNAPSHOT</torque.version>
-         <turbine.core>5.1-SNAPSHOT</turbine.core>
-        
+         <turbine.core>5.1-SNAPSHOT</turbine.core>     
         <!--
              <torque.version>5.0</torque.version>
             <turbine.core>5.0</turbine.core>
@@ -428,6 +427,8 @@ under the License.
                         <artifactId>jetty-maven-plugin</artifactId>
                          <version>9.4.43.v20210629</version>
                          <configuration>
+                           <!-- https://www.eclipse.org/jetty/documentation/jetty-9/index.html#jars-scanned-for-annotations -->
+                            <scanIntervalSeconds>10</scanIntervalSeconds>
                             <httpConnector>
                                 <port>8081</port>
                                 <idleTimeout>60000</idleTimeout>
