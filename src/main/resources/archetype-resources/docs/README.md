@@ -28,7 +28,7 @@ Turbine Version: Turbine 5.1.
 
 ### Docker Setup
 
-See DOCKER-README.md
+Skip Local Database setup and read later DOCKER-README.md
 
 ### Local database Setup
 
@@ -66,6 +66,30 @@ mvn archetype:generate \
   -Dturbine_database_url=jdbc:mysql://localhost:3306/ \
   -Dgoals=generate-sources,integration-test
 ```
+
+#### Docker integration (short intro)
+
+N.B. Add  
+
+    -Dturbine_database_url=jdbc:mysql://db:3306/ \
+    -Ddocker=true
+    
+to immediately enable docker setup, when generating the archetype. 
+
+Currently only port 3306 is supported, if you do not want ot change the port seetings for the db container in docker-compose.yml
+ 
+You then need not to follow the following chapters, but could immediately go to 
+
+    cd <project>/target/docker-resources
+    
+and then follow the instructions in DOCKER-README.md. In short you may do the following:
+ 
+    docker compose configurable
+    docker compose build --no-cache
+    docker compose up
+    
+ - Now you can launch your new Turbine application by default [http://localhost:8081/app] 
+ 
 
 ### Development
 

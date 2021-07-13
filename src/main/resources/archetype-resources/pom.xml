@@ -401,9 +401,8 @@ under the License.
         <torque.version>5.1-SNAPSHOT</torque.version>
          <turbine.core>5.1-SNAPSHOT</turbine.core>     
         <!--
-             <torque.version>5.0</torque.version>
+            <torque.version>5.0</torque.version>
             <turbine.core>5.0</turbine.core>
-        
             <torque.version>5.1-SNAPSHOT</torque.version>
            <turbine.core>5.1-SNAPSHOT</turbine.core>
                         
@@ -438,6 +437,16 @@ under the License.
                             </webApp> 
                         </configuration>
                     </plugin>
+                    <!-- aswe call this profile in docker-resources/docker-compose.yml for app, which will replace /m2repo, 
+                    we want to avoid a second parsing from inside the container -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <configuration>
+                          <skip>true</skip>
+                        </configuration>
+                      </plugin>
                 </plugins>
             </build>
         </profile>
@@ -485,7 +494,7 @@ under the License.
                  </plugins>
               </build>
             <properties>
-                <turbine_database_url>jdbc:mysql://db:3306/</turbine_database_url>
+                <turbine_database_url>${turbine_database_url}</turbine_database_url>
                 <!-- read from #var("settings.localRepository") to provide e.g. local snapshot builds -->
                 <app_volume_local_repo>${settings.localRepository}</app_volume_local_repo>
                 <docker>true</docker>

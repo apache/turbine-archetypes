@@ -11,8 +11,7 @@ services:
     environment:
         - MAVEN_OPTS=-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9000
     
-    # this runs the app server in the container
-    #command: mvn clean package jetty:run -Pdocker
+    # this runs the app server in the container, be sure not to filter resources once again!
     command: mvn -Pjetty
     ports:
       - "8081:8081"
@@ -39,22 +38,20 @@ services:
       dockerfile: ./docker-resources/db/Dockerfile
       args:
         - DB_CONTEXT=./docker-resources/db
-        - MYSQL_DATABASE=turbine
-        #- MYSQL_ROOT_PASSWORD=default
-        - MYSQL_RANDOM_ROOT_PASSWORD=yes
-        - MYSQL_USER=db_user
-        - MYSQL_PASSWORD=db_password
-        - MYSQL_ONETIME_PASSWORD=false
+        - MYSQL_DATABASE=${turbine_database_name}
+        - MYSQL_ROOT_PASSWORD=changeit
+        - MYSQL_RANDOM_ROOT_PASSWORD=
+        - MYSQL_USER=${turbine_database_user}
+        - MYSQL_PASSWORD=${turbine_database_password}
     
     environment:
-      - MYSQL_DATABASE=turbine
+      - MYSQL_DATABASE=${turbine_database_name}
       - MYSQL_HOST= 
-      #- MYSQL_ROOT_PASSWORD=default
-      - MYSQL_RANDOM_ROOT_PASSWORD=yes
-      - MYSQL_USER=db_user
-      - MYSQL_PASSWORD=db_password
+      - MYSQL_ROOT_PASSWORD=changeit
+      - MYSQL_RANDOM_ROOT_PASSWORD=
+      - MYSQL_USER=${turbine_database_user}
+      - MYSQL_PASSWORD=${turbine_database_password}
       - DB_CONTEXT=./docker-resources/db
-      - MYSQL_ONETIME_PASSWORD=false
       #- MYSQL_ALLOW_EMPTY_PASSWORD=yes
       
     volumes:
@@ -62,8 +59,8 @@ services:
       - "/db/mysql/conf:/etc/mysql/conf.d"
       - "./db/mysql/data:/data" 
       # default mysql persistent data
-      - mysql_log:/mysql/log:rw 
-      - db_data:/var/lib/mysql:rw  
+      - mysql_log_${turbine_database_name}:/mysql/log:rw 
+      - db_data_${turbine_database_name}:/var/lib/mysql:rw  
     restart: always     
     ports:
       # host: container
@@ -75,8 +72,8 @@ services:
     command: --default-authentication-plugin=mysql_native_password
 
 volumes:
-  db_data:
-  mysql_log:
+  db_data_${turbine_database_name}:
+  mysql_log_${turbine_database_name}:
   
 #networks:
 #  db:

@@ -2,6 +2,8 @@
 
 This is to help developers to get fast a running development environment for debugging.
 
+To use it in production you may need to carefully review all configurations and adjust.
+
 This Docker environment is to test/develop a Turbine app using a docker test database. 
 
 The build should take place outside the docker container.
@@ -18,9 +20,16 @@ Docker compose uses currently two services: **app** (maven:3-jdk-8) and **db** (
 
 To run the build with maven do this outside of the container using following mvn command:
 
-```
-mvn install -Pdocker
-```
+    mvn install -Pdocker
+
+    
+- Then check in directory  target/docker-resources the file docker-compose.yml e.g. with
+
+    docker compose config
+
+## Optional Integration Test (not tested)
+
+    mvn integration-test 
 
 N.B.: This builds the integrationtest project in target/test-classes/projects/first/project/integrationtest with docker enabled configuration. 
 Running the build inside the container is not required and may be problematic, unless you use only public available dependencies.
@@ -45,11 +54,13 @@ N.B. You may use the command *docker compose* or *docker-compose*, but will slig
 
 - Check database service call in ** target/<projectname>/WEB-INF/jetty-env.xml**. It should reference the service name (db), not localhost - as it is also set in maven docker profile.
 
-- To change velocity templates check webapp in ** src/main/webapp**. 
 
 ```xml
 <Set name="url">jdbc:mysql://db:3306/turbine</Set>
 ```
+
+
+- To change velocity templates check webapp in ** src/main/webapp**.  Ohter resources might depend on https://www.eclipse.org/jetty/documentation/jetty-9/index.html#jars-scanned-for-annotations.
 
 ## Cleanup or restart (optional)
 
@@ -90,6 +101,8 @@ N.B. You may use the command *docker compose* or *docker-compose*, but will slig
 - Starting the app service will build the app and start jetty with Maven on port 8081. 
 This command is set as a **command** in the app service in docker compose. 
 
+Currently the docker-compose is generated once more, if starting the containers, this will overwrite m2repo and may result in errors.
+
 If not yet done, build on the host with mvn clean install -f ../pom.xml -Pdocker.
 
 ### Build Services
@@ -97,7 +110,12 @@ If not yet done, build on the host with mvn clean install -f ../pom.xml -Pdocker
 The app service uses later a volume, which maps to the local maven repository, which you may need/not need.
 The db service uses mysql-latest (currently 8.x), you may replace it with a fixed release tag.
 
+If previously build, you may want to delete all volumes and containers
+
+    docker-compose down -v
+
  - Build it
+ 
  
 ```sh
     docker-compose build --no-cache
