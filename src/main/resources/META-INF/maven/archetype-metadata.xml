@@ -95,8 +95,7 @@
     <fileSet filtered="false" packaged="false" encoding="UTF-8">
       <directory>docs</directory>
       <includes>
-        <include>**/*.txt</include>
-        <include>**/*.sql</include>
+        <include>**/*.md</include>
       </includes>
     </fileSet>
     <fileSet filtered="true" packaged="false" encoding="UTF-8">
@@ -138,10 +137,17 @@
         </includes>
     </fileSet>
     <fileSet filtered="true" packaged="false">
-        <directory>docker-resources</directory>
+        <directory>src/main/docker-resources</directory>
         <includes>
           <include>**/*</include>
         </includes>
      </fileSet>
+     <fileSet filtered="false" packaged="false" encoding="UTF-8">
+      <directory>src/main/data</directory>
+      <includes>
+        <include>**/*.txt</include>
+        <include>**/*.sql</include>
+      </includes>
+    </fileSet>
   </fileSets>
 </archetype-descriptor>

@@ -47,12 +47,6 @@ under the License.
                     <include>**/*.xml</include>
                 </includes>
             </resource>
-<<<<<<< HEAD
-            <!-- (target) resource and filtering is not used  at all ? 
-            at least removed setting absolute path e.g. with #var("project.build.directory"), 
-            which does thrown an exception with mvn eclipse:eclipse - path is then incorrectly relativized.
-                --> 
-=======
             <!-- (target) resource and filtering is not used  at all ?
             at least removed setting absolute path e.g. with #var("project.build.directory"),
             which does thrown an exception with mvn eclipse:eclipse - path is then incorrectly relativized.
@@ -73,7 +67,6 @@ under the License.
                 </includes>
                 <targetPath>../data</targetPath>
             </resource>
->>>>>>> bf803e1 (update eclipse project, fix resource basedir in pom, dockerfile commands more concise, fix myapp location due to using now docker-resources / webapp in target folder, add metadata-complete (optional))
             <resource> 
                 <targetPath>../torque/schema</targetPath>
                 <filtering>true</filtering>
@@ -195,8 +188,6 @@ under the License.
                         <X-Compile-Target-JDK>#var("maven.compile.target")</X-Compile-Target-JDK>
                     </manifestEntries>
                 </archive>
-<<<<<<< HEAD
-=======
                  <webResources>
                       <resource>
                         <directory>#var("project.basedir")/src/main/webapp/WEB-INF</directory>
@@ -207,7 +198,6 @@ under the License.
                         </includes>
                       </resource>
                     </webResources>
->>>>>>> bf803e1 (update eclipse project, fix resource basedir in pom, dockerfile commands more concise, fix myapp location due to using now docker-resources / webapp in target folder, add metadata-complete (optional))
                 <!-- containerConfigXML>WEB-INF/build/context.xml</containerConfigXML -->
             </configuration>
           </plugin>
@@ -275,36 +265,15 @@ under the License.
             </execution>
           </executions>
         </plugin>
-        <!-- jetty:run checks deployed war http://localhost:8081/app/ 
-           Using jetty 9 as supporting java 8. Other specs cft. https://www.eclipse.org/jetty/documentation/9.4.x/what-jetty-version.html -->
-        <plugin>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-maven-plugin</artifactId>
-            <!-- latest one that seems to be working, 
-                v20181111 and v20181114 coming up not found on maven central -->
-            <version>9.4.12.v20180830</version>
-          <configuration>
-            <scanIntervalSeconds>10</scanIntervalSeconds>
-            <dumpOnStart>true</dumpOnStart>
-            <reload>manual</reload>
-            <httpConnector>
-              <port>8081</port>
-            </httpConnector>
-            <webApp>
-                  <resourceBases>
-                      <resourceBase>#var("project.build.directory")/#var("project.build.finalName")</resourceBase>
-                  </resourceBases>
-                  <!--contextPath>/app</contextPath-->
-            </webApp>
-            <classesDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</classesDirectory>
-            <webAppSourceDirectory>${project.build.directory}/${project.build.finalName}</webAppSourceDirectory>
-          </configuration>
-        </plugin>
       </plugins>
     </build>
 
     <dependencies>
-   
+       <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>2.3.3</version>
+        </dependency>
       <!-- update with the database driver of your choice -->
       <dependency>
         <artifactId>mysql-connector-java</artifactId>
@@ -317,33 +286,6 @@ under the License.
           <artifactId>log4j-web</artifactId>
           <version>#var("log4j2.version")</version>
         </dependency>
-        <!-- Required for Java 9 and higher -->
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-      <dependency>
-          <groupId>javax.activation</groupId>
-          <artifactId>activation</artifactId>
-          <version>1.1.1</version>
-      </dependency>
-      <dependency>
-          <groupId>javax.mail</groupId>
-          <artifactId>mail</artifactId>
-          <version>1.4.5</version>
-          <scope>provided</scope>
-      </dependency>
       <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
@@ -355,7 +297,15 @@ under the License.
           <artifactId>turbine</artifactId>
           <version>#var("turbine.core")</version>
           <!-- should be resolved after upgrade to torque-4.1 -->
-          <exclusions>
+           <exclusions>
+            <!--exclusion>
+                <groupId>org.apache.fulcrum</groupId>
+              <artifactId>fulcrum-quartz</artifactId>   
+            </exclusion-->
+            <exclusion>
+                <groupId>org.apache.commons</groupId>
+              <artifactId>commons-email</artifactId>   
+            </exclusion>
           </exclusions>
       </dependency>
       <dependency>
@@ -442,18 +392,24 @@ under the License.
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <log4j2.version>2.14.1</log4j2.version>
         <mysql.version>8.0.25</mysql.version>
-        <torque.version>5.0</torque.version>
         <fulcrum.json>2.0.1</fulcrum.json>
         <fulcrum.intake>2.0.0</fulcrum.intake>
         <fulcrum.security>2.0.0</fulcrum.security>
         <fulcrum.yaafi>1.0.8</fulcrum.yaafi>
+        <fulcrum.cache>2.0.0</fulcrum.cache>
         <fulcrum.testcontainer>1.0.9</fulcrum.testcontainer>
-        <turbine.core>5.0</turbine.core>
+        <torque.version>5.1-SNAPSHOT</torque.version>
+         <turbine.core>5.1-SNAPSHOT</turbine.core>
+        
         <!--
+             <torque.version>5.0</torque.version>
+            <turbine.core>5.0</turbine.core>
+        
             <torque.version>5.1-SNAPSHOT</torque.version>
+           <turbine.core>5.1-SNAPSHOT</turbine.core>
+                        
             <fulcrum.intake>2.0.1-SNAPSHOT</fulcrum.intake>
             <fulcrum.security>2.0.0-SNAPSHOT</fulcrum.security>
-            <turbine.core>5.1-SNAPSHOT</turbine.core>
         -->
         <skipTests>true</skipTests>
         <docker>false</docker>
@@ -468,13 +424,17 @@ under the License.
                 <defaultGoal>jetty:run</defaultGoal>
                 <plugins>
                     <plugin>
-                        <groupId>org.mortbay.jetty</groupId>
-                        <artifactId>maven-jetty-plugin</artifactId>
-                        <configuration>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>jetty-maven-plugin</artifactId>
+                         <version>9.4.43.v20210629</version>
+                         <configuration>
                             <httpConnector>
                                 <port>8081</port>
                                 <idleTimeout>60000</idleTimeout>
                             </httpConnector>
+                             <webApp>
+                                  <jettyEnvXml>${project.build.directory}/${project.build.finalName}/WEB-INF/jetty-env.xml</jettyEnvXml> 
+                            </webApp> 
                         </configuration>
                     </plugin>
                 </plugins>
