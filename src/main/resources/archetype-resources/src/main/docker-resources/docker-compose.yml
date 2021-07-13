@@ -1,0 +1,82 @@
+# service configuration for our dockerized Java app
+version: '3'
+
+services:
+  app:
+    # use the Dockerfile next to this file
+    build:
+        context: ../
+        dockerfile: ./docker-resources/app/Dockerfile
+    # uncomment, if no remote debugging app is required
+    environment:
+        - MAVEN_OPTS=-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9000
+    
+    # this runs the app server in the container
+    #command: mvn clean package jetty:run -Pdocker
+    command: mvn jetty:run -Pdocker
+    ports:
+      - "8081:8081"
+      # remote debugging port, uncomment if not needed
+      - "9000:9000"
+
+    # makes the app container aware of the DB container   
+    depends_on:
+      - db 
+    # 
+    #expose:
+    #  - "3000"
+
+    volumes:
+      # project root wtih pom.xml and src folder
+      - ../../:/myapp
+      # or use local sapp/ettings.xml
+      - '#var("app_volume_local_repo"):/m2repo'
+
+  db:
+      # set the build context 
+    build: 
+      context: ../
+      dockerfile: ./docker-resources/db/Dockerfile
+      args:
+        - DB_CONTEXT=./docker-resources/db
+        - MYSQL_DATABASE=turbine
+        #- MYSQL_ROOT_PASSWORD=default
+        - MYSQL_RANDOM_ROOT_PASSWORD=yes
+        - MYSQL_USER=db_user
+        - MYSQL_PASSWORD=db_password
+        - MYSQL_ONETIME_PASSWORD=false
+    
+    environment:
+      - MYSQL_DATABASE=turbine
+      - MYSQL_HOST= 
+      #- MYSQL_ROOT_PASSWORD=default
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_USER=db_user
+      - MYSQL_PASSWORD=db_password
+      - DB_CONTEXT=./docker-resources/db
+      - MYSQL_ONETIME_PASSWORD=false
+      #- MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      
+    volumes:
+      - "./db/mysql/init:/docker-entrypoint-initdb.d"   
+      - "/db/mysql/conf:/etc/mysql/conf.d"
+      - "./db/mysql/data:/data" 
+      # default mysql persistent data
+      - mysql_log:/mysql/log:rw 
+      - db_data:/var/lib/mysql:rw  
+    restart: always     
+    ports:
+      # host: container
+      - "13306:3306"
+      
+    #networks:
+    #  - db
+    #command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci]
+    command: --default-authentication-plugin=mysql_native_password
+
+volumes:
+  db_data:
+  mysql_log:
+  
+#networks:
+#  db:
