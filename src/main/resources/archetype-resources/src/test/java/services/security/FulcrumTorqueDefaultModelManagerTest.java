@@ -18,12 +18,13 @@ package ${package}.services.security;
  * under the License.
  */
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test Fulcrum Integration.
@@ -38,7 +39,7 @@ public class FulcrumTorqueDefaultModelManagerTest
 {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         try

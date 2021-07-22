@@ -12,7 +12,7 @@ services:
         - MAVEN_OPTS=-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9000
     
     # this runs the app server in the container, be sure not to filter resources once again!
-    command: mvn -Pjetty
+    command: mvn -Pjetty,docker
     ports:
       - "8081:8081"
       # remote debugging port, uncomment if not needed

@@ -101,7 +101,7 @@ under the License.
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>#var("maven.compile.source")</source>
                     <target>#var("maven.compile.target")</target>
@@ -437,7 +437,8 @@ under the License.
                             </webApp> 
                         </configuration>
                     </plugin>
-                    <!-- aswe call this profile in docker-resources/docker-compose.yml for app, which will replace /m2repo, 
+                    <!-- we call this profile in docker-resources/docker-compose.yml for app, 
+                    which should not replace /m2repo, 
                     we want to avoid a second parsing from inside the container -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

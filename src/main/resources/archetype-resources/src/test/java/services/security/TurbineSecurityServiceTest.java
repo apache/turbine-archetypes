@@ -18,9 +18,7 @@ package ${package}.services.security;
  * specific language governing permissions and limitations
  * under the License.
  */
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.apache.fulcrum.security.ModelManager;
 import org.apache.fulcrum.security.entity.ExtendedUser;
@@ -34,7 +32,7 @@ import org.apache.fulcrum.security.model.turbine.entity.TurbineUserGroupRole;
 import org.apache.fulcrum.security.util.DataBackendException;
 import org.apache.fulcrum.security.util.EntityExistsException;
 import org.apache.fulcrum.security.util.UnknownEntityException;
-import org.apache.fulcrum.testcontainer.BaseUnit4Test;
+import org.apache.fulcrum.testcontainer.BaseUnit5Test;
 import org.apache.torque.ConstraintViolationException;
 import org.apache.turbine.annotation.AnnotationProcessor;
 import org.apache.turbine.annotation.TurbineService;
@@ -44,10 +42,11 @@ import org.apache.turbine.services.ServiceManager;
 import org.apache.turbine.services.TurbineServices;
 import org.apache.turbine.services.security.SecurityService;
 import org.apache.turbine.util.TurbineConfig;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +59,7 @@ import org.slf4j.LoggerFactory;
  */
 
 public class TurbineSecurityServiceTest
-    extends BaseUnit4Test
+    extends BaseUnit5Test
 {
 
     org.apache.fulcrum.security.SecurityService fulcrumSecurityService;
@@ -77,7 +76,7 @@ public class TurbineSecurityServiceTest
     // By default org.slf4j.LoggerFactory is optional in 4.0, but included in webapp
     Logger log = LoggerFactory.getLogger( getClass().getName() );
 
-    @BeforeClass
+    @BeforeAll
     public static void init()
         throws Exception
     {
@@ -85,7 +84,7 @@ public class TurbineSecurityServiceTest
         tc.initialize();
     }
 
-    @Before
+    @BeforeEach
     public void setUpBefore()
         throws Exception
     {
@@ -296,7 +295,7 @@ public class TurbineSecurityServiceTest
         assertTrue( ugrTest.getUser().equals( user ) );
     }
 
-    @AfterClass
+    @AfterAll
     public static void setupAfter()
     {
         ServiceManager serviceManager = TurbineServices.getInstance();

@@ -52,58 +52,13 @@ docker-compose config
 
 N.B. You may use the command *docker compose* or *docker-compose*, but will slightly different results.
 
-- Check database service call in ** target/<projectname>/WEB-INF/jetty-env.xml**. It should reference the service name (db), not localhost - as it is also set in maven docker profile.
+
+- Double check database service call in ** target/<projectname>/WEB-INF/jetty-env.xml**. It should reference the service name (db), not localhost - this was set when using the maven docker profile.
 
 
 ```xml
 <Set name="url">jdbc:mysql://db:3306/turbine</Set>
 ```
-
-
-- To change velocity templates check webapp in ** src/main/webapp**.  Ohter resources might depend on https://www.eclipse.org/jetty/documentation/jetty-9/index.html#jars-scanned-for-annotations.
-
-## Cleanup or restart (optional)
-
-- Optionally Check system or cleanup, e.g. with docker-compose down, docker-compose down -v or docker sytem prune (removes any container on system).
-
-- If services are already installed, activate/start by 
-    docker-compose up
-    
- Example Logs:
-  
-    [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.25-1debian10 started.
-    [Note] [Entrypoint]: Switching to dedicated user 'mysql'
-    [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.25-1debian10 started.
-
-    [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.25) starting as process 1
-    [System] [MY-013576] [InnoDB] InnoDB initialization has started.
-    [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
-     [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060, socket: /var/run/mysqld/mysqlx.sock
-    [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
-    [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
-    [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.
-    [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.25'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.
-    
-    Listening for transport dt_socket at address: 9000
-
-    [INFO] Scanning for projects...
-    [INFO]
-    [INFO] ------< org.apache.turbine.test.integrationtest:integrationtest >-------
-    [INFO] Building My Turbine Web Application 1.0.0-SNAPSHOT
-    [INFO] --------------------------------[ war ]---------------------------------
-    [INFO]
-    [INFO] >>> jetty-maven-plugin:9.4.43.v20210629:run (default-cli) > test-compile @ integrationtest >>>
-    [INFO]
-    [INFO] --- torque-maven-plugin:5.1-SNAPSHOT:generate (torque-om) @ integrationtest ---
-    [main] INFO | org.apache.torque.generator.control.Controller - readConfiguration() : Starting to read configuration files
-
-
-- Starting the app service will build the app and start jetty with Maven on port 8081. 
-This command is set as a **command** in the app service in docker compose. 
-
-Currently the docker-compose is generated once more, if starting the containers, this will overwrite m2repo and may result in errors.
-
-If not yet done, build on the host with mvn clean install -f ../pom.xml -Pdocker.
 
 ### Build Services
 
@@ -147,6 +102,51 @@ docker-compose start
 This will start first the db service, then the app service. Jetty is run exposing the webapp to **http://localhost:8081/app**.
 By default remote debugging is activated (port 9000), which could be removed/commented in docker-compose.yml.
 You could follow the logs with docker-compose logs -f app or docker-compose logs -f db.
+
+
+- To change velocity templates check webapp in ** src/main/webapp** and run in another window *mvn package*.  Jetty should restart automatically. Other resources might depend on https://www.eclipse.org/jetty/documentation/jetty-9/index.html#jars-scanned-for-annotations.
+
+### Cleanup or restart (optional)
+
+- Optionally Check system or cleanup, e.g. with docker-compose down, docker-compose down -v or docker sytem prune (removes any container on system).
+
+- If services are already installed, activate/start by 
+    docker-compose up
+    
+ Example Logs:
+  
+    [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.25-1debian10 started.
+    [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+    [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.25-1debian10 started.
+
+    [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.25) starting as process 1
+    [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+    [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+     [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060, socket: /var/run/mysqld/mysqlx.sock
+    [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+    [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+    [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.
+    [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.25'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.
+    
+    Listening for transport dt_socket at address: 9000
+
+    [INFO] Scanning for projects...
+    [INFO]
+    [INFO] ------< org.apache.turbine.test.integrationtest:integrationtest >-------
+    [INFO] Building My Turbine Web Application 1.0.0-SNAPSHOT
+    [INFO] --------------------------------[ war ]---------------------------------
+    [INFO]
+    [INFO] >>> jetty-maven-plugin:9.4.43.v20210629:run (default-cli) > test-compile @ integrationtest >>>
+    [INFO]
+    [INFO] --- torque-maven-plugin:5.1-SNAPSHOT:generate (torque-om) @ integrationtest ---
+    [main] INFO | org.apache.torque.generator.control.Controller - readConfiguration() : Starting to read configuration files
+
+- Starting the app service will build the app and start jetty with Maven on port 8081. 
+This command is set as a **command** in the app service in docker compose. 
+
+Currently the docker-compose is generated once more, if starting the containers, this will overwrite m2repo and may result in errors.
+
+If not yet done, build on the host with mvn clean install -f ../pom.xml -Pdocker.
 
 #### Lifecycle (developers only)
 
