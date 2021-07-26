@@ -69,7 +69,7 @@ mvn archetype:generate \
 
 #### Docker integration (short intro)
 
-N.B. Add  
+N.B. Change dabase url to use service id and set docker environment to true: 
 
     -Dturbine_database_url=jdbc:mysql://db:3306/ \
     -Ddocker=true

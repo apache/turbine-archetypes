@@ -9,7 +9,7 @@
  <usePluginRegistry>false</usePluginRegistry>
  <offline>false</offline>
  <pluginGroups>
-    <pluginGroup>org.mortbay.jetty</pluginGroup>
+    <pluginGroup>org.eclipse.jetty</pluginGroup>
  </pluginGroups> 
  <profiles>
 	   <profile>
