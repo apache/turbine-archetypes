@@ -22,34 +22,23 @@ To run the build with maven do this outside of the container using following mvn
 
     mvn install -Pdocker
 
+# Installation (running the app)
     
-- Then check in directory  target/docker-resources the file docker-compose.yml e.g. with
+- Change into directory target/docker-resources andf check the file docker-compose.yml, e.g. with
+
+    cd <project>/target/docker-resources
 
     docker compose config
+    
+- Build and start the services
 
-## Optional Integration Test (not tested)
+    docker compose build --no-cache
+    docker compose up
+    
+First time building might take a couple of minutes. 
 
-    mvn integration-test 
-
-N.B.: This builds the integrationtest project in target/test-classes/projects/first/project/integrationtest with docker enabled configuration. 
-Running the build inside the container is not required and may be problematic, unless you use only public available dependencies.
-
-
-# Installation (running the app)
-
-- Change into the projects target/docker resource folder
-
-```sh
-cd  target/docker-resources
-``` 
-
-## Check Docker Compose file (optional)
-
-- Check services in docker-compose.yml (volumes) 
-``` 
-docker-compose config
-```
-
+ - Now you can launch in another termina your new Turbine application by default [http://localhost:8081/app] 
+ 
 N.B. You may use the command *docker compose* or *docker-compose*, but will slightly different results.
 
 - Check database service call in ** target/<projectname>/WEB-INF/jetty-env.xml**. It should reference the service name (db), not localhost - as it is also set in maven docker profile.
@@ -116,10 +105,7 @@ If previously build, you may want to delete all volumes (this will delete all ta
 
  - Build it
  
- 
-```sh
     docker-compose build --no-cache
-```
 
  .. optionally build it separately
     docker-compose build --no-cache --build-arg DB_CONTEXT=./docker-resources/db db
@@ -135,14 +121,13 @@ It is a dependency for the service app (see app/Dockerfile).
 ### Starting Services
 
 Start both services in one step
-``` 
-docker-compose up
-```    
+
+    docker-compose up
+   
 .. or doing it in background, requires second start command
-``` 
-docker-compose -d up
-docker-compose start
-``` 
+
+    docker-compose -d up
+    docker-compose start
 
 This will start first the db service, then the app service. Jetty is run exposing the webapp to **http://localhost:8081/app**.
 By default remote debugging is activated (port 9000), which could be removed/commented in docker-compose.yml.
@@ -160,9 +145,8 @@ docker-compose run --rm db /bin/sh
 ``` 
 Extract data in db service
 
-```sh
- mysql -u root -h db -P 3306 -p
-```
+    mysql -u root -h db -P 3306 -p
+    
 .. or 
 
     docker-compose exec db mysql -u root --password=... -e "show databases;" --build-arg DB_CONTEXT=./docker-resources/db
@@ -171,13 +155,13 @@ Extract data in db service
 ### App Service
 
 This will start app and db (as it depends on app):
-```sh
-docker-compose run --rm app /bin/sh 
-``` 
+
+    docker-compose run --rm app /bin/sh 
+
 In the container, check:
-```sh
-ls -la /myapp // should list pom.xml ...
-```
+
+    ls -la /myapp // should list pom.xml ...
+
 
 # System Specific Informations
 
@@ -219,7 +203,7 @@ Error starting userland proxy: mkdir /port/tcp:0.0.0.0:13306:tcp:...:3306: input
 
 ### Still more docker commands ...
 
-  docker ps  
+  docker volume inspect <containerid>  
  
   // delete intermediate images, volumes
   docker rmi $(docker images --filter "dangling=true" -q)

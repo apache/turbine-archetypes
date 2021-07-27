@@ -80,8 +80,8 @@
 
   <table name="TURBINE_ROLE_PERMISSION" 
    interface="org.apache.fulcrum.security.torque.peer.TurbineRolePermissionPeerMapper">
-    <column name="ROLE_ID" required="true" primaryKey="true" type="INTEGER"/>
-    <column name="PERMISSION_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <column name="ROLE_ID" required="true" primaryKey="true" type="INTEGER" javaType="primitive"/>
+    <column name="PERMISSION_ID" required="true" primaryKey="true" type="INTEGER" javaType="primitive"/>
 
     <!-- Turbine service revokeAll(role) manages removal, but you might want to handle it just with onDelete="cascade" -->
     <foreign-key foreignTable="TURBINE_ROLE">
@@ -119,9 +119,9 @@
   <table name="TURBINE_USER_GROUP_ROLE" 
   interface="org.apache.fulcrum.security.torque.peer.TurbineUserGroupRoleModelPeerMapper"
   peerInterface="org.apache.fulcrum.security.torque.peer.TorqueTurbineUserGroupRolePeer">
-    <column name="USER_ID" required="true" primaryKey="true" type="INTEGER"/>
-    <column name="GROUP_ID" required="true" primaryKey="true" type="INTEGER"/>
-    <column name="ROLE_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <column name="USER_ID" required="true" primaryKey="true" type="INTEGER" javaType="primitive"/>
+    <column name="GROUP_ID" required="true" primaryKey="true" type="INTEGER" javaType="primitive"/>
+    <column name="ROLE_ID" required="true" primaryKey="true" type="INTEGER" javaType="primitive"/>
     <!-- Turbine service revokeAll(user) manages removal, but you might want to handle it just with onDelete="cascade" -->
     <foreign-key foreignTable="TURBINE_USER">
       <reference local="USER_ID" foreign="USER_ID"/>
