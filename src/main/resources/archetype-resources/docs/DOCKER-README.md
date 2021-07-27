@@ -110,7 +110,7 @@ If not yet done, build on the host with mvn clean install -f ../pom.xml -Pdocker
 The app service uses later a volume, which maps to the local maven repository, which you may need/not need.
 The db service uses mysql-latest (currently 8.x), you may replace it with a fixed release tag.
 
-If previously build, you may want to delete all volumes and containers
+If previously build, you may want to delete all volumes (this will delete all tables in /var/lib/mysql) and containers
 
     docker-compose down -v
 
@@ -156,7 +156,7 @@ You could follow the logs with docker-compose logs -f app or docker-compose logs
 
 ### Db Service 
 ``` 
-docker-compose run --rm db /bin/sh --build-arg DB_CONTEXT=./docker-resources/db
+docker-compose run --rm db /bin/sh 
 ``` 
 Extract data in db service
 
@@ -185,9 +185,7 @@ ls -la /myapp // should list pom.xml ...
 
 ### Powershell
 
-- Use Powershell
-
-- Replace in volume mapping for host repo path (maven localRepository) backslashes with slashes "/" in docker-compose.yml.
+- You may have to replace in volume mapping for host repo path (maven localRepository) backslashes with slashes "/" in docker-compose.yml.
 
 - check COMPOSE_CONVERT_WINDOWS_PATHS, https://docs.docker.com/compose/reference/envvars/#compose_convert_windows_paths
 

@@ -67,6 +67,7 @@ services:
     #command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci]
     command: --default-authentication-plugin=mysql_native_password
 
+ # this might work only for *nix, check with docker image inspect db
 volumes:
   db_data_${turbine_database_name}:
   
