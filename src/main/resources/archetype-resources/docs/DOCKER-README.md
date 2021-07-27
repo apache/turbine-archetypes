@@ -59,15 +59,16 @@ N.B. You may use the command *docker compose* or *docker-compose*, but will slig
 <Set name="url">jdbc:mysql://db:3306/turbine</Set>
 ```
 
-
 - To change velocity templates check webapp in ** src/main/webapp**.  Ohter resources might depend on https://www.eclipse.org/jetty/documentation/jetty-9/index.html#jars-scanned-for-annotations.
 
-## Cleanup or restart (optional)
+## Start, cleanup or restart 
 
-- Optionally Check system or cleanup, e.g. with docker-compose down, docker-compose down -v or docker sytem prune (removes any container on system).
+- Optionally check system or cleanup, e.g. with docker-compose down, docker-compose down -v or docker sytem prune (removes any container on system).
 
 - If services are already installed, activate/start by 
     docker-compose up
+    
+You might do it separately for the db and the app service. The latter will start a maven build process finally starting the jetty server. Maven depends on the Maven settings, which are set in docker-resources/app/settings.xml. The local maven repository is mapped in the docker-compose.yml final to the host's local repository settings.localRepository during the first build, which reads the host's environment. Be sure to check this, if compilation errors occur as the host's maven executable will be used!
     
  Example Logs:
   
@@ -97,8 +98,7 @@ N.B. You may use the command *docker compose* or *docker-compose*, but will slig
     [INFO] --- torque-maven-plugin:5.1-SNAPSHOT:generate (torque-om) @ integrationtest ---
     [main] INFO | org.apache.torque.generator.control.Controller - readConfiguration() : Starting to read configuration files
 
-
-- Starting the app service will build the app and start jetty with Maven on port 8081. 
+- Starting the app service will build the app and start jetty with Maven on port 8081 by default. 
 This command is set as a **command** in the app service in docker compose. 
 
 Currently the docker-compose is generated once more, if starting the containers, this will overwrite m2repo and may result in errors.
@@ -235,3 +235,7 @@ Error starting userland proxy: mkdir /port/tcp:0.0.0.0:13306:tcp:...:3306: input
   
   # stops all running containers  
   docker stop $(docker ps -a -q)
+  
+## License
+
+This project is licensed under the Apache Software License 2.0
