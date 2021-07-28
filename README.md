@@ -9,7 +9,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 * Java 8 JDK or later 
-* [MySQL](https://www.mysql.com/) - Database Server or [Docker] (https://docs.docker.com/get-docker/)
+* [MySQL](https://www.mysql.com/) - Database Server or [Docker](https://docs.docker.com/get-docker/)
 * [Maven](https://maven.apache.org/) - Dependency Management
 
 You should have Java 8 or later installed.  The archetype sets up a new application using MySQL as the default database store.  However, you can adjust this to use any database supported by Apache Torque 5.x. If not using Docker, you should therefore be at least have a database instance where you have access rights to create a new database schema and populate it with the tables the application generates.  Finally, this is a maven archetype, so of course you should install a local version of Maven (tested with 3.5.4 and 3.8.1). 
@@ -25,7 +25,8 @@ The location of the remote catalog file is: http://repo.maven.apache.org/maven2/
 
 Step-by-step instructions on how to accomplish this can be found here: https://howtodoinjava.com/eclipse/how-to-import-maven-remote-archetype-catalogs-in-eclipse/
 
-Follow further instructions here: [README] (src/main/resources/archetype-resources/README.md).
+Follow further instructions here: [ARCHETYPE-README](src/main/resources/archetype-resources/docs/README.md) and/or  [ARCHETYPE-DOCKER-README](src/main/resources/archetype-resources/docs/DOCKER-README.md).
+
 
 #### Development
 

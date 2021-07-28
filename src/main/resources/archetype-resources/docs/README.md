@@ -1,4 +1,4 @@
-# Quick Guide to using the new Turbine 5.1 maven archetype for skeleton application generation
+# Quick Guide to using the new Turbine 5.x maven archetype for skeleton application generation
 
 Maven Archetype to generate a webapp utilizing Turbine 5.x
 
@@ -18,7 +18,7 @@ You should have Java 8 or later installed.  The archetype sets up a new applicat
 
 Turbine Version: Turbine 5.1 Turbine-webapp-5.x
 
-### Integration Test (if you checked out this Archetype Generate Repository)
+### Integration Test (if you checked out this [Archetype Generate Repository](https://github.com/apache/turbine-archetypes.git))
 
     mvn integration-test 
 
@@ -37,9 +37,11 @@ beginning the application setup below.
 
 As we are using MySQL by default you need to create the database in MySQL (server version should be at least 5.5, because of new sql driver), e.g. with
 
+```sh
 mysql -u <user> -p
 mysql> create database helloWorld;
 mysql> \q
+```
 
 or other tools. The database should have been started and the database user granted enough rights.
 
@@ -76,7 +78,32 @@ N.B. Set docker variable to true to enable Docker setup in building the artifact
 to immediately enable docker setup, when generating the archetype. 
 
 Currently only port 3306 is supported, if you do not want ot change the port seetings for the db container in docker-compose.yml
- 
+
+### Development
+
+You may use 
+
+```sh
+mvn archetype:generate -DarchetypeCatalog=local
+```
+
+to avoid declaring the *archetype* variables.
+
+This requires you provide a local catalog in $HOME\.m2\archetype-catalog.xml. Find further information here: https://maven.apache.org/archetype/archetype-models/archetype-catalog/archetype-catalog.html.
+
+##### Example
+
+```xml
+<archetype-catalog ...>
+ <archetype>
+      <groupId>org.apache.turbine</groupId>
+      <artifactId>turbine-webapp-5.1</artifactId>
+      <version>2.0.0-SNAPSHOT</version>
+      <description>This archetype sets up a web application project based on Apache Turbine 5.x</description>
+    </archetype>
+  </archetypes>
+</archetype-catalog>
+```
 
 ## Project Start and Usage
 

@@ -26,14 +26,17 @@ To run the build with maven do this outside of the container using following mvn
     
 - Change into directory target/docker-resources andf check the file docker-compose.yml, e.g. with
 
-    cd <project>/target/docker-resources
-
-    docker compose config
+```sh
+cd <project>/target/docker-resources
+docker compose config
+```
     
 - Build and start the services
 
-    docker compose build --no-cache
-    docker compose up
+```sh
+docker compose build --no-cache
+docker compose up
+```
     
 First time building might take a couple of minutes. 
 
@@ -103,8 +106,8 @@ If previously build, you may want to delete all volumes (this will delete all ta
 
     docker-compose down -v
 
- - Build it
- 
+- Build it
+
     docker-compose build --no-cache
 
  .. optionally build it separately
@@ -191,18 +194,19 @@ Error starting userland proxy: mkdir /port/tcp:0.0.0.0:13306:tcp:...:3306: input
 - https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly
 
 
-## More Internals, Helpful Docker commands
+### More Internals, Helpful Docker commands
 
-### Resetting / Preparation (optional)
+#### Resetting / Preparation (optional)
 
     docker-compose rm -v
 
-### Delete all images
+#### Delete all images
 
     docker rmi $(docker images -q)
 
 ### Still more docker commands ...
 
+```sh
   docker volume inspect <containerid>  
  
   // delete intermediate images, volumes
@@ -217,6 +221,7 @@ Error starting userland proxy: mkdir /port/tcp:0.0.0.0:13306:tcp:...:3306: input
   
   # stops all running containers  
   docker stop $(docker ps -a -q)
+```
   
 ## License
 
