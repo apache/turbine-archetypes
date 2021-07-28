@@ -14,10 +14,8 @@ RUN ["/bin/sed", "-i", "s/exec \"$@\"/echo \"not running $@\"/", "/usr/local/bin
 ARG DB_CONTEXT
 ARG MYSQL_DATABASE
 ARG MYSQL_ROOT_PASSWORD
-ARG MYSQL_RANDOM_ROOT_PASSWORD
 ARG MYSQL_USER
 ARG MYSQL_PASSWORD
-ARG MYSQL_ONETIME_PASSWORD
 
 # mount in docker-compose
 ADD #var("DB_CONTEXT:-.")/mysql/conf/my.cnf /etc/
@@ -47,8 +45,6 @@ ENV MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
 ENV MYSQL_USER=${MYSQL_USER}
 ENV MYSQL_PASSWORD=${MYSQL_PASSWORD}
 ENV MYSQL_HOST=
-ENV MYSQL_RANDOM_ROOT_PASSWORD ${MYSQL_RANDOM_ROOT_PASSWORD}
-ENV MYSQL_ONETIME_PASSWORD=${MYSQL_ONETIME_PASSWORD}
 
 # Need to change the datadir to something else that /var/lib/mysql because the parent docker file defines it as a volume.
 # https://docs.docker.com/engine/reference/builder/#volume :

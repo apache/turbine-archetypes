@@ -1,5 +1,5 @@
 # service configuration for our dockerized Java app
-version: '3'
+version: '3.7'
 
 services:
   app:
@@ -37,29 +37,25 @@ services:
       context: ../
       dockerfile: ./docker-resources/db/Dockerfile
       args:
-        - DB_CONTEXT=./docker-resources/db
-        - MYSQL_DATABASE=${turbine_database_name}
-        - MYSQL_ROOT_PASSWORD=changeit
-        - MYSQL_RANDOM_ROOT_PASSWORD=
-        - MYSQL_USER=${turbine_database_user}
-        - MYSQL_PASSWORD=${turbine_database_password}
+        DB_CONTEXT: ./docker-resources/db
+        MYSQL_DATABASE: ${turbine_database_name}
+        MYSQL_ROOT_PASSWORD: changeit
+        MYSQL_USER: ${turbine_database_user}
+        MYSQL_PASSWORD: ${turbine_database_password}
     
     environment:
-      - MYSQL_DATABASE=${turbine_database_name}
-      - MYSQL_HOST= 
-      - MYSQL_ROOT_PASSWORD=changeit
-      - MYSQL_RANDOM_ROOT_PASSWORD=
-      - MYSQL_USER=${turbine_database_user}
-      - MYSQL_PASSWORD=${turbine_database_password}
-      - DB_CONTEXT=./docker-resources/db
-      #- MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      MYSQL_DATABASE: ${turbine_database_name}
+      MYSQL_ROOT_PASSWORD: changeit
+      MYSQL_USER: ${turbine_database_user}
+      MYSQL_PASSWORD: ${turbine_database_password}
+      DB_CONTEXT: ./docker-resources/db
       
     volumes:
       - "./db/mysql/init:/docker-entrypoint-initdb.d"   
-      - "/db/mysql/conf:/etc/mysql/conf.d"
+      - "./db/mysql/conf:/etc/mysql/conf.d"
       - "./db/mysql/data:/data" 
+      - "./db/mysql/log:/mysql/log"
       # default mysql persistent data
-      - mysql_log_${turbine_database_name}:/mysql/log:rw 
       - db_data_${turbine_database_name}:/var/lib/mysql:rw  
     restart: always     
     ports:
@@ -71,9 +67,9 @@ services:
     #command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci]
     command: --default-authentication-plugin=mysql_native_password
 
+ # this might work only for *nix, check with docker image inspect db
 volumes:
   db_data_${turbine_database_name}:
-  mysql_log_${turbine_database_name}:
   
 #networks:
 #  db:

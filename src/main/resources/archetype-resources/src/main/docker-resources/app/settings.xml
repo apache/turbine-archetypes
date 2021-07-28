@@ -9,7 +9,7 @@
  <usePluginRegistry>false</usePluginRegistry>
  <offline>false</offline>
  <pluginGroups>
-    <pluginGroup>org.mortbay.jetty</pluginGroup>
+    <pluginGroup>org.eclipse.jetty</pluginGroup>
  </pluginGroups> 
  <profiles>
 	   <profile>
@@ -19,7 +19,7 @@
       <repositories>
         <repository>
           <id>releases</id>
-          <url>http://central</url>
+          <url>https://central</url>
           <releases><enabled>true</enabled></releases>
           <snapshots><enabled>false</enabled></snapshots>
         </repository>
@@ -27,13 +27,13 @@
           <releases><enabled>true</enabled></releases>
           <snapshots><enabled>true</enabled></snapshots>
           <id>snapshots</id>
-          <url>http://snapshots</url>
+          <url>https://snapshots</url>
         </repository>
       </repositories>
      <pluginRepositories>
         <pluginRepository>
           <id>releases</id>
-          <url>http://central</url>
+          <url>https://central</url>
           <releases><enabled>true</enabled></releases>
           <snapshots><enabled>true</enabled></snapshots>
         </pluginRepository>
@@ -41,7 +41,7 @@
          <releases><enabled>true</enabled></releases>
           <snapshots><enabled>true</enabled></snapshots>
           <id>snapshots</id>
-          <url>http://snapshots</url>
+          <url>https://snapshots</url>
         </pluginRepository>
       </pluginRepositories>
     </profile>
@@ -54,7 +54,7 @@
         <pluginRepository>
           <id>central</id>
           <name>Maven Plugin Repository</name>
-          <url>http://repo1.maven.org/maven2</url>
+          <url>https://repo1.maven.org/maven2</url>
           <layout>default</layout>
           <snapshots>
             <enabled>false</enabled>

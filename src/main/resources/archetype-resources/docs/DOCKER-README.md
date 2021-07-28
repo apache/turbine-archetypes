@@ -22,34 +22,26 @@ To run the build with maven do this outside of the container using following mvn
 
     mvn install -Pdocker
 
-    
-- Then check in directory  target/docker-resources the file docker-compose.yml e.g. with
-
-    docker compose config
-
-## Optional Integration Test (not tested)
-
-    mvn integration-test 
-
-N.B.: This builds the integrationtest project in target/test-classes/projects/first/project/integrationtest with docker enabled configuration. 
-Running the build inside the container is not required and may be problematic, unless you use only public available dependencies.
-
-
 # Installation (running the app)
-
-- Change into the projects target/docker resource folder
+    
+- Change into directory target/docker-resources andf check the file docker-compose.yml, e.g. with
 
 ```sh
-cd  target/docker-resources
-``` 
-
-## Check Docker Compose file (optional)
-
-- Check services in docker-compose.yml (volumes) 
-``` 
-docker-compose config
+cd <project>/target/docker-resources
+docker compose config
 ```
+    
+- Build and start the services
 
+```sh
+docker compose build --no-cache
+docker compose up
+```
+    
+First time building might take a couple of minutes. 
+
+ - Now you can launch in another termina your new Turbine application by default [http://localhost:8081/app] 
+ 
 N.B. You may use the command *docker compose* or *docker-compose*, but will slightly different results.
 
 
@@ -65,16 +57,13 @@ N.B. You may use the command *docker compose* or *docker-compose*, but will slig
 The app service uses later a volume, which maps to the local maven repository, which you may need/not need.
 The db service uses mysql-latest (currently 8.x), you may replace it with a fixed release tag.
 
-If previously build, you may want to delete all volumes and containers
+If previously build, you may want to delete all volumes (this will delete all tables in /var/lib/mysql) and containers
 
     docker-compose down -v
 
- - Build it
- 
- 
-```sh
+- Build it
+
     docker-compose build --no-cache
-```
 
  .. optionally build it separately
     docker-compose build --no-cache --build-arg DB_CONTEXT=./docker-resources/db db
@@ -90,14 +79,13 @@ It is a dependency for the service app (see app/Dockerfile).
 ### Starting Services
 
 Start both services in one step
-``` 
-docker-compose up
-```    
+
+    docker-compose up
+   
 .. or doing it in background, requires second start command
-``` 
-docker-compose -d up
-docker-compose start
-``` 
+
+    docker-compose -d up
+    docker-compose start
 
 This will start first the db service, then the app service. Jetty is run exposing the webapp to **http://localhost:8081/app**.
 By default remote debugging is activated (port 9000), which could be removed/commented in docker-compose.yml.
@@ -156,13 +144,12 @@ If not yet done, build on the host with mvn clean install -f ../pom.xml -Pdocker
 
 ### Db Service 
 ``` 
-docker-compose run --rm db /bin/sh --build-arg DB_CONTEXT=./docker-resources/db
+docker-compose run --rm db /bin/sh 
 ``` 
 Extract data in db service
 
-```sh
- mysql -u root -h db -P 3306 -p
-```
+    mysql -u root -h db -P 3306 -p
+    
 .. or 
 
     docker-compose exec db mysql -u root --password=... -e "show databases;" --build-arg DB_CONTEXT=./docker-resources/db
@@ -171,13 +158,13 @@ Extract data in db service
 ### App Service
 
 This will start app and db (as it depends on app):
-```sh
-docker-compose run --rm app /bin/sh 
-``` 
+
+    docker-compose run --rm app /bin/sh 
+
 In the container, check:
-```sh
-ls -la /myapp // should list pom.xml ...
-```
+
+    ls -la /myapp // should list pom.xml ...
+
 
 # System Specific Informations
 
@@ -185,9 +172,7 @@ ls -la /myapp // should list pom.xml ...
 
 ### Powershell
 
-- Use Powershell
-
-- Replace in volume mapping for host repo path (maven localRepository) backslashes with slashes "/" in docker-compose.yml.
+- You may have to replace in volume mapping for host repo path (maven localRepository) backslashes with slashes "/" in docker-compose.yml.
 
 - check COMPOSE_CONVERT_WINDOWS_PATHS, https://docs.docker.com/compose/reference/envvars/#compose_convert_windows_paths
 
@@ -209,19 +194,20 @@ Error starting userland proxy: mkdir /port/tcp:0.0.0.0:13306:tcp:...:3306: input
 - https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly
 
 
-## More Internals, Helpful Docker commands
+### More Internals, Helpful Docker commands
 
-### Resetting / Preparation (optional)
+#### Resetting / Preparation (optional)
 
     docker-compose rm -v
 
-### Delete all images
+#### Delete all images
 
     docker rmi $(docker images -q)
 
 ### Still more docker commands ...
 
-  docker ps  
+```sh
+  docker volume inspect <containerid>  
  
   // delete intermediate images, volumes
   docker rmi $(docker images --filter "dangling=true" -q)
@@ -235,3 +221,8 @@ Error starting userland proxy: mkdir /port/tcp:0.0.0.0:13306:tcp:...:3306: input
   
   # stops all running containers  
   docker stop $(docker ps -a -q)
+```
+  
+## License
+
+This project is licensed under the Apache Software License 2.0

@@ -1,45 +1,47 @@
-#*
-Licensed to the Apache Software Foundation (ASF) under one
-or more contributor license agreements. See the NOTICE file
-distributed with this work for additional information
-regarding copyright ownership. The ASF licenses this file
-to you under the Apache License, Version 2.0 (the
-"License"); you may not use this file except in compliance
-with the License. You may obtain a copy of the License at
+# Quick Guide to using the new Turbine 5.x maven archetype for skeleton application generation
 
-http://www.apache.org/licenses/LICENSE-2.0
+Maven Archetype to generate a webapp utilizing Turbine 5.x
 
-Unless required by applicable law or agreed to in writing,
-software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied. See the License for the
-specific language governing permissions and limitations
-under the License.
-*#
- 
+## Getting Started
 
-# Quick Guide to using the new Turbine 5.1 maven archetype for skeleton application generation
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
+### Prerequisites
 
+* Java 8 JDK or later 
+* [MySQL](https://www.mysql.com/) - Database Server or [Docker] (https://docs.docker.com/get-docker/)
+* [Maven](https://maven.apache.org/) - Dependency Management
+
+You should have Java 8 or later installed.  The archetype sets up a new application using MySQL as the default database store.  However, you can adjust this to use any database supported by Apache Torque 5.x. If not using Docker, you should therefore be at least have a database instance where you have access rights to create a new database schema and populate it with the tables the application generates.  Finally, this is a maven archetype, so of course you should install a local version of Maven (tested with 3.5.4 and 3.8.1).  
 
 ## About this archetype 
 
-Turbine Version: Turbine 5.1.
+Turbine Version: Turbine 5.1 Turbine-webapp-5.x
+
+### Integration Test (if you checked out this [Archetype Generate Repository](https://github.com/apache/turbine-archetypes.git))
+
+    mvn integration-test 
+
+N.B.: This builds an integrationtest project in target/test-classes/projects/first/project/integrationtest (if you provide -Ddocker=true with docker enabled configuration, otherwise you need a hosted mysql database). You could start testing this archetype here..
+
+- Follow either Local database Setup or Docker Setup
 
 ### Docker Setup
 
-Skip Local Database setup and read later DOCKER-README.md
+- If docker is available you could use the Docker build setup. Follow instructions here: [DOCKER README] (DOCKER-README.md).
 
-### Local database Setup
+### Local Database Setup
 
 First, you should have a local database installed and configured prior to 
 beginning the application setup below.
 
 As we are using MySQL by default you need to create the database in MySQL (server version should be at least 5.5, because of new sql driver), e.g. with
 
+```sh
 mysql -u <user> -p
 mysql> create database helloWorld;
 mysql> \q
+```
 
 or other tools. The database should have been started and the database user granted enough rights.
 
@@ -67,29 +69,15 @@ mvn archetype:generate \
   -Dgoals=generate-sources,integration-test
 ```
 
-#### Docker integration (short intro)
+#### Docker integration
 
-N.B. Add  
+N.B. Set docker variable to true to enable Docker setup in building the artifact: 
 
-    -Dturbine_database_url=jdbc:mysql://db:3306/ \
     -Ddocker=true
     
 to immediately enable docker setup, when generating the archetype. 
 
 Currently only port 3306 is supported, if you do not want ot change the port seetings for the db container in docker-compose.yml
- 
-You then need not to follow the following chapters, but could immediately go to 
-
-    cd <project>/target/docker-resources
-    
-and then follow the instructions in DOCKER-README.md. In short you may do the following:
- 
-    docker compose configurable
-    docker compose build --no-cache
-    docker compose up
-    
- - Now you can launch your new Turbine application by default [http://localhost:8081/app] 
- 
 
 ### Development
 
@@ -104,34 +92,18 @@ to avoid declaring the *archetype* variables.
 This requires you provide a local catalog in $HOME\.m2\archetype-catalog.xml. Find further information here: https://maven.apache.org/archetype/archetype-models/archetype-catalog/archetype-catalog.html.
 
 ##### Example
+
+```xml
 <archetype-catalog ...>
  <archetype>
       <groupId>org.apache.turbine</groupId>
       <artifactId>turbine-webapp-5.1</artifactId>
       <version>2.0.0-SNAPSHOT</version>
-      <description>This archetype sets up a web application project based on Apache Turbine 5.0</description>
+      <description>This archetype sets up a web application project based on Apache Turbine 5.x</description>
     </archetype>
   </archetypes>
 </archetype-catalog>
-
-### Notes
-
-When invoking archetype:generate like above, you already have set Turbine goals generate-sources,integration-test 
-and you can then skip them later.
-
-Be aware, when you set both mvn commands goals (which are maven phases actually), i.e  with
-
--Dgoals=generate-sources, integration-test 
-
-you have to create the database (see above) before finishing the (interactive) archetype commands. 
-Otherwise you could catch up doing this later and after that is done calling the phases afterwards as mentioned below.
-
-#### turbine_database_url
-
-Note that the database URL (turbine_database_url) 
-will be appended with your database name
-in the final pom.xml, so you do not need to specify that in 
-the configuration.
+```
 
 ## Project Start and Usage
 
@@ -196,8 +168,7 @@ If running from integration test, check/update
 - target/test-classes/projects/first/project/integrationtest/src/test/conf/torque/TorqueTest.properties or
   META-INF/maven/archetype-metadata.xml
 
-The security test is by default skipped as it requires a running mysql. It tests many of the Fulcrum Torque Turbine security aspects, 
-activate it by calling
+The security test is by default skipped as it requires a running mysql. It tests many of the Fulcrum Torque Turbine security aspects, you may activate it by calling
 
 ```sh
 mvn test -DskipTests=false
@@ -238,11 +209,15 @@ before running the jetty server.
 
 Be aware of settings and some smaller restrictions, which mostly will be fixed in the upcoming releases.
 
-- Keep groups/roles lower case (which should be fixed in Fulcrum Security 1.1.1/Turbine 4.0)
+- Keep groups/roles lower case (which should be fixed in current Fulcrum Security 2.x/Turbine 5.x)
 - abstract classes and managers are included (because of some minor bugs in Fulcrum Security 1.1.0, same as above)
-- LogoutUser action is included (fix in Turbine 4.0, getUserFromSession)
+- LogoutUser action is included as an custom example 
 - LoginUser action is included (to check for anonymous user, may be fixed in future release)
 - OM (Torque Object Mapper) stub classes are included (until configurable in schema with Torque version 2.1)
-- TurbineConfiguration returns a Commons configuration object, even if field is not assignable (will be fixed in Turbine 4.0, you can then assign e.g. to String instead, cft. SecureScreen)
+- TurbineConfiguration returns a Commons configuration object, even if field is not assignable (fixed in Turbine 5.x, you can then assign e.g. to String instead, cft. SecureScreen)
 - Database connection is done initially by default with JNDI. If you want to change it, check Torque.properties and (1) for Tomcat, META-INF/context.xml or (2) for Jetty, WEB-INF/jetty-env.xml.  
+
+## License
+
+This project is licensed under the Apache Software License 2.0
 
