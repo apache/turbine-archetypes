@@ -129,10 +129,10 @@
      - requires attribute peerClass in fulcrum-turbine-schema.xml table elements set to org.apache.fulcrum.security.torque.peer.TorqueTurbinePeer 
      -->
      
-     <userManager>
+   <userManager>
         <className>${package}.om.TurbineUser</className>
         <peerClassName>${package}.om.TurbineUserPeerImpl</peerClassName>
-        <userGroupRoleManager><!-- using custom peers requires now since fulcrum security 1.1.2 this element -->
+        <userGroupRoleManager><!-- using custom peers requires now this element -->
 	        <!-- className>org.apache.fulcrum.security.torque.om.TurbineUserGroupRole</className-->
 	        <peerClassName>${package}.om.TurbineUserGroupRolePeerImpl</peerClassName>
 	    </userGroupRoleManager>

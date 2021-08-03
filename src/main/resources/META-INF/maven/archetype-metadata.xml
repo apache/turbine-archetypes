@@ -21,7 +21,7 @@
   xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0 http://maven.apache.org/xsd/archetype-descriptor-1.0.0.xsd"
-  name="turbine-5.0-webapp">
+  name="turbine-5.1-webapp">
 
   <requiredProperties>
     <requiredProperty key="turbine_app_name">
@@ -54,12 +54,12 @@
     <requiredProperty key="turbine_database_password">
       <defaultValue>db_password</defaultValue>
     </requiredProperty>
-     <requiredProperty key="app_volume_local_repo">
+    <requiredProperty key="app_volume_local_repo">
         <defaultValue>${settings.localRepository}</defaultValue>
-     </requiredProperty>
-     <requiredProperty key="docker">
+    </requiredProperty>
+    <requiredProperty key="docker">
         <defaultValue>${docker}</defaultValue>
-     </requiredProperty>
+    </requiredProperty>
   </requiredProperties>
   <fileSets>
     <fileSet filtered="true" packaged="true">

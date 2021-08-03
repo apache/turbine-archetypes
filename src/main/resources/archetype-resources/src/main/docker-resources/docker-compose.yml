@@ -9,10 +9,10 @@ services:
         dockerfile: ./docker-resources/app/Dockerfile
     # uncomment, if no remote debugging app is required
     environment:
-        - MAVEN_OPTS=-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9000
+        - MAVEN_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=9000,server=y,suspend=y
     
     # this runs the app server in the container, be sure not to filter resources once again!
-    command: mvn -Pjetty,docker
+    command: mvn -Pjetty
     ports:
       - "8081:8081"
       # remote debugging port, uncomment if not needed
@@ -26,9 +26,9 @@ services:
     #  - "3000"
 
     volumes:
-      # project root wtih pom.xml and src folder
+      # project root with pom.xml and src folder
       - ../../:/myapp
-      # or use local sapp/ettings.xml
+      # or use local app/settings.xml
       - '#var("app_volume_local_repo"):/m2repo'
 
   db:
