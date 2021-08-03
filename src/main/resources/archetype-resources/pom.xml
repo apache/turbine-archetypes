@@ -286,6 +286,11 @@ under the License.
           <artifactId>log4j-web</artifactId>
           <version>#var("log4j2.version")</version>
         </dependency>
+        <dependency>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-api</artifactId>
+          <version>${log4j2.version}</version>
+        </dependency>
       <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
@@ -375,7 +380,7 @@ under the License.
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.13</version>
+        <version>4.13.1</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -394,7 +399,7 @@ under the License.
         <mysql.version>8.0.25</mysql.version>
         <fulcrum.json>2.0.1</fulcrum.json>
         <fulcrum.intake>2.0.0</fulcrum.intake>
-        <fulcrum.security>2.0.0</fulcrum.security>
+        <fulcrum.security>2.0.1-SNAPSHOT</fulcrum.security>
         <fulcrum.yaafi>1.0.8</fulcrum.yaafi>
         <fulcrum.cache>2.0.0</fulcrum.cache>
         <fulcrum.testcontainer>1.0.9</fulcrum.testcontainer>
