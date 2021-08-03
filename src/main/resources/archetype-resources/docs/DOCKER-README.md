@@ -143,9 +143,10 @@ If not yet done, build on the host with mvn clean install -f ../pom.xml -Pdocker
 ## Debugging Services: Db, App
 
 ### Db Service 
-``` 
-docker-compose run --rm db /bin/sh 
-``` 
+
+ 
+    docker-compose run --rm db /bin/sh 
+
 Extract data in db service
 
     mysql -u root -h db -P 3306 -p
@@ -157,18 +158,58 @@ Extract data in db service
 
 ### App Service
 
-This will start app and db (as it depends on app):
+This will start app (and db as app depends on db):
 
     docker-compose run --rm app /bin/sh 
 
 In the container, check:
 
     ls -la /myapp // should list pom.xml ...
+    
+## Tests
 
+The security test is skipped by default as it requires a running mysql. It tests many of the Fulcrum Torque Turbine security aspects, 
+you may activate it by calling in the root of the container in the shell (e.g. with docker-compose run --rm app /bin/sh):
+
+    mvn test -DskipTests=false
+
+- You may reset MAVEN_OPTS, which is by default set in settings.xml
+
+    export MAVEN_OPTS=
+    
+
+### Prerequisites
+
+- a running docker service db
+
+- proper settings of Db connection URL. Check/update  
+
+    <project-path>/src/test/conf/torque/TorqueTest.properties 
+
+ If you have not initialized docker, when creating the archetype instance, 
+ you may have to edit TorqueTest.properties and adapt the url from localhost to db. 
+ 
+ That is, if running tests inside container, set in TorqueTest.properties should be:
+
+    torque.dsfactory.turbine.connection.url = 
+    jdbc:mysql://db:3306/turbine?serverTimeZone=UTC
+
+  On the other side, if running the tests outside the container
+  the setting should be :
+
+    torque.dsfactory.turbine.connection.url = 
+    jdbc:mysql://localhost:13306/turbine?serverTimeZone=UTC
+
+  This depends of course on the db ports settings in docker-compose.yml.
+ 
 
 # System Specific Informations
 
 ## Windows
+
+- Start Docker Desktop, you might not get an error immediately if not, but only when shared volumes are created (like 
+
+    Error response from daemon: error while creating mount source path '/run/desktop/mnt/host/wsl/docker-desktop-bind-mounts/..': mkdir /run/desktop/mnt/host/wsl/docker-desktop-bind-mounts/.. file exists
 
 ### Powershell
 
@@ -179,9 +220,10 @@ In the container, check:
 - If a image download fails, try Docker->Network->Update DNS to 8.8.8.8
 
 - ERROR, when starting docker-compose up/start:
- "for db  Cannot start service db: driver failed programming external connectivity on endpoint docker-resources_db_1 or
-ERROR: for docker-resources_db_1  Cannot start service db: driver failed programming external connectivity on endpoint docker-resources_db_1 ... 
-Error starting userland proxy: mkdir /port/tcp:0.0.0.0:13306:tcp:...:3306: input/output error"
+
+    for db  Cannot start service db: driver failed programming external connectivity on endpoint docker-resources_db_1 or
+    ERROR: for docker-resources_db_1  Cannot start service db: driver failed programming external connectivity on endpoint docker-resources_db_1 ... 
+    Error starting userland proxy: mkdir /port/tcp:0.0.0.0:13306:tcp:...:3306: input/output error"
 
   - Check if containers not already running.
   - Remove containers (if any): docker rm $(docker ps -a -q)
@@ -191,7 +233,9 @@ Error starting userland proxy: mkdir /port/tcp:0.0.0.0:13306:tcp:...:3306: input
 
 - Check file permissions of archetype generated files (chmod -R a+rw docker-resources, chmod -R a+rw src .
 
-- https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly
+- If you generated the project with windows shell, but run the docker form wsl you have to regenerate docker-compose.yml with unix pathes running this command again
+
+    mvn install -Pdocker
 
 
 ### More Internals, Helpful Docker commands

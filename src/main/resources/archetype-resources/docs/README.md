@@ -75,7 +75,7 @@ N.B. Set docker variable to true to enable Docker setup in building the artifact
 
     -Ddocker=true
     
-to immediately enable docker setup, when generating the archetype. 
+to immediately enable docker setup, when generating the archetype. If 
 
 Currently only port 3306 is supported, if you do not want ot change the port seetings for the db container in docker-compose.yml
 
@@ -161,7 +161,7 @@ action.login=LoginUser in TurbineResources.properties and changing Login.vm appr
 Prerequisites
 - ignored tests require at least Turbine version 4.0.1 
 - database was build successfully e.g. with archetype.
-- running mysql
+- running mysql or docker service db
 
 If running from integration test, check/update
 - in pom.xml turbine.core property,
@@ -175,7 +175,7 @@ mvn test -DskipTests=false
 ```
 
 CAVEAT: If initialization fails, double check your database credentials! If invalid the error might be somewhat hidden behind a
- Torque exception!
+ Torque exception! Docker: If you have not initialized docker when creating the archetype instance, you have to edit TorqueTest.properties and adapt the url from localhost to db. You may then run the tests from inside the container service app.
 
 ## IDE Integration, Eclipse
 
