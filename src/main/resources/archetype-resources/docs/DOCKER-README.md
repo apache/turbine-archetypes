@@ -31,11 +31,13 @@ cd <project>/target/docker-resources
 docker compose config
 ```
     
+Important: Check that  /m2repo is properly mapped to your local maven repository in docker-compose.yml !
+
 - Build and start the services
 
 ```sh
 docker compose build --no-cache
-docker compose up
+docker compose up --detach
 ```
     
 First time building might take a couple of minutes. 
@@ -52,7 +54,7 @@ N.B. You may use the command *docker compose* or *docker-compose*, but will slig
 <Set name="url">jdbc:mysql://db:3306/turbine</Set>
 ```
 
-### Build Services
+## Build Services
 
 The app service uses later a volume, which maps to the local maven repository, which you may need/not need.
 The db service uses mysql-latest (currently 8.x), you may replace it with a fixed release tag.
@@ -76,9 +78,9 @@ to test it.  CAVEAT: The db service is build and populated until now with hard c
 It is a dependency for the service app (see app/Dockerfile).
 
 
-### Starting Services
+## Starting Services
 
-Start both services in one step
+Start both services in one step (add -d for detached mode)
 
     docker-compose up
    
@@ -139,34 +141,8 @@ If not yet done, build on the host with mvn clean install -f ../pom.xml -Pdocker
 #### Lifecycle (developers only)
 
 - If you generate the archetype itself, you might have to stop the services before cleaning up (docker-compose stop).
-
-## Debugging Services: Db, App
-
-### Db Service 
-
- 
-    docker-compose run --rm db /bin/sh 
-
-Extract data in db service
-
-    mysql -u root -h db -P 3306 -p
     
-.. or 
-
-    docker-compose exec db mysql -u root --password=... -e "show databases;" --build-arg DB_CONTEXT=./docker-resources/db
-    docker-compose exec db sh -c 'exec mysqldump --all-databases -uroot -p...' --build-arg DB_CONTEXT=./docker-resources/db > dump.sql
-
-### App Service
-
-This will start app (and db as app depends on db):
-
-    docker-compose run --rm app /bin/sh 
-
-In the container, check:
-
-    ls -la /myapp // should list pom.xml ...
-    
-## Tests
+# Tests
 
 The security test is skipped by default as it requires a running mysql. It tests many of the Fulcrum Torque Turbine security aspects, 
 you may activate it by calling in the root of the container in the shell (e.g. with docker-compose run --rm app /bin/sh):
@@ -178,31 +154,74 @@ you may activate it by calling in the root of the container in the shell (e.g. w
     export MAVEN_OPTS=
     
 
-### Prerequisites
+## Prerequisites
 
 - a running docker service db
 
-- proper settings of Db connection URL. Check/update  
+- Check/update proper settings of Db connection URL in
 
     <project-path>/src/test/conf/torque/TorqueTest.properties 
 
  If you have not initialized docker, when creating the archetype instance, 
  you may have to edit TorqueTest.properties and adapt the url from localhost to db. 
  
- That is, if running tests inside container, set in TorqueTest.properties should be:
+ 
+ ### Inside container 
+ 
+If running tests inside container, set in TorqueTest.properties should be:
 
     torque.dsfactory.turbine.connection.url = 
     jdbc:mysql://db:3306/turbine?serverTimeZone=UTC
+    
+Then run in target/docker-resources a docker compose run command:
 
-  On the other side, if running the tests outside the container
-  the setting should be :
+    docker compose run app /bin/sh 
+    #mvn test -DskipTests=false    
+    
+Of course, if running inside the container, you should exit.
+
+    mvn -Pjetty
+
+ ### In Host System 
+ 
+On the other side, if running the tests outside the container
+the setting should be :
 
     torque.dsfactory.turbine.connection.url = 
     jdbc:mysql://localhost:13306/turbine?serverTimeZone=UTC
 
-  This depends of course on the db ports settings in docker-compose.yml.
- 
+This depends of course on the db ports settings in docker-compose.yml.
 
+Run in project root
+
+    mvn test -DskipTests=false
+ 
+# Debugging Services: Db, App
+
+## Db Service 
+
+ 
+    docker-compose run db /bin/sh 
+
+Extract data in db service
+
+    mysql -u root -h db -P 3306 -p
+    
+.. or 
+
+    docker-compose exec db mysql -u root --password=... -e "show databases;" --build-arg DB_CONTEXT=./docker-resources/db
+    docker-compose exec db sh -c 'exec mysqldump --all-databases -uroot -p...' --build-arg DB_CONTEXT=./docker-resources/db > dump.sql
+
+## App Service
+
+This will start app (and db as app depends on db):
+
+    docker-compose run app /bin/sh 
+
+In the container, check:
+
+    ls -la /myapp // should list pom.xml ...
+ 
 # System Specific Informations
 
 ## Windows
