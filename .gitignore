@@ -4,3 +4,4 @@
 .gitattributes
 *.iml
 .externalToolBuilders/
+.project

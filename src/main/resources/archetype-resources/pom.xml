@@ -396,7 +396,7 @@ under the License.
         <maven.compile.target>1.8</maven.compile.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <log4j2.version>2.14.1</log4j2.version>
-        <mysql.version>8.0.25</mysql.version>
+        <mysql.version>8.0.27</mysql.version>
         <fulcrum.json>2.0.1</fulcrum.json>
         <fulcrum.intake>2.0.0</fulcrum.intake>
         <fulcrum.security>2.0.1-SNAPSHOT</fulcrum.security>
