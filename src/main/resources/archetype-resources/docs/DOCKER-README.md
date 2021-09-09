@@ -10,17 +10,20 @@ The build should take place outside the docker container.
 
 It is based on one docker-compose.yml file and two Dockerfiles.
 
-Docker compose uses currently two services: **app** (maven:3-jdk-8) and **db** (mysql:latest). 
+Docker compose uses currently two customized services: **app** (maven:3-jdk-8) and **db** (mysql:latest). 
 
 ## Note
 - Mysql should easily be replacable by Mariadb. 
-- Instead of using maven as the app service a Jetty container might be the better choice as currently console reloading might not work.
+- Instead of using maven as the app service a Jetty container might be the better choice as currently console reloading might not work. To be able to use other maven tasks (in the container) in this case makes this nevertheless a reasonable choice.
 
 # Prepare
 
 To run the build with maven do this outside of the container using following mvn command:
 
     mvn install -Pdocker
+    
+### Note
+IF you have already generated this with mvn archetype:generate within the same host environment this step could be omitted.
 
 # Installation (running the app)
     
@@ -31,7 +34,7 @@ cd <project>/target/docker-resources
 docker compose config
 ```
     
-Important: Check that  /m2repo is properly mapped to your local maven repository in docker-compose.yml !
+Important: Check that  /m2repo is properly mapped to your local maven repository in docker-compose.yml!
 
 - Build and start the services
 
@@ -42,9 +45,11 @@ docker compose up --detach
     
 First time building might take a couple of minutes. 
 
- - Now you can launch in another termina your new Turbine application by default [http://localhost:8081/app] 
+ - Now you can launch (in another terminal) your new Turbine application by default [http://localhost:8081/app] 
  
-N.B. You may use the command *docker compose* or *docker-compose*, but will slightly different results.
+### Note 
+
+You may use the command *docker compose* or *docker-compose*, but will slightly different results.
 
 
 - Double check database service call in ** target/<projectname>/WEB-INF/jetty-env.xml**. It should reference the service name (db), not localhost - this was set when using the maven docker profile.
@@ -54,12 +59,12 @@ N.B. You may use the command *docker compose* or *docker-compose*, but will slig
 <Set name="url">jdbc:mysql://db:3306/turbine</Set>
 ```
 
-## Build Services
+## Build Services Details
 
 The app service uses later a volume, which maps to the local maven repository, which you may need/not need.
 The db service uses mysql-latest (currently 8.x), you may replace it with a fixed release tag.
 
-If previously build, you may want to delete all volumes (this will delete all tables in /var/lib/mysql) and containers
+If previously build, you may want to delete all volumes (this will delete all tables in /var/lib/mysql monted in volume db_data_<project>) and containers
 
     docker-compose down -v
 
@@ -78,7 +83,7 @@ to test it.  CAVEAT: The db service is build and populated until now with hard c
 It is a dependency for the service app (see app/Dockerfile).
 
 
-## Starting Services
+## Starting Services Details
 
 Start both services in one step (add -d for detached mode)
 
@@ -86,7 +91,7 @@ Start both services in one step (add -d for detached mode)
    
 .. or doing it in background, requires second start command
 
-    docker-compose -d up
+    docker-compose up -d
     docker-compose start
 
 This will start first the db service, then the app service. Jetty is run exposing the webapp to **http://localhost:8081/app**.
@@ -168,7 +173,7 @@ you may activate it by calling in the root of the container in the shell (e.g. w
  
  ### Inside container 
  
-If running tests inside container, set in TorqueTest.properties should be:
+If running tests inside container, URL setting in TorqueTest.properties should be:
 
     torque.dsfactory.turbine.connection.url = 
     jdbc:mysql://db:3306/turbine?serverTimeZone=UTC
@@ -178,9 +183,7 @@ Then run in target/docker-resources a docker compose run command:
     docker compose run app /bin/sh 
     #mvn test -DskipTests=false    
     
-Of course, if running inside the container, you should exit.
-
-    mvn -Pjetty
+Of course, if running inside the container, you should exit and you might have to restart the app service.
 
  ### In Host System 
  
@@ -232,25 +235,24 @@ In the container, check:
 
 ### Powershell
 
-- You may have to replace in volume mapping for host repo path (maven localRepository) backslashes with slashes "/" in docker-compose.yml.
+- You may have to replace in volume mapping for host repo path (maven localRepository) backslashes with slashes "/" in docker-compose.yml or better rerun the maven build.
 
-- check COMPOSE_CONVERT_WINDOWS_PATHS, https://docs.docker.com/compose/reference/envvars/#compose_convert_windows_paths
+- Check COMPOSE_CONVERT_WINDOWS_PATHS, https://docs.docker.com/compose/reference/envvars/#compose_convert_windows_paths
 
-- If a image download fails, try Docker->Network->Update DNS to 8.8.8.8
+- If an image download fails, try Docker->Network->Update DNS to 8.8.8.8
 
 - ERROR, when starting docker-compose up/start:
 
-    for db  Cannot start service db: driver failed programming external connectivity on endpoint docker-resources_db_1 or
     ERROR: for docker-resources_db_1  Cannot start service db: driver failed programming external connectivity on endpoint docker-resources_db_1 ... 
     Error starting userland proxy: mkdir /port/tcp:0.0.0.0:13306:tcp:...:3306: input/output error"
 
-  - Check if containers not already running.
+  - Check if containers are not already running.
   - Remove containers (if any): docker rm $(docker ps -a -q)
-  - If error still there, restart Docker Desktop on your machine.
+  - Windows (including WSL subsystem): If the error is still there, restart Docker Desktop on your machine.
 
 ### Windows Subsystem for Linux (WSL)
 
-- Check file permissions of archetype generated files (chmod -R a+rw docker-resources, chmod -R a+rw src .
+- Check file permissions of archetype generated files (chmod -R a+rw docker-resources, chmod -R a+rw src).
 
 - If you generated the project with windows shell, but run the docker form wsl you have to regenerate docker-compose.yml with unix pathes running this command again
 
@@ -258,6 +260,8 @@ In the container, check:
 
 
 ### More Internals, Helpful Docker commands
+
+If you want to run from Dockerfile ..
 
 #### Resetting / Preparation (optional)
 

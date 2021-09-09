@@ -404,16 +404,7 @@ under the License.
         <fulcrum.cache>2.0.0</fulcrum.cache>
         <fulcrum.testcontainer>1.0.9</fulcrum.testcontainer>
         <torque.version>5.1-SNAPSHOT</torque.version>
-         <turbine.core>5.1-SNAPSHOT</turbine.core>     
-        <!--
-            <torque.version>5.0</torque.version>
-            <turbine.core>5.0</turbine.core>
-            <torque.version>5.1-SNAPSHOT</torque.version>
-           <turbine.core>5.1-SNAPSHOT</turbine.core>
-                        
-            <fulcrum.intake>2.0.1-SNAPSHOT</fulcrum.intake>
-            <fulcrum.security>2.0.0-SNAPSHOT</fulcrum.security>
-        -->
+        <turbine.core>5.1-SNAPSHOT</turbine.core>     
         <skipTests>true</skipTests>
         <docker>false</docker>
         <turbine_database_url>${turbine_database_url}</turbine_database_url>
