@@ -38,23 +38,19 @@ services:
       dockerfile: ./docker-resources/db/Dockerfile
       args:
         DB_CONTEXT: ./docker-resources/db
-        MYSQL_DATABASE: ${turbine_database_name}
+        MYSQL_ROOT: root
         MYSQL_ROOT_PASSWORD: changeit
+        MYSQL_DATABASE: ${turbine_database_name}
         MYSQL_USER: ${turbine_database_user}
         MYSQL_PASSWORD: ${turbine_database_password}
-    
-    environment:
-      MYSQL_DATABASE: ${turbine_database_name}
-      MYSQL_ROOT_PASSWORD: changeit
-      MYSQL_USER: ${turbine_database_user}
-      MYSQL_PASSWORD: ${turbine_database_password}
-      DB_CONTEXT: ./docker-resources/db
+        
+    # no environment needed here, only if using image in this file
       
     volumes:
-      - "./db/mysql/init:/docker-entrypoint-initdb.d"   
-      - "./db/mysql/conf:/etc/mysql/conf.d"
-      - "./db/mysql/data:/data" 
-      - "./db/mysql/log:/mysql/log"
+      - ./db/mysql/init:/docker-entrypoint-initdb.d
+      - ./db/mysql/conf:/etc/mysql/conf.d
+      - ./db/mysql/data:/data
+      - ./db/mysql/log:/mysql/log
       # default mysql persistent data
       - db_data_${turbine_database_name}:/var/lib/mysql:rw  
     restart: always     
@@ -64,8 +60,7 @@ services:
       
     #networks:
     #  - db
-    #command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci]
-    command: --default-authentication-plugin=mysql_native_password
+    command: [mysqld, --default-authentication-plugin=mysql_native_password]
 
  # this might work only for *nix, check with docker image inspect db
 volumes:

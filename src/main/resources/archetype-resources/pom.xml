@@ -396,10 +396,10 @@ under the License.
         <maven.compile.target>1.8</maven.compile.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <log4j2.version>2.14.1</log4j2.version>
-        <mysql.version>8.0.27</mysql.version>
+        <mysql.version>8.0.26</mysql.version>
         <fulcrum.json>2.0.1</fulcrum.json>
         <fulcrum.intake>2.0.0</fulcrum.intake>
-        <fulcrum.security>2.0.1-SNAPSHOT</fulcrum.security>
+        <fulcrum.security>2.1.0</fulcrum.security>
         <fulcrum.yaafi>1.0.8</fulcrum.yaafi>
         <fulcrum.cache>2.0.0</fulcrum.cache>
         <fulcrum.testcontainer>1.0.9</fulcrum.testcontainer>

@@ -27,25 +27,31 @@ IF you have already generated this with mvn archetype:generate within the same h
 
 # Installation (running the app)
     
-- Change into directory target/docker-resources andf check the file docker-compose.yml, e.g. with
+- Change into directory target/docker-resources and check the file docker-compose.yml, e.g. with
 
-```sh
-cd <project>/target/docker-resources
-docker compose config
-```
+    cd <project>/target/docker-resources
+    docker compose config
+
     
 Important: Check that  /m2repo is properly mapped to your local maven repository in docker-compose.yml!
 
+### Note
+
+If running as integrationtest, you find the docker files in target/test-classes/projects/first/project/integrationtest/target/docker-resources.
+
 - Build and start the services
 
-```sh
-docker compose build --no-cache
-docker compose up --detach
-```
+    docker compose build --no-cache
+    docker compose up --detach
+
+
+You might check the process with 
+
+    docker-compose logs -f app
     
 First time building might take a couple of minutes. 
 
- - Now you can launch (in another terminal) your new Turbine application by default [http://localhost:8081/app] 
+ - Now you can launch (in another terminal) your new Turbine application by default [http://localhost:8081/app] (http://localhost:8081/app)
  
 ### Note 
 
