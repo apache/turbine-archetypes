@@ -258,8 +258,8 @@ under the License.
                 <skip>${docker}</skip>
                 <orderFile>ascending</orderFile>
                 <srcFiles>
-                  <srcFile>#var("project.basedir")/docs/sample-mysql-data/_application-data.sql</srcFile>
-                  <srcFile>#var("project.basedir")/docs/sample-mysql-data/_turbine-security-data.sql</srcFile>
+                  <srcFile>#var("project.basedir")/src/main/data/sample-mysql-data/_application-data.sql</srcFile>
+                  <srcFile>#var("project.basedir")/src/main/data/sample-mysql-data/_turbine-security-data.sql</srcFile>
                 </srcFiles>              
               </configuration>
             </execution>
