@@ -39,8 +39,11 @@ Clone this repository and build it with maven.
 
 ## Contributing
 
-Please feel free to contribute. We are always happy to encourage new committers to the project.
+Please feel free to contribute. We are always happy to encourage new committers to the project. 
 
+The Apache Software foundation requires that any contributor has signed the ICLA (Individual Contributor License Agreement).
+
+Find an overview, more information and how-tos [here](http://www.apache.org/licenses/contributor-agreements.html#clas).
 
 ## Authors
 
