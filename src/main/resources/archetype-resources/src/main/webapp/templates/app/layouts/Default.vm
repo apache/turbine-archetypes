@@ -19,7 +19,8 @@ $page.addStyleSheet("http://www.w3schools.com/lib/w3.css")
 $page.addStyleSheet("http://www.w3schools.com/lib/w3-theme-blue-grey.css")
 $page.setTitle("Sample Apache Turbine Application")
 $page.addScript($ui.getScript("page.js"))
-<html>
+<html lang="$l10n.Locale">
+<meta http-equiv="Content-type" content="$data.ContentType" />
 
 #TurbineHtmlHead()
 
