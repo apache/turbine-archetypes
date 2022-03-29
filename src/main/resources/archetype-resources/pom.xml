@@ -403,8 +403,8 @@ under the License.
         <fulcrum.yaafi>1.0.8</fulcrum.yaafi>
         <fulcrum.cache>2.0.0</fulcrum.cache>
         <fulcrum.testcontainer>1.0.9</fulcrum.testcontainer>
-        <torque.version>5.1-SNAPSHOT</torque.version>
-        <turbine.core>5.2-SNAPSHOT</turbine.core>     
+        <torque.version>5.1</torque.version>
+        <turbine.core>5.1</turbine.core>     
         <skipTests>true</skipTests>
         <docker>false</docker>
         <turbine_database_url>${turbine_database_url}</turbine_database_url>
