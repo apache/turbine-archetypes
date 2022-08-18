@@ -48,10 +48,10 @@ services:
       
     volumes:
       - ./db/mysql/init:/docker-entrypoint-initdb.d
-      - ./db/mysql/conf:/etc/mysql/conf.d
+      # may activate on *nix
+      #- ./db/mysql/conf:/etc/mysql/conf.d
       - ./db/mysql/data:/data
-      - ./db/mysql/log:/mysql/log
-      # default mysql persistent data
+      #- ./db/mysql/log:/mysql/log
       - db_data_${turbine_database_name}:/var/lib/mysql:rw  
     restart: always     
     ports:

@@ -13,8 +13,9 @@ It is based on one docker-compose.yml file and two Dockerfiles.
 Docker compose uses currently two customized services: **app** (maven:3-jdk-8) and **db** (mysql:latest). 
 
 ## Note
-- Mysql should easily be replacable by Mariadb. 
-- Instead of using maven as the app service a Jetty container might be the better choice as currently console reloading might not work. To be able to use other maven tasks (in the container) in this case makes this nevertheless a reasonable choice.
+- Mysql is replaced by Mariadb. 
+- Instead of using maven as the app service a Jetty container might be the better choice as currently console reloading might not work. 
+To be able to use other maven tasks (in the container) in this case makes this nevertheless a reasonable choice.
 
 # Prepare
 
@@ -22,8 +23,9 @@ To run the build with maven do this outside of the container using following mvn
 
     mvn install -Pdocker
     
-### Note
-IF you have already generated this with mvn archetype:generate within the same host environment this step could be omitted.
+### Build Note 
+
+If you have already generated this with mvn archetype:generate within the same host environment this step could be omitted.
 
 # Installation (running the app)
     
@@ -35,28 +37,38 @@ IF you have already generated this with mvn archetype:generate within the same h
     
 Important: Check that  /m2repo is properly mapped to your local maven repository in docker-compose.yml!
 
-### Note
+### Note if building from Repo source  - Integration Test
 
-If running as integrationtest, you find the docker files in target/test-classes/projects/first/project/integrationtest/target/docker-resources.
+This generates in target folder a structure like this:
 
-- Build and start the services
+    projects/first/project/integrationtest
+    
+    
+If running from integrationtest, you find the docker files in integrationtest/target/docker-resources.
 
+- check, do a fresh build and start the services
+
+    docker compose config
+    docker compose ps
+    // optional docker compose down -v
     docker compose build --no-cache
     docker compose up --detach
-
-
+    
+** A frst time build of the app service might take a couple of minutes. **    
+    
 You might check the process with 
 
-    docker-compose logs -f app
+    docker compose logs -f app
+    docker compose logs -f db
     
-First time building might take a couple of minutes. 
+The logs should show "mysqld: ready for connections" and "Started Jetty Server".
 
- - Now you can launch (in another terminal) your new Turbine application by default [http://localhost:8081/app] (http://localhost:8081/app)
+ - Now you can launch (in another terminal) your new Turbine application by default [http://localhost:8081/app] (http://localhost:8081/app).
+ - Login with user / password or admin /password.
  
-### Note 
+### Troubleshooting Notes
 
 You may use the command *docker compose* or *docker-compose*, but will slightly different results.
-
 
 - Double check database service call in ** target/<projectname>/WEB-INF/jetty-env.xml**. It should reference the service name (db), not localhost - this was set when using the maven docker profile.
 
@@ -65,14 +77,19 @@ You may use the command *docker compose* or *docker-compose*, but will slightly 
 <Set name="url">jdbc:mysql://db:3306/turbine</Set>
 ```
 
-## Build Services Details
+#### Build Services Details
 
 The app service uses later a volume, which maps to the local maven repository, which you may need/not need.
 The db service uses mysql-latest (currently 8.x), you may replace it with a fixed release tag.
 
+Check the mysql uid/gid with
+
+    docker run -it --rm --user mysql:mysql docker-resources_db id
+
 If previously build, you may want to delete all volumes (this will delete all tables in /var/lib/mysql monted in volume db_data_<project>) and containers
 
     docker-compose down -v
+   
 
 - Build it
 
@@ -89,7 +106,7 @@ to test it.  CAVEAT: The db service is build and populated until now with hard c
 It is a dependency for the service app (see app/Dockerfile).
 
 
-## Starting Services Details
+#### Starting Services Details
 
 Start both services in one step (add -d for detached mode)
 
@@ -107,7 +124,7 @@ You could follow the logs with docker-compose logs -f app or docker-compose logs
 
 - To change velocity templates check webapp in ** src/main/webapp** and run in another window *mvn package*.  Jetty should restart automatically. Other resources might depend on https://www.eclipse.org/jetty/documentation/jetty-9/index.html#jars-scanned-for-annotations.
 
-### Cleanup or restart (optional)
+#### Cleanup or restart (optional)
 
 - Optionally Check system or cleanup, e.g. with docker-compose down, docker-compose down -v or docker sytem prune (removes any container on system).
 
@@ -149,7 +166,7 @@ Currently the docker-compose is generated once more, if starting the containers,
 
 If not yet done, build on the host with mvn clean install -f ../pom.xml -Pdocker.
 
-#### Lifecycle (developers only)
+### Lifecycle (developers only)
 
 - If you generate the archetype itself, you might have to stop the services before cleaning up (docker-compose stop).
     
@@ -177,7 +194,7 @@ you may activate it by calling in the root of the container in the shell (e.g. w
  you may have to edit TorqueTest.properties and adapt the url from localhost to db. 
  
  
- ### Inside container 
+ ### Inside the container 
  
 If running tests inside container, URL setting in TorqueTest.properties should be:
 
@@ -191,7 +208,7 @@ Then run in target/docker-resources a docker compose run command:
     
 Of course, if running inside the container, you should exit and you might have to restart the app service.
 
- ### In Host System 
+ ### In the host system 
  
 On the other side, if running the tests outside the container
 the setting should be :
@@ -205,12 +222,12 @@ Run in project root
 
     mvn test -DskipTests=false
  
-# Debugging Services: Db, App
+## Debugging Services: Db, App
 
-## Db Service 
+### Db Service 
 
  
-    docker-compose run db /bin/sh 
+    docker-compose run db /bin/bash 
 
 Extract data in db service
 
@@ -221,7 +238,7 @@ Extract data in db service
     docker-compose exec db mysql -u root --password=... -e "show databases;" --build-arg DB_CONTEXT=./docker-resources/db
     docker-compose exec db sh -c 'exec mysqldump --all-databases -uroot -p...' --build-arg DB_CONTEXT=./docker-resources/db > dump.sql
 
-## App Service
+### App Service
 
 This will start app (and db as app depends on db):
 
