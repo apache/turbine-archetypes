@@ -38,7 +38,7 @@
 
   <scm>
     <connection>scm:git:https://github.com/apache/turbine-archetypes</connection>
-    <developerConnection>scm:git:ssh://github.com/apache/turbine-archetypes</developerConnection>
+    <developerConnection>scm:git:ssh://git@github.com/apache/turbine-archetypes</developerConnection>
     <url>scm:git:https://github.com/apache/turbine-archetypes</url>
     <tag>HEAD</tag>
   </scm>
