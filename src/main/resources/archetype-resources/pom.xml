@@ -392,8 +392,8 @@ under the License.
     </dependencies>
 
     <properties>
-        <maven.compile.source>1.8</maven.compile.source>
-        <maven.compile.target>1.8</maven.compile.target>
+        <maven.compile.source>11</maven.compile.source>
+        <maven.compile.target>11</maven.compile.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <log4j2.version>2.19.0</log4j2.version>
         <mysql.version>8.0.28</mysql.version>
