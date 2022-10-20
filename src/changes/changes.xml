@@ -24,12 +24,18 @@
   </properties>
 
   <body>
-    <release version="2.0.0-SNAPSHOT" date="in Gitbox">
+   <release version="turbine-webapp-5.2-2.0.1-SNAPSHOT" date="in Gitbox">
+    </release>   
+    <release version="turbine-webapp-5.1-2.0.0" date="2022-09-09">
        <action type="update" dev="gk">
-        integrate docker branch (optional profile docker)
+        Integrate docker branch (optional profile docker). Fixed Bugs: Docker configuration fixes, simplify mysql configuration; using mariadb image 10.8.
+        Update to Torque 5.1 and fix the XSD links in schema files to 6.5.1,  javadoc to 3.3.0, update mysql connector due to CVE-2021-3712, CVE-2022-21363.
+      </action>
+       <action type="update" dev="youngho">
+        Update TurbineResources.properties and update for i18n better support, create and Update L10N_ko_KR.properties  
       </action>
     </release>
-	<release version="1.0.3" date="in Gitbox">
+	<release version="turbine-webapp-5.0-1.0.3" date="2020-12-03">
 	  <action type="update" dev="jp">
          Update to from lang to lang3
       </action>

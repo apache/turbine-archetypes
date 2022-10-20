@@ -380,7 +380,7 @@ under the License.
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.13.1</version>
+        <version>4.13.2</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -395,16 +395,16 @@ under the License.
         <maven.compile.source>1.8</maven.compile.source>
         <maven.compile.target>1.8</maven.compile.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        <log4j2.version>2.17.1</log4j2.version>
+        <log4j2.version>2.19.0</log4j2.version>
         <mysql.version>8.0.28</mysql.version>
-        <fulcrum.json>2.0.1</fulcrum.json>
-        <fulcrum.intake>2.0.0</fulcrum.intake>
-        <fulcrum.security>2.1.0</fulcrum.security>
+        <fulcrum.json>2.0.2-SNAPSHOT</fulcrum.json>
+        <fulcrum.intake>2.0.1-SNAPSHOT</fulcrum.intake>
+        <fulcrum.security>2.1.1-SNAPSHOT</fulcrum.security>
         <fulcrum.yaafi>1.0.8</fulcrum.yaafi>
         <fulcrum.cache>2.0.0</fulcrum.cache>
         <fulcrum.testcontainer>1.0.9</fulcrum.testcontainer>
         <torque.version>5.1</torque.version>
-        <turbine.core>5.1</turbine.core>     
+        <turbine.core>5.2-SNAPSHOT</turbine.core>     
         <skipTests>true</skipTests>
         <docker>false</docker>
         <turbine_database_url>${turbine_database_url}</turbine_database_url>
