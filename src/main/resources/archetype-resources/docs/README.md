@@ -8,15 +8,15 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-* Java 8 JDK or later 
+* Java 11 JDK or later (Turbine 5.2 and later), before Java 8
 * [MySQL](https://www.mysql.com/) - Database Server or [Docker] (https://docs.docker.com/get-docker/)
 * [Maven](https://maven.apache.org/) - Dependency Management
 
-You should have Java 8 or later installed.  The archetype sets up a new application using MySQL as the default database store.  However, you can adjust this to use any database supported by Apache Torque 5.x. If not using Docker, you should therefore be at least have a database instance where you have access rights to create a new database schema and populate it with the tables the application generates.  Finally, this is a maven archetype, so of course you should install a local version of Maven (tested with 3.5.4 and 3.8.1).  
+You should have Java 11 or later installed.  The archetype sets up a new application using MySQL as the default database store.  However, you can adjust this to use any database supported by Apache Torque 5.x. If not using Docker, you should therefore be at least have a database instance where you have access rights to create a new database schema and populate it with the tables the application generates.  Finally, this is a maven archetype, so of course you should install a local version of Maven (tested with 3.8.3).  
 
 ## About this archetype 
 
-Turbine Version: Turbine 5.1 Turbine-webapp-5.x
+Turbine Version: Turbine 5.2 Turbine-webapp-5.x
 
 ### Integration Test (if you checked out this [Archetype Generate Repository](https://github.com/apache/turbine-archetypes.git))
 
@@ -97,7 +97,7 @@ This requires you provide a local catalog in $HOME\.m2\archetype-catalog.xml. Fi
 <archetype-catalog ...>
  <archetype>
       <groupId>org.apache.turbine</groupId>
-      <artifactId>turbine-webapp-5.1</artifactId>
+      <artifactId>turbine-webapp-5.2</artifactId>
       <version>2.0.0-SNAPSHOT</version>
       <description>This archetype sets up a web application project based on Apache Turbine 5.x</description>
     </archetype>
@@ -213,7 +213,7 @@ Be aware of settings and some smaller restrictions, which mostly will be fixed i
 - abstract classes and managers are included (because of some minor bugs in Fulcrum Security 1.1.0, same as above)
 - LogoutUser action is included as an custom example 
 - LoginUser action is included (to check for anonymous user, may be fixed in future release)
-- OM (Torque Object Mapper) stub classes are included (until configurable in schema with Torque version 2.1)
+- OM (Torque Object Mapper) stub classes are included (until configurable in schema with Torque version 5.1)
 - TurbineConfiguration returns a Commons configuration object, even if field is not assignable (fixed in Turbine 5.x, you can then assign e.g. to String instead, cft. SecureScreen)
 - Database connection is done initially by default with JNDI. If you want to change it, check Torque.properties and (1) for Tomcat, META-INF/context.xml or (2) for Jetty, WEB-INF/jetty-env.xml.  
 

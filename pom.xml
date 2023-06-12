@@ -23,15 +23,16 @@
     <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>27</version><!-- like turbine parent -->
+    <version>29</version>
+    <!-- like turbine parent -->
   </parent>
   <groupId>org.apache.turbine</groupId>
-  <artifactId>turbine-webapp-5.2</artifactId>
+  <artifactId>turbine-webapp-6.0</artifactId>
   <version>2.0.1-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>
 
-  <name>Archetype - Turbine 5.2 WebApp</name>
-  <description>This archetype sets up a web application project based on Apache Turbine 5.x and Torque 5.x</description>
+  <name>Archetype - Turbine 6.0 WebApp</name>
+  <description>This archetype sets up a web application project based on Apache Turbine 6.x and Torque 5.2.x</description>
   <url>https://turbine.apache.org</url>
 
   <inceptionYear>2011</inceptionYear>
@@ -55,7 +56,7 @@
       <extension>
         <groupId>org.apache.maven.archetype</groupId>
         <artifactId>archetype-packaging</artifactId>
-        <version>3.2.0</version>
+        <version>3.2.1</version>
       </extension>
     </extensions>
 
@@ -63,7 +64,7 @@
       <plugins>
         <plugin>
           <artifactId>maven-archetype-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.2.1</version>
            <!-- skip tests in generated archetype's pom, here the integration-test would be skipped -->
           <!--configuration>
             <skip>true</skip>
@@ -76,7 +77,7 @@
         <!-- filtering for docker -->
         <plugin>
             <artifactId>maven-resources-plugin</artifactId>
-            <version>3.1.0</version>
+            <version>3.3.1</version>
             <executions>
               <execution>
                 <id>copy-resources</id>

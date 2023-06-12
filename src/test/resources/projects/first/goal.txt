@@ -1,1 +1,1 @@
-eclipse:eclipse idea:idea package
+eclipse:eclipse package

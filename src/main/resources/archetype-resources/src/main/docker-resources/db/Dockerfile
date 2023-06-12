@@ -1,5 +1,5 @@
 # mariadb uses docker-entrypoint
-FROM mariadb:10.8 
+FROM mariadb:10.10 
 
 # That file does the DB initialization but also runs mysql daemon, by removing the last line it will only init
 #RUN ["/bin/sed", "-i", "s/exec \"$@\"/echo \"not running $@\"/", "/usr/local/bin/docker-entrypoint.sh"]

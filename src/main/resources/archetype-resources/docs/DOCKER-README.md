@@ -10,7 +10,7 @@ The build should take place outside the docker container.
 
 It is based on one docker-compose.yml file and two Dockerfiles.
 
-Docker compose uses currently two customized services: **app** (maven:3-jdk-8) and **db** (mysql:latest). 
+Docker compose uses currently two customized services: **app** (maven:3-jdk-11) and **db** (mysql:latest). 
 
 ## Note
 - Mysql is replaced by Mariadb. 
@@ -54,7 +54,7 @@ If running from integrationtest, you find the docker files in integrationtest/ta
     docker compose build --no-cache
     docker compose up --detach
     
-** A frst time build of the app service might take a couple of minutes. **    
+** A first time build of the app service might take a couple of minutes. **    
     
 You might check the process with 
 
