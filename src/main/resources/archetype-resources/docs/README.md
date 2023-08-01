@@ -81,11 +81,9 @@ Currently only port 3306 is supported, if you do not want ot change the port see
 
 ### Development
 
-You may use 
+You may use (add -U to get a fresh copy)
 
-```sh
-mvn archetype:generate -DarchetypeCatalog=local
-```
+    mvn archetype:generate -DarchetypeCatalog=local -U
 
 to avoid declaring the *archetype* variables.
 

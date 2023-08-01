@@ -16,7 +16,7 @@ package ${package}.flux.modules.screens;
  * limitations under the License.
  */
 
-import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration2.Configuration;
 import org.apache.fulcrum.security.model.turbine.TurbineAccessControlList;
 import org.apache.turbine.Turbine;
 import org.apache.turbine.TurbineConstants;

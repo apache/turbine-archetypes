@@ -203,7 +203,7 @@ If running tests inside container, URL setting in TorqueTest.properties should b
     
 Then run in target/docker-resources a docker compose run command:
 
-    docker compose run app /bin/sh 
+    docker compose run --rm app /bin/sh 
     #mvn test -DskipTests=false    
     
 Of course, if running inside the container, you should exit and you might have to restart the app service.
@@ -227,7 +227,7 @@ Run in project root
 ### Db Service 
 
  
-    docker-compose run db /bin/bash 
+    docker-compose run --rm db /bin/bash 
 
 Extract data in db service
 
