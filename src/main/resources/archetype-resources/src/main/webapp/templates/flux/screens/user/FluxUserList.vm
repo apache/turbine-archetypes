@@ -1,5 +1,18 @@
 #set ( $headings = ["Username","First Name", "Last Name", "Email", "Admin" ] )
 
+<table class="w3-table w3-striped  w3-bordered">
+    <tr>
+        <td>Search:</td> 
+        <td>
+        <form method="post" action="$link.setPage("user,FluxUserList.vm")">
+            $flux.getUserFieldList()
+            <input type="text" name="searchField" value="">
+            <input type="submit" name="eventSubmit_doDefault" value="Filter Users">
+        </form><br> 
+    <a href="$link.setPage("user,FluxUserList.vm").addQueryData( "fieldList", "username" ).addQueryData( "searchField", "admin" )" class="w3-btn w3-round w3-blue w3-border w3-border-blue">Admin Users</a>
+        </td> 
+   </tr>
+</table>
 
 <div class="w3-container w3-padding"> <h2>Current Users</h2>  </div>
 

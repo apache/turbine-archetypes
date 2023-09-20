@@ -50,6 +50,13 @@
         <!-- <urlCaseFolding>lower</urlCaseFolding> -->
         <parameterEncoding>utf-8</parameterEncoding>
         <automaticUpload>true</automaticUpload>
+        <pool2>
+           <!--  cft. defaults in org.apache.commons.pool2.impl.BaseObjectPoolConfig and GenericKeyedObjectPoolConfig -->
+           <maxTotal>1024</maxTotal>
+           <!--  if set to false, set maxWaitMillis to zero-->
+           <blockWhenExhausted>true</blockWhenExhausted>
+           <maxWaitMillis>500</maxWaitMillis>
+        </pool2>
     </parser>
     <!-- defining specific inspectors -->
     <json>

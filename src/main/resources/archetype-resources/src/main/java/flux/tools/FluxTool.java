@@ -33,7 +33,9 @@ import org.apache.fulcrum.security.torque.om.TurbineRolePermissionPeer;
 import org.apache.fulcrum.security.torque.om.TurbineUserPeer;
 import org.apache.fulcrum.security.util.GroupSet;
 import org.apache.fulcrum.security.util.RoleSet;
+import org.apache.torque.Column;
 import org.apache.torque.criteria.Criteria;
+import org.apache.torque.criteria.Criterion;
 import org.apache.turbine.annotation.TurbineConfiguration;
 import org.apache.turbine.annotation.TurbineService;
 import org.apache.turbine.om.security.User;
@@ -243,9 +245,17 @@ public class FluxTool implements ApplicationTool, Recyclable {
 			if (fieldList != null) {
 				// This is completely database centric.
 				String searchField = data.getParameters().getString("searchField");
-				criteria.where(fieldList, searchField, Criteria.LIKE);
+				Column searchColField = 
+				        fieldList.toLowerCase().contains( "username" )? 
+				                TurbineUserPeer.LOGIN_NAME :
+				        fieldList.toLowerCase().contains( "first" )? 
+				            TurbineUserPeer.FIRST_NAME:
+				        fieldList.toLowerCase().contains( "last" )? 
+				                TurbineUserPeer.LAST_NAME: TurbineUserPeer.LOGIN_NAME;
+				Criterion cond = new Criterion(searchColField, searchField, 
+				        (searchField.contains("%"))? Criteria.LIKE: Criteria.EQUAL);    
+				criteria.where(cond);
 			}
-
 			return (List<User>) security.getUserManager().retrieveList(criteria);
 		} catch (Exception e) {
 			log.error("Could not retrieve user list: " + e.toString());
