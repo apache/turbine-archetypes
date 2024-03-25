@@ -24,7 +24,12 @@
   </properties>
 
   <body>
-   <release version="turbine-webapp-5.2-2.0.1-SNAPSHOT" date="in Gitbox">
+   <release version="turbine-webapp-6.0-3.0.0-SNAPSHOT" date="in Gitbox">
+    <action type="update" dev="gk">
+        Add new default service to TR.properties:
+        <p>services.DateTimeFormatterService.classname= org.apache.turbine.services.localization.DateTimeFormatterService</p>
+        <p>services.DateTimeFormatterService.earlyInit=true  </p>
+      </action>
     </release>   
     <release version="turbine-webapp-5.1-2.0.0" date="2022-09-09">
        <action type="update" dev="gk">
