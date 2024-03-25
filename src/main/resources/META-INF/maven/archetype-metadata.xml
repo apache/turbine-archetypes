@@ -40,10 +40,10 @@
       <defaultValue>jdbc/turbine</defaultValue>
     </requiredProperty>
     <requiredProperty key="turbine_database_driver">
-      <defaultValue>com.mysql.cj.jdbc.Driver</defaultValue>
+      <defaultValue>org.mariadb.jdbc.Driver</defaultValue>
     </requiredProperty>
     <requiredProperty key="turbine_database_url">
-      <defaultValue>jdbc:mysql://localhost:3306/</defaultValue>
+      <defaultValue>jdbc:mariadb://localhost:3306/</defaultValue>
     </requiredProperty>
     <requiredProperty key="turbine_database_timezone">
       <defaultValue>UTC</defaultValue>

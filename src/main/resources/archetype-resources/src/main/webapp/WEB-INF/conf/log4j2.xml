@@ -59,14 +59,14 @@
       <Logger name="avalon" additivity="false" level="DEBUG">
           <AppenderRef ref="avalon"/>
       </Logger>
-      <Logger name="org.apache.torque" additivity="false" level="INFO">
+      <Logger name="org.apache.torque" additivity="false" level="DEBUG">
           <AppenderRef ref="torque"/>
       </Logger>
        <Logger name="org.apache.torque.util" additivity="false" level="DEBUG">
           <AppenderRef ref="sql"/>
           <AppenderRef ref="console"/>
       </Logger>
-      <Logger name="org.apache.turbine" additivity="false" level="INFO">
+      <Logger name="org.apache.turbine" additivity="false" level="DEBUG">
           <AppenderRef ref="turbine"/>
       </Logger>
       <Logger name="scheduler" additivity="false" level="INFO">

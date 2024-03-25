@@ -222,10 +222,10 @@ under the License.
           <configuration>
             <!-- Please update with your database configuration -->
             <driver>${turbine_database_driver}</driver>
-
             <!--  The serverTimezone parameter is required for MySQL.
             	You may need to remove it for other databases -->
-            <url>#var("turbine_database_url")#var("turbine_database_name")?serverTimezone=${turbine_database_timezone}&amp;useSSL=false&amp;verifyServerCertificate=false&amp;requireSSL=false</url>
+            <!-- url>#var("turbine_database_url")#var("turbine_database_name")?serverTimezone=${turbine_database_timezone}&amp;useSSL=false&amp;verifyServerCertificate=false&amp;requireSSL=false</url-->
+            <url>#var("turbine_database_url")#var("turbine_database_name")?useSSL=false</url>
             <username>${turbine_database_user}</username>
             <password>${turbine_database_password}</password>
             <onError>continue</onError>
@@ -297,6 +297,11 @@ under the License.
         <artifactId>javax.servlet-api</artifactId>
         <version>3.1.0</version>
         <scope>provided</scope>
+      </dependency>
+       <dependency>
+          <groupId>org.apache.torque</groupId>
+          <artifactId>torque-runtime</artifactId>   
+        <version>${torque.version}</version>
       </dependency>
       <dependency>
           <groupId>org.apache.turbine</groupId>
@@ -396,28 +401,33 @@ under the License.
         <maven.compile.source>11</maven.compile.source>
         <maven.compile.target>11</maven.compile.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        <log4j2.version>2.20.0</log4j2.version>
+        <log4j2.version>2.22.0</log4j2.version>
         <mysql.version>8.0.33</mysql.version>
         <mariadb.version>3.2.0</mariadb.version><!-- v3 requries java 11 and adapter name mariab instead of mysql -->
         <driverClassName>${turbine_database_driver}</driverClassName>
-        <fulcrum.json>2.0.2-SNAPSHOT</fulcrum.json>
-        <fulcrum.intake>3.0.1-SNAPSHOT</fulcrum.intake>
-        <fulcrum.security>2.1.1-SNAPSHOT</fulcrum.security>
-        <fulcrum.yaafi>2.0.1-SNAPSHOT</fulcrum.yaafi>
+        <fulcrum.json>2.0.1</fulcrum.json>
+        <fulcrum.intake>3.0.0</fulcrum.intake>
+        <fulcrum.security>3.0.0</fulcrum.security>
+        <fulcrum.yaafi>2.0.0</fulcrum.yaafi>
         <fulcrum.cache>2.0.0</fulcrum.cache>
         <fulcrum.testcontainer>2.0.0</fulcrum.testcontainer>
         <torque.version>5.2-SNAPSHOT</torque.version>
-        <turbine.core>5.2-SNAPSHOT</turbine.core>     
+        <turbine.core>6.0</turbine.core>     
         <skipTests>true</skipTests>
         <docker>false</docker>
         <turbine_database_url>${turbine_database_url}</turbine_database_url>
         <turbine_database_name>${turbine_database_name}</turbine_database_name>
         <app_volume_local_repo>NOT_USED</app_volume_local_repo>
+        <!-- currently only mariadb is supported -->
+        <database_type>mariadb</database_type>
     </properties>
     
     <profiles>
         <profile>
             <id>mariadb</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
                 <driverClassName>org.mariadb.jdbc.Driver</driverClassName>
                 <turbine_database_url>jdbc:mariadb://localhost:3306/</turbine_database_url>
@@ -451,11 +461,11 @@ under the License.
         </profile>
         <profile>
             <id>mysql</id>
-            <activation>
+            <!--activation>
                 <activeByDefault>true</activeByDefault>
-            </activation>
+            </activation-->
             <properties>
-                <driverClassName>${turbine_database_driver}</driverClassName>
+                <driverClassName>com.mysql.cj.jdbc.Driver</driverClassName>
                 <turbine_database_url>jdbc:mysql://localhost:3306/</turbine_database_url>
             </properties>
             <dependencies>
@@ -549,8 +559,7 @@ under the License.
                  </plugins>
               </build>
             <properties>
-                <!-- hard code docker compose service id and port by default -->
-                <turbine_database_url>jdbc:mysql://db:3306/</turbine_database_url>
+                <turbine_database_url>${turbine_database_url}</turbine_database_url>
                 <!-- read from #var("settings.localRepository") to provide e.g. local snapshot builds -->
                 <app_volume_local_repo>${settings.localRepository}</app_volume_local_repo>
                 <docker>true</docker>

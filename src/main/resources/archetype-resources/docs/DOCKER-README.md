@@ -32,7 +32,29 @@ If you have already generated this with mvn archetype:generate within the same h
 - Change into directory target/docker-resources and check the file docker-compose.yml, e.g. with
 
     cd <project>/target/docker-resources
-    docker compose config
+    docker compose config  
+    
+## Use Podman
+
+Use instead of Docker Podman (rootless), https://docs.podman.io/en/latest/. 
+
+Check podman and start machine
+
+    podman machine info
+    
+    podman machine start
+    
+Use podman-compose (after installing it with pip3 install podman-compose, see https://docs.podman.io/en/latest/markdown/podman-compose.1.html) instead of docker compose.    
+
+To unlock resources use
+    
+    podman machine stop
+    
+- Change into directory target/docker-resources and check the file docker-compose.yml, e.g. with
+
+    cd <project>/target/docker-resources
+    
+    podman-compose config
 
     
 Important: Check that  /m2repo is properly mapped to your local maven repository in docker-compose.yml!
@@ -48,18 +70,18 @@ If running from integrationtest, you find the docker files in integrationtest/ta
 
 - check, do a fresh build and start the services
 
-    docker compose config
-    docker compose ps
+    podman-compose config
+    podman-compose ps
     // optional docker compose down -v
-    docker compose build --no-cache
-    docker compose up --detach
+    podman-compose build --no-cache
+    podman-compose up --detach
     
 ** A first time build of the app service might take a couple of minutes. **    
     
 You might check the process with 
 
-    docker compose logs -f app
-    docker compose logs -f db
+    podman-compose logs -f app
+    podman-compose logs -f db
     
 The logs should show "mysqld: ready for connections" and "Started Jetty Server".
 
@@ -68,10 +90,7 @@ The logs should show "mysqld: ready for connections" and "Started Jetty Server".
  
 ### Troubleshooting Notes
 
-You may use the command *docker compose* or *docker-compose*, but will slightly different results.
-
 - Double check database service call in ** target/<projectname>/WEB-INF/jetty-env.xml**. It should reference the service name (db), not localhost - this was set when using the maven docker profile.
-
 
 ```xml
 <Set name="url">jdbc:mysql://db:3306/turbine</Set>
@@ -88,12 +107,11 @@ Check the mysql uid/gid with
 
 If previously build, you may want to delete all volumes (this will delete all tables in /var/lib/mysql monted in volume db_data_<project>) and containers
 
-    docker-compose down -v
+    podman-compose down -v
    
-
 - Build it
 
-    docker-compose build --no-cache
+    podman-compose build --no-cache
 
  .. optionally build it separately
     docker-compose build --no-cache --build-arg DB_CONTEXT=./docker-resources/db db
@@ -106,16 +124,20 @@ to test it.  CAVEAT: The db service is build and populated until now with hard c
 It is a dependency for the service app (see app/Dockerfile).
 
 
+Clean images
+
+    podman system prune
+
 #### Starting Services Details
 
 Start both services in one step (add -d for detached mode)
 
-    docker-compose up
+    podman-compose up
    
 .. or doing it in background, requires second start command
 
-    docker-compose up -d
-    docker-compose start
+    podman-compose up -d
+    podman-compose start
 
 This will start first the db service, then the app service. Jetty is run exposing the webapp to **http://localhost:8081/app**.
 By default remote debugging is activated (port 9000), which could be removed/commented in docker-compose.yml.
@@ -129,7 +151,7 @@ You could follow the logs with docker-compose logs -f app or docker-compose logs
 - Optionally Check system or cleanup, e.g. with docker-compose down, docker-compose down -v or docker sytem prune (removes any container on system).
 
 - If services are already installed, activate/start by 
-    docker-compose up
+    podman-compose up
     
  Example Logs:
   
@@ -160,9 +182,9 @@ You could follow the logs with docker-compose logs -f app or docker-compose logs
     [main] INFO | org.apache.torque.generator.control.Controller - readConfiguration() : Starting to read configuration files
 
 - Starting the app service will build the app and start jetty with Maven on port 8081. 
-This command is set as a **command** in the app service in docker compose. 
+This command is set as a **command** in the app service in docker-compose.yml. 
 
-Currently the docker-compose is generated once more, if starting the containers, this will overwrite m2repo and may result in errors.
+Currently the docker-compose.yml is generated once more, if starting the containers, this will overwrite m2repo and may result in errors.
 
 If not yet done, build on the host with mvn clean install -f ../pom.xml -Pdocker.
 
@@ -199,11 +221,11 @@ you may activate it by calling in the root of the container in the shell (e.g. w
 If running tests inside container, URL setting in TorqueTest.properties should be:
 
     torque.dsfactory.turbine.connection.url = 
-    jdbc:mysql://db:3306/turbine?serverTimeZone=UTC
+    jdbc:mysql://db:3306/turbine?useSSL=false
     
 Then run in target/docker-resources a docker compose run command:
 
-    docker compose run --rm app /bin/sh 
+    podman-compose run --rm app /bin/sh 
     #mvn test -DskipTests=false    
     
 Of course, if running inside the container, you should exit and you might have to restart the app service.
@@ -225,9 +247,8 @@ Run in project root
 ## Debugging Services: Db, App
 
 ### Db Service 
-
  
-    docker-compose run --rm db /bin/bash 
+    podman-compose run --rm db /bin/bash 
 
 Extract data in db service
 
@@ -242,7 +263,7 @@ Extract data in db service
 
 This will start app (and db as app depends on db):
 
-    docker-compose run app /bin/sh 
+    podman-compose run app /bin/sh 
 
 In the container, check:
 
@@ -288,7 +309,11 @@ If you want to run from Dockerfile ..
 
 #### Resetting / Preparation (optional)
 
-    docker-compose rm -v
+    podman rm -v
+    
+If volumne could not be deleted, because it is used by container  <cid>, run
+
+    podman rm <cid>
 
 #### Delete all images
 
@@ -306,8 +331,8 @@ If you want to run from Dockerfile ..
   # or delete while building
   docker build --rm
   
-  # cleans all containers
-  docker system prune
+  # cleans all unused images
+  podman system prune
   
   # stops all running containers  
   docker stop $(docker ps -a -q)
