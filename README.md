@@ -1,6 +1,6 @@
-# turbine-webapp-5.x
+# turbine-webapp-6.0
 
-Maven Archetype to generate a webapp utilizing Turbine 5.x
+Maven Archetype to generate a webapp utilizing Turbine 6.0 and Torque 5.1
 
 ## Getting Started
 
@@ -12,14 +12,14 @@ These instructions will get you a copy of the project up and running on your loc
 * [MySQL](https://www.mysql.com/) - Database Server or [Docker](https://docs.docker.com/get-docker/)
 * [Maven](https://maven.apache.org/) - Dependency Management
 
-You should have Java 11 or later installed.  The archetype sets up a new application using MySQL as the default database store.  However, you can adjust this to use any database supported by Apache Torque 5.x. If not using Docker, you should therefore be at least have a database instance where you have access rights to create a new database schema and populate it with the tables the application generates.  Finally, this is a maven archetype, so of course you should install a local version of Maven (tested with 3.5.4 and 3.8.1). 
+You should have Java 11 or later installed.  The archetype sets up a new application using MySQL as the default database store.  However, you can adjust this to use any database supported by Apache Torque 5.1. If not using Docker, you should therefore be at least have a database instance where you have access rights to create a new database schema and populate it with the tables the application generates.  Finally, this is a maven archetype, so of course you should install a local version of Maven (tested with 3.9.6). 
 
 
 ### Installing
 
 Eclipse integration:
 
-You need to first add the Apache maven archetypes to your IDE so that you can take advantage of using the turbine-webapp-5.x plugin to generate a new web application.
+You need to first add the Apache maven archetypes to your IDE so that you can take advantage of using the turbine-webapp-6.0 plugin to generate a new web application.
 
 The location of the remote catalog file is: http://repo.maven.apache.org/maven2/archetype-catalog.xml 
 
