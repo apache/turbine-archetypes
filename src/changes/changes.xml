@@ -24,7 +24,12 @@
   </properties>
 
   <body>
-   <release version="turbine-webapp-5.2-2.0.1-SNAPSHOT" date="in Gitbox">
+    <release version="turbine-webapp-6.0-SNAPSHOT" date="In GitBox">
+    </release>   
+    <release version="turbine-webapp-6.0-3.0.0" date="2024-04-23">
+	  <action type="update" dev="jp">
+         Update to Turbine 6.0 and Torque 5.1. Corrected variable expansion for the database url in the jetty-env.xml. Force the generated pom.xml to explicitly define the javac compiler option and added property to specify the version of the surefire plugin to 3.2.5 to support Eclipse IDE.
+      </action>
     </release>   
     <release version="turbine-webapp-5.1-2.0.0" date="2022-09-09">
        <action type="update" dev="gk">

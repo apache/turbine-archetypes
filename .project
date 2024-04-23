@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>turbine-webapp-5.1</name>
-	<comment>This archetype sets up a web application project based on Apache Turbine 5.x and Torque 5.x. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+	<name>turbine-webapp-6.0</name>
+	<comment>This archetype sets up a web application project based on Apache Turbine 6.0 and Torque 5.1. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
 	<projects>
 	</projects>
 	<buildSpec>

@@ -98,6 +98,8 @@ under the License.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <!-- if this is not specified throws an error in Eclipse IDE -->
+                <version>${maven.surefire.version}</version>
                 <configuration>
                   <skipTests>#var("skipTests")</skipTests>
                   <!--default setting is forkCount=1/reuseForks=true -->
@@ -111,6 +113,8 @@ under the License.
                     <source>#var("maven.compile.source")</source>
                     <target>#var("maven.compile.target")</target>
                     <encoding>#var("project.build.sourceEncoding")</encoding>
+                    <!-- if this is not specified throws an error in Eclipse IDE -->
+					<executable>#var("java.home")/bin/javac</executable>
                 </configuration>
             </plugin>
              <plugin>
@@ -270,6 +274,24 @@ under the License.
             </execution>
           </executions>
         </plugin>
+        <!-- Jetty plugin mvn jetty:run will startup the application -->
+        <plugin>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-maven-plugin</artifactId>
+			<!-- latest version that is working -->
+			<version>9.4.51.v20230217</version>
+	         <configuration>
+	           <!-- https://www.eclipse.org/jetty/documentation/jetty-9/index.html#jars-scanned-for-annotations -->
+	            <scanIntervalSeconds>10</scanIntervalSeconds>
+	            <httpConnector>
+	                <port>8081</port>
+	                <idleTimeout>60000</idleTimeout>
+	            </httpConnector>
+	             <webApp>
+	                  <jettyEnvXml>${project.build.directory}/${project.build.finalName}/WEB-INF/jetty-env.xml</jettyEnvXml> 
+	            </webApp> 
+	        </configuration>
+		</plugin>        
       </plugins>
     </build>
 
@@ -395,19 +417,21 @@ under the License.
     <properties>
         <maven.compile.source>11</maven.compile.source>
         <maven.compile.target>11</maven.compile.target>
+        <maven.surefire.version>3.2.5</maven.surefire.version>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <log4j2.version>2.20.0</log4j2.version>
         <mysql.version>8.0.33</mysql.version>
         <mariadb.version>3.2.0</mariadb.version><!-- v3 requries java 11 and adapter name mariab instead of mysql -->
         <driverClassName>${turbine_database_driver}</driverClassName>
-        <fulcrum.json>2.0.2-SNAPSHOT</fulcrum.json>
-        <fulcrum.intake>3.0.1-SNAPSHOT</fulcrum.intake>
-        <fulcrum.security>2.1.1-SNAPSHOT</fulcrum.security>
-        <fulcrum.yaafi>2.0.1-SNAPSHOT</fulcrum.yaafi>
+        <fulcrum.intake>3.0.0</fulcrum.intake>
+        <fulcrum.parser>3.0.0</fulcrum.parser>
+        <fulcrum.security>3.0.0</fulcrum.security>
+        <fulcrum.yaafi>2.0.0</fulcrum.yaafi>
+        <fulcrum.json>2.0.1</fulcrum.json>
         <fulcrum.cache>2.0.0</fulcrum.cache>
         <fulcrum.testcontainer>2.0.0</fulcrum.testcontainer>
-        <torque.version>5.2-SNAPSHOT</torque.version>
-        <turbine.core>5.2-SNAPSHOT</turbine.core>     
+        <torque.version>5.1</torque.version>
+        <turbine.core>6.0</turbine.core>     
         <skipTests>true</skipTests>
         <docker>false</docker>
         <turbine_database_url>${turbine_database_url}</turbine_database_url>
@@ -456,7 +480,7 @@ under the License.
             </activation>
             <properties>
                 <driverClassName>${turbine_database_driver}</driverClassName>
-                <turbine_database_url>jdbc:mysql://localhost:3306/</turbine_database_url>
+				<turbine_database_url>${turbine_database_url}</turbine_database_url>
             </properties>
             <dependencies>
                 <dependency>
@@ -486,41 +510,7 @@ under the License.
                 </plugins>
             </build>
         </profile>
-        <profile>
-            <id>jetty</id>
-            <build>
-                <defaultGoal>jetty:run</defaultGoal>
-                <plugins>
-                    <plugin>
-                        <groupId>org.eclipse.jetty</groupId>
-                        <artifactId>jetty-maven-plugin</artifactId>
-                         <version>9.4.51.v20230217</version>
-                         <configuration>
-                           <!-- https://www.eclipse.org/jetty/documentation/jetty-9/index.html#jars-scanned-for-annotations -->
-                            <scanIntervalSeconds>10</scanIntervalSeconds>
-                            <httpConnector>
-                                <port>8081</port>
-                                <idleTimeout>60000</idleTimeout>
-                            </httpConnector>
-                             <webApp>
-                                  <jettyEnvXml>${project.build.directory}/${project.build.finalName}/WEB-INF/jetty-env.xml</jettyEnvXml> 
-                            </webApp> 
-                        </configuration>
-                    </plugin>
-                    <!-- we call this profile in docker-resources/docker-compose.yml for app, 
-                    which should not replace /m2repo, 
-                    we want to avoid a second parsing from inside the container -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>3.3.1</version>
-                        <configuration>
-                          <skip>true</skip>
-                        </configuration>
-                      </plugin>
-                </plugins>
-            </build>
-        </profile>
+       
         <profile>
             <id>docker</id>
             <activation>
