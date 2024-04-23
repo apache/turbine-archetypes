@@ -74,6 +74,9 @@
     </pluginManagement>
     
    <plugins>
+	
+	
+	
         <!-- filtering for docker -->
         <plugin>
             <artifactId>maven-resources-plugin</artifactId>
@@ -116,6 +119,49 @@
                 <docker>true</docker>
             </properties>
         </profile>
+        
+	<profile>
+      <id>apache-release</id>
+      <properties>
+        <dependency.check.skip>true</dependency.check.skip>
+       </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-release-plugin</artifactId>
+            <configuration>
+              <releaseProfiles>apache-release</releaseProfiles>
+              <mavenExecutorId>forked-path</mavenExecutorId>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-install-plugin</artifactId>
+            <configuration>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>net.nicoulaj.maven.plugins</groupId>
+            <artifactId>checksum-maven-plugin</artifactId>
+            <version>1.11</version>
+            <configuration>
+              <algorithms>
+                <algorithm>SHA-512</algorithm>
+              </algorithms>
+              <!-- generate only sha for binaries and source zip/tar files from assembly -->
+              <excludeMainArtifact>true</excludeMainArtifact>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>artifacts</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>   
+         </plugins>
+         </build>
+	</profile>     
+
     </profiles>
 
 </project>
