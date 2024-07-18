@@ -314,11 +314,16 @@ under the License.
           <artifactId>log4j-api</artifactId>
           <version>${log4j2.version}</version>
         </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <version>3.1.0</version>
-        <scope>provided</scope>
+        <dependency>
+          <groupId>jakarta.servlet</groupId>
+          <artifactId>jakarta.servlet-api</artifactId>
+          <version>6.1.0</version>
+          <scope>provided</scope>
+       </dependency>
+       <dependency>
+          <groupId>org.apache.torque</groupId>
+          <artifactId>torque-runtime</artifactId>   
+          <version>${torque.version}</version>
       </dependency>
       <dependency>
           <groupId>org.apache.turbine</groupId>
@@ -415,23 +420,23 @@ under the License.
     </dependencies>
 
     <properties>
-        <maven.compile.source>11</maven.compile.source>
-        <maven.compile.target>11</maven.compile.target>
+        <maven.compile.source>17</maven.compile.source>
+        <maven.compile.target>17</maven.compile.target>
         <maven.surefire.version>3.2.5</maven.surefire.version>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        <log4j2.version>2.20.0</log4j2.version>
+        <log4j2.version>2.22.0</log4j2.version>
         <mysql.version>8.0.33</mysql.version>
         <mariadb.version>3.2.0</mariadb.version><!-- v3 requries java 11 and adapter name mariab instead of mysql -->
         <driverClassName>${turbine_database_driver}</driverClassName>
-        <fulcrum.intake>3.0.0</fulcrum.intake>
-        <fulcrum.parser>3.0.0</fulcrum.parser>
-        <fulcrum.security>3.0.0</fulcrum.security>
-        <fulcrum.yaafi>2.0.0</fulcrum.yaafi>
-        <fulcrum.json>2.0.1</fulcrum.json>
-        <fulcrum.cache>2.0.0</fulcrum.cache>
-        <fulcrum.testcontainer>2.0.0</fulcrum.testcontainer>
-        <torque.version>5.1</torque.version>
-        <turbine.core>6.0</turbine.core>     
+        <fulcrum.intake>3.0.1-SNAPSHOT</fulcrum.intake>
+        <fulcrum.parser>3.0.1-SNAPSHOT</fulcrum.parser>
+        <fulcrum.security>3.0.1-SNAPSHOT</fulcrum.security>
+        <fulcrum.yaafi>2.0.1-SNAPSHOT</fulcrum.yaafi>
+        <fulcrum.json>2.0.2-SNAPSHOT</fulcrum.json>
+        <fulcrum.cache>2.0.1-SNAPSHOT</fulcrum.cache>
+        <fulcrum.testcontainer>2.0.1-SNAPSHOT</fulcrum.testcontainer>
+        <torque.version>6.0</torque.version>
+        <turbine.core>7.0-SNAPSHOT</turbine.core>     
         <skipTests>true</skipTests>
         <docker>false</docker>
         <turbine_database_url>${turbine_database_url}</turbine_database_url>
