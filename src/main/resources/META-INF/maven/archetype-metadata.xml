@@ -58,8 +58,15 @@
         <defaultValue>${settings.localRepository}</defaultValue>
     </requiredProperty>
     <requiredProperty key="docker">
-        <defaultValue>${docker}</defaultValue>
+        <defaultValue>false</defaultValue>
     </requiredProperty>
+    <requiredProperty key="connectionProperties">
+      <defaultValue>useSSL=false</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="db">
+      <defaultValue>mysql</defaultValue>
+    </requiredProperty>
+    
   </requiredProperties>
   <fileSets>
     <fileSet filtered="true" packaged="true">

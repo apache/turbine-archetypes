@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-* Java 11 JDK or later (Turbine 5.2 and later), before Java 8
+* Java 17 JDK or later (Turbine 6.0 and later), before Java 8
 * [MySQL](https://www.mysql.com/) - Database Server or [Docker] (https://docs.docker.com/get-docker/)
 * [Maven](https://maven.apache.org/) - Dependency Management
 
@@ -16,7 +16,7 @@ You should have Java 11 or later installed.  The archetype sets up a new applica
 
 ## About this archetype 
 
-Turbine Version: Turbine 5.2 Turbine-webapp-5.x
+Turbine Version: Turbine 6.02 Turbine-webapp-6.x
 
 ### Integration Test (if you checked out this [Archetype Generate Repository](https://github.com/apache/turbine-archetypes.git))
 
@@ -66,7 +66,7 @@ mvn archetype:generate \
   -Dturbine_database_name=helloworld \
   -Dturbine_database_timezone=UTC \
   -Dturbine_database_url=jdbc:mysql://localhost:3306/ \
-  -Dgoals=generate-sources,integration-test
+  -Dgoals=generate-sources,integration-test 
 ```
 
 #### Docker integration
@@ -87,7 +87,25 @@ You may use (add -U to get a fresh copy)
 
 to avoid declaring the *archetype* variables.
 
-This requires you provide a local catalog in $HOME\.m2\archetype-catalog.xml. Find further information here: https://maven.apache.org/archetype/archetype-models/archetype-catalog/archetype-catalog.html.
+This requires you provide a local catalog in $HOME\.m2\archetype-catalog.xml, e.g. 
+
+     <?xml version="1.0" encoding="UTF-8"?>
+     <archetype-catalog xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-catalog/1.0.0 http://maven.apache.org/xsd/archetype-catalog-1.0.0.xsd"
+    xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-catalog/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+       <archetypes>
+         <archetype>
+          <groupId>org.apache.turbine</groupId>
+           <artifactId>turbine-webapp-7.0-SNAPSHOT</artifactId>
+          <version>4.0.0</version>
+          <description>This archetype sets up a web application project based on Apache Turbine 7.x</description>
+         </archetype>  
+       </archetypes>
+    </archetype-catalog>
+
+
+
+ Find further information here: https://maven.apache.org/archetype/archetype-models/archetype-catalog/archetype-catalog.html.
 
 ##### Example
 
@@ -134,7 +152,7 @@ mvn clean install
 If you get an error like *"The driver has not received any packets"* probably the database is not up and running or the port may be another one.
 
 Last step on the command line is run the server by invoking 
-mvn -Pjetty
+mvn jetty:run
 
 - Now you can launch your new Turbine application by default [http://localhost:8081/app] (check port in pom.xml, if needed).
 
@@ -198,7 +216,7 @@ your eclipse environment.
 You even could debug the app by setting the environment variable to something like this
 
 ```
-set MAVEN_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n
+set MAVEN_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=0.0.0.0:8787,server=y,suspend=n
 ```
 
 before running the jetty server.
@@ -207,13 +225,13 @@ before running the jetty server.
 
 Be aware of settings and some smaller restrictions, which mostly will be fixed in the upcoming releases.
 
-- Keep groups/roles lower case (which should be fixed in current Fulcrum Security 2.x/Turbine 5.x)
-- abstract classes and managers are included (because of some minor bugs in Fulcrum Security 1.1.0, same as above)
+- Keep groups/roles lower case (fixed in current Fulcrum Security 2.x/Turbine 5.x)
+- abstract classes and managers are included (resolved after Fulcrum Security 1.1.0, same as above)
 - LogoutUser action is included as an custom example 
 - LoginUser action is included (to check for anonymous user, may be fixed in future release)
 - OM (Torque Object Mapper) stub classes are included (until configurable in schema with Torque version 5.1)
 - TurbineConfiguration returns a Commons configuration object, even if field is not assignable (fixed in Turbine 5.x, you can then assign e.g. to String instead, cft. SecureScreen)
-- Database connection is done initially by default with JNDI. If you want to change it, check Torque.properties and (1) for Tomcat, META-INF/context.xml or (2) for Jetty, WEB-INF/jetty-env.xml.  
+- Database connection is done initially by default with JNDI. If you want to change it, check Torque.properties and (1) for Tomcat, META-INF/context.xml or (2) for Jetty, WEB-INF/jetty-env.xml (or ee version).  
 
 ## License
 

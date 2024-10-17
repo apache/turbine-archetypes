@@ -1,4 +1,4 @@
-FROM maven:3-jdk-11
+FROM maven:latest
 
 # cft hub.docker.com/r/library/maven
 # not used, as in docker-compose m2repo is set

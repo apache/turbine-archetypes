@@ -4,24 +4,45 @@ This is to help developers to get fast a running development environment for deb
 
 To use it in production you may need to carefully review all configurations and adjust.
 
-This Docker environment is to test/develop a Turbine app using a docker test database. 
+The Container based environment is to test/develop a Turbine app using a container based test database. 
 
-The build should take place outside the docker container.
+The build should take place outside the container.
 
-It is based on one docker-compose.yml file and two Dockerfiles.
+It is based on one docker-compose.yml file and two Dockerfiles and could be run with podman-compose (after some checks are done, see below)..
 
-Docker compose uses currently two customized services: **app** (maven:3-jdk-11) and **db** (mysql:latest). 
+Docker compose uses currently two customized services: **app** (maven:latest) and **db** (mariadb:10.10). 
+
+## Podman und Podman-compose
+
+- If using Podman (podman-compose) you have to add registry docker.io/library/ in etc/containers/registries.conf (or add a namespace before tag name in FROM of DOCKERFILE).
+- To allow inter container communication you should enable in /etc/containers/container.conf  
+ 
+    [network]
+    network_backend = "netavark"
+    
+- In docker-compose.yml networks has to be enabled because of this.
+
+ (tested for Debian bookworm, podman 4.3.1, running in root-less environment). You could check, that it is set by running 
+
+    podman info | grep network
+    
+. And just replace below docker compose with podman-compose (most commands)!
 
 ## Note
-- Mysql is replaced by Mariadb. 
+
+- reference database is now Mariadb (mySQL may be used also after some adaptions in DOCKERFILE, but it is not tested in the first place). 
 - Instead of using maven as the app service a Jetty container might be the better choice as currently console reloading might not work. 
 To be able to use other maven tasks (in the container) in this case makes this nevertheless a reasonable choice.
 
 # Prepare
 
-To run the build with maven do this outside of the container using following mvn command:
+To run the build from the archetypes root use the following mvn command:
 
-    mvn install -Pdocker
+    mvn install -Pdocker,mysql 
+or
+    mvn install -Pdocker,mariadb
+    
+IMPORTANT: You habe to enable the profile mariadb or mysql to define the backend.
     
 ### Build Note 
 
@@ -37,7 +58,7 @@ If you have already generated this with mvn archetype:generate within the same h
     
 Important: Check that  /m2repo is properly mapped to your local maven repository in docker-compose.yml!
 
-### Note if building from Repo source  - Integration Test
+### Note if building from Archetypes Repo source  - Integration Test
 
 This generates in target folder a structure like this:
 
@@ -54,11 +75,17 @@ If running from integrationtest, you find the docker files in integrationtest/ta
     docker compose build --no-cache
     docker compose up --detach
     
-** A first time build of the app service might take a couple of minutes. **    
+or 
+
+   podman-compose down
+   podman-compose up -d
+   podman-compose start 
+    
+** A first time build of the app service should not take more than a couple of minutes. **    
     
 You might check the process with 
 
-    docker compose logs -f app
+    podman-compose logs -f app
     docker compose logs -f db
     
 The logs should show "mysqld: ready for connections" and "Started Jetty Server".
@@ -112,7 +139,7 @@ Start both services in one step (add -d for detached mode)
 
     docker-compose up
    
-.. or doing it in background, requires second start command
+.. or doing it in background, requires to start the services explicitely
 
     docker-compose up -d
     docker-compose start
@@ -131,7 +158,7 @@ You could follow the logs with docker-compose logs -f app or docker-compose logs
 - If services are already installed, activate/start by 
     docker-compose up
     
- Example Logs:
+##### Example Logs for Docker:
   
     [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.25-1debian10 started.
     [Note] [Entrypoint]: Switching to dedicated user 'mysql'
@@ -158,13 +185,33 @@ You could follow the logs with docker-compose logs -f app or docker-compose logs
     [INFO]
     [INFO] --- torque-maven-plugin:5.1-SNAPSHOT:generate (torque-om) @ integrationtest ---
     [main] INFO | org.apache.torque.generator.control.Controller - readConfiguration() : Starting to read configuration files
+    
+##### Podman Example Results
 
-- Starting the app service will build the app and start jetty with Maven on port 8081. 
+
+    'podman', '--version', '']
+    using podman version: 4.3.1
+    ** excluding:  set()
+    ['podman', 'inspect', '-t', 'image', '-f', '{{.Id}}', 'docker-resources_db']
+    ['podman', 'inspect', '-t', 'image', '-f', '{{.Id}}', 'docker-resources_app']
+    podman volume inspect docker-resources_db_data_turbine || podman volume create docker-resources_db_data_turbine
+    ['podman', 'volume', 'inspect', 'docker-resources_db_data_turbine']
+    ['podman', 'network', 'exists', 'docker-resources_back-tier']
+    podman run --name=docker-resources_db_1 -d --label io.podman.compose.config-hash=123 --label io.podman.compose.project=docker-resources --label io.podman.compose.version=0.0.1 --label com.docker.compose.project=docker-resources --label com.docker.compose.project.working_dir=..pes/target/test-classes/projects/first/project/integrationtest/target/docker-resources --label com.docker.compose.project.config_files=docker-compose.yml --label com.docker.compose.container-number=1 --label com.docker.compose.service=db -v ..chetypes/target/test-classes/projects/first/project/integrationtest/target/docker-resources/db/mysql/data:/data -v docker-resources_db_data_turbine:/var/lib/mysql:rw --net docker-resources_back-tier --network-alias db -p 13306:3306 docker-resources_db mysqld --default-authentication-plugin=mysql_native_password
+    a7a1baf00a9ba0ed9fae5727fe015b21350fcd90c92ea6676fed1f32e9387ceb
+    exit code: 0
+    ['podman', 'network', 'exists', 'docker-resources_back-tier']
+    podman run --name=docker-resources_app_1 -d --label io.podman.compose.config-hash=123 --label io.podman.compose.project=docker-resources --label io.podman.compose.version=0.0.1 --label com.docker.compose.project=docker-resources --label com.docker.compose.project.working_dir=./target/test-classes/projects/first/project/integrationtest/target/docker-resources --label com.docker.compose.project.config_files=docker-compose.yml --label com.docker.compose.container-number=1 --label com.docker.compose.service=app -e MAVEN_OPTS= -v ...archetypes/target/test-classes/projects/first/project/integrationtest:/myapp -v /home/../m2Repo/repository:/m2repo --net docker-resources_back-tier --network-alias app -p 8081:8081 -p 9000:9000 --restart always docker-resources_app mvn jetty:run -Pdocker,mariadb
+    4e9e9701de26a7033cd8c100184317ab63a57e477fa0a8ee3937a851ca0c3503
+    exit code: 0
+
+
+- Starting the app service will build the app and start jetty on port 8081. 
 This command is set as a **command** in the app service in docker compose. 
 
 Currently the docker-compose is generated once more, if starting the containers, this will overwrite m2repo and may result in errors.
 
-If not yet done, build on the host with mvn clean install -f ../pom.xml -Pdocker.
+If not yet done, build on the host with mvn clean install -f ../pom.xml -Pdocker,mariadb.
 
 ### Lifecycle (developers only)
 
@@ -227,9 +274,9 @@ Run in project root
 ### Db Service 
 
  
-    docker-compose run --rm db /bin/bash 
+    podman-compose run --rm db /bin/bash 
 
-Extract data in db service
+Extract data in db service (check password in docker-compose.yml or elsewhere).
 
     mysql -u root -h db -P 3306 -p
     
@@ -279,7 +326,7 @@ In the container, check:
 
 - If you generated the project with windows shell, but run the docker form wsl you have to regenerate docker-compose.yml with unix pathes running this command again
 
-    mvn install -Pdocker
+    mvn install -Pdocker,mariab
 
 
 ### More Internals, Helpful Docker commands
@@ -294,24 +341,6 @@ If you want to run from Dockerfile ..
 
     docker rmi $(docker images -q)
 
-### Still more docker commands ...
-
-```sh
-  docker volume inspect <containerid>  
- 
-  // delete intermediate images, volumes
-  docker rmi $(docker images --filter "dangling=true" -q)
-  docker volume rm $(docker volume ls -qf dangling=true)
-  
-  # or delete while building
-  docker build --rm
-  
-  # cleans all containers
-  docker system prune
-  
-  # stops all running containers  
-  docker stop $(docker ps -a -q)
-```
   
 ## License
 

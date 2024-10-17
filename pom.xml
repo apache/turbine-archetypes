@@ -23,13 +23,13 @@
     <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>32</version>
+    <version>33</version>
     <relativePath/>
     <!-- like turbine parent -->
   </parent>
   <groupId>org.apache.turbine</groupId>
   <artifactId>turbine-webapp-7.0-SNAPSHOT</artifactId>
-  <version>3.0.0</version>
+  <version>4.0.0</version>
   <packaging>maven-archetype</packaging>
 
   <name>Archetype - Turbine 7.0 WebApp</name>
@@ -46,10 +46,14 @@
   </scm>
   
    <properties>
-	<turbine_database_url>jdbc:mysql://localhost:3306/</turbine_database_url>
-    <docker>false</docker>
-    <app_volume_local_repo>not_used</app_volume_local_repo>
-    <project.build.outputTimestamp>10</project.build.outputTimestamp>
+      <docker>false</docker>
+      <app_volume_local_repo>not_used</app_volume_local_repo>
+      <project.build.outputTimestamp>10</project.build.outputTimestamp>
+      <!-- defaults just for archetype -->
+      <turbine_database_url>jdbc:mysql://localhost:3306/</turbine_database_url>
+      <turbine_database_driver>com.mysql.cj.jdbc.Driver</turbine_database_driver>
+      <connectionProperties>serverTimezone=${turbine_database_timezone}&amp;useSSL=false&amp;verifyServerCertificate=false&amp;requireSSL=false</connectionProperties>
+      <db>mysql</db>
   </properties>
   
   <build>
@@ -75,9 +79,6 @@
     </pluginManagement>
     
    <plugins>
-	
-	
-	
         <!-- filtering for docker -->
         <plugin>
             <artifactId>maven-resources-plugin</artifactId>
@@ -96,15 +97,15 @@
                       <directory>src/test/resources</directory>
                       <filtering>true</filtering>
                     </resource>
-                  </resources>              
-                </configuration>            
+                  </resources>
+                </configuration>
               </execution>
             </executions>
           </plugin>
         </plugins>
   </build>
   
-    <profiles>
+  <profiles>
     <!-- to test in integration-test -->
         <profile>
             <id>docker</id>
@@ -114,69 +115,97 @@
               </property>
              </activation>
              <properties>
-                <turbine_database_url>jdbc:mysql://db:3306/</turbine_database_url>
                 <!-- to provide your locale maven repo, required if you need local snapshot builds -->
                 <app_volume_local_repo>${settings.localRepository}</app_volume_local_repo>
                 <docker>true</docker>
             </properties>
         </profile>
         
+        <profile>
+            <id>mariadb</id>
+            <activation>
+              <property>
+                <name>mariadb</name>
+              </property>
+             </activation>
+             <properties>
+                <turbine_database_url>jdbc:mariadb://db:3306/</turbine_database_url>
+                <turbine_database_driver>org.mariadb.jdbc.Driver</turbine_database_driver>
+                <connectionProperties>useSSL=false</connectionProperties>
+                <db>mariadb</db>
+            </properties>
+        </profile>
+        
+        <profile>
+            <id>mysql</id>
+            <activation>
+              <property>
+                <name>mysql</name>
+              </property>
+             </activation>
+             <properties>
+                 <turbine_database_url>jdbc:mysql://localhost:3306/</turbine_database_url>
+		 <turbine_database_driver>com.mysql.cj.jdbc.Driver</turbine_database_driver>
+		 <connectionProperties>serverTimezone=${turbine_database_timezone}&amp;useSSL=false&amp;verifyServerCertificate=false&amp;requireSSL=false</connectionProperties>
+		 <db>mysql</db>
+            </properties>
+        </profile>
+        
 	<profile>
-      <id>apache-release</id>
-      <properties>
-        <dependency.check.skip>true</dependency.check.skip>
-       </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-release-plugin</artifactId>
-            <configuration>
-              <releaseProfiles>apache-release</releaseProfiles>
-              <mavenExecutorId>forked-path</mavenExecutorId>
-            </configuration>
-          </plugin>
-          <plugin>
-            <artifactId>maven-install-plugin</artifactId>
-            <configuration>
-            </configuration>
-          </plugin>
-          <plugin>
-            <groupId>net.nicoulaj.maven.plugins</groupId>
-            <artifactId>checksum-maven-plugin</artifactId>
-            <version>1.11</version>
-            <configuration>
-              <algorithms>
-                <algorithm>SHA-512</algorithm>
-              </algorithms>
-              <!-- generate only sha for binaries and source zip/tar files from assembly -->
-              <excludeMainArtifact>true</excludeMainArtifact>
-            </configuration>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>artifacts</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <!-- force signatures to be created and uploaded on deploy -->
-	      <plugin>
-	        <groupId>org.apache.maven.plugins</groupId>
-	        <artifactId>maven-gpg-plugin</artifactId>
-	        <version>3.2.4</version>
-	        <executions>
-	          <execution>
-	            <id>sign-artifacts</id>
-	            <phase>verify</phase>
-	            <goals>
-	              <goal>sign</goal>
-	            </goals>
-	          </execution>
-	        </executions>
-	      </plugin>          
-          
-         </plugins>
-         </build>
+	    <id>apache-release</id>
+	    <properties>
+		<dependency.check.skip>true</dependency.check.skip>
+	    </properties>
+	    <build>
+	        <plugins>
+	          <plugin>
+	            <artifactId>maven-release-plugin</artifactId>
+	            <configuration>
+	              <releaseProfiles>apache-release</releaseProfiles>
+	              <mavenExecutorId>forked-path</mavenExecutorId>
+		    </configuration>
+		  </plugin>
+		  <plugin>
+		    <artifactId>maven-install-plugin</artifactId>
+		    <configuration>
+		    </configuration>
+		  </plugin>
+		  <plugin>
+		    <groupId>net.nicoulaj.maven.plugins</groupId>
+		    <artifactId>checksum-maven-plugin</artifactId>
+		    <version>1.11</version>
+		    <configuration>
+		      <algorithms>
+		        <algorithm>SHA-512</algorithm>
+		      </algorithms>
+		      <!-- generate only sha for binaries and source zip/tar files from assembly -->
+		      <excludeMainArtifact>true</excludeMainArtifact>
+		    </configuration>
+		    <executions>
+		      <execution>
+		        <goals>
+		          <goal>artifacts</goal>
+		        </goals>
+		      </execution>
+		    </executions>
+		  </plugin>
+		  <!-- force signatures to be created and uploaded on deploy -->
+		  <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-gpg-plugin</artifactId>
+			<version>3.2.4</version>
+			<executions>
+			  <execution>
+			    <id>sign-artifacts</id>
+			    <phase>verify</phase>
+			    <goals>
+			      <goal>sign</goal>
+			    </goals>
+			  </execution>
+			</executions>
+		      </plugin>
+         	</plugins>
+	     </build>
 	</profile>     
 
     </profiles>

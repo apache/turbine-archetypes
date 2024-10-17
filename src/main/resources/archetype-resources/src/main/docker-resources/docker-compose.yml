@@ -3,21 +3,27 @@ version: '3.7'
 
 services:
   app:
+    networks: 
+      - back-tier
     # use the Dockerfile next to this file
     build:
-        context: ../
-        dockerfile: ./docker-resources/app/Dockerfile
-    # set MAVEN_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=9000,server=y,suspend=y, if remote debugging app is required
+      context: ../
+      dockerfile: ./docker-resources/app/Dockerfile
+    # set MAVEN_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=0.0.0.0:9000,server=y,suspend=y, if remote debugging app is required
     environment:
       - MAVEN_OPTS=
     
     # this runs the app server in the container, be sure not to filter resources once again!
-    command: mvn -Pjetty
+    command: [ mvn, jetty:run, "-Pdocker,${db}" ]
     ports:
       - "8081:8081"
       # remote debugging port, uncomment if not needed
       - "9000:9000"
+      
+    # podman required to support to allow outside pod  not using localhost, but service name
+    # networks: "container:docker-resources_db_1"
 
+    restart: always 
     # makes the app container aware of the DB container   
     depends_on:
       - db 
@@ -32,39 +38,40 @@ services:
       - '#var("app_volume_local_repo"):/m2repo'
 
   db:
-      # set the build context 
+    networks:
+      - back-tier
+    # set the build context 
     build: 
       context: ../
-      dockerfile: ./docker-resources/db/Dockerfile
+      dockerfile: ./docker-resources/db/${db}/Dockerfile
       args:
         DB_CONTEXT: ./docker-resources/db
-        MYSQL_ROOT: root
-        MYSQL_ROOT_PASSWORD: changeit
-        MYSQL_DATABASE: ${turbine_database_name}
-        MYSQL_USER: ${turbine_database_user}
-        MYSQL_PASSWORD: ${turbine_database_password}
-        
-    # no environment needed here, only if using image in this file
-      
+        MARIADB_ROOT: root
+        MARIADB_ROOT_PASSWORD: changeit
+        MARIADB_DATABASE: ${turbine_database_name}
+        MARIADB_USER: ${turbine_database_user}
+        MARIADB_PASSWORD: ${turbine_database_password}
+
+    # no environment needed here, only if using image in this file 
     volumes:
-      - ./db/mysql/init:/docker-entrypoint-initdb.d
+      # reading generated SQL is done in DOCKERFILE
+      #- ./db/mysql/init:/docker-entrypoint-initdb.d
       # may activate on *nix
       #- ./db/mysql/conf:/etc/mysql/conf.d
       - ./db/mysql/data:/data
       #- ./db/mysql/log:/mysql/log
       - db_data_${turbine_database_name}:/var/lib/mysql:rw  
-    restart: always     
+    # restart: always     
     ports:
       # host: container
       - "13306:3306"
       
-    #networks:
-    #  - db
     command: [mysqld, --default-authentication-plugin=mysql_native_password]
 
  # this might work only for *nix, check with docker image inspect db
 volumes:
   db_data_${turbine_database_name}:
   
-#networks:
-#  db:
+networks:
+  back-tier:
+  

@@ -1,4 +1,5 @@
 # mariadb uses docker-entrypoint
+# podman requires docker.io/library in registries.conf
 FROM mariadb:10.10 
 
 # That file does the DB initialization but also runs mysql daemon, by removing the last line it will only init
