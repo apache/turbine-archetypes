@@ -27,7 +27,7 @@ under the License.
     <parent>
         <groupId>org.apache.turbine</groupId>
         <artifactId>turbine-parent</artifactId>
-        <version>14-SNAPSHOT</version>
+        <version>14</version>
         <relativePath/>
      </parent>
 
@@ -427,14 +427,14 @@ under the License.
         <mysql.version>8.0.33</mysql.version>
         <mariadb.version>3.4.1</mariadb.version><!-- v3 requries java 11 and adapter name mariab instead of mysql -->
         <driverClassName>${turbine_database_driver}</driverClassName>
-        <fulcrum.intake>3.0.1-SNAPSHOT</fulcrum.intake>
-        <fulcrum.parser>3.0.1-SNAPSHOT</fulcrum.parser>
-        <fulcrum.security>3.0.1-SNAPSHOT</fulcrum.security>
+        <fulcrum.intake>4.0.0</fulcrum.intake>
+        <fulcrum.parser>4.0.0</fulcrum.parser>
+        <fulcrum.security>4.0.0</fulcrum.security>
         <fulcrum.yaafi>2.0.1</fulcrum.yaafi>
-        <fulcrum.json>2.0.2-SNAPSHOT</fulcrum.json>
-        <fulcrum.cache>2.0.1-SNAPSHOT</fulcrum.cache>
-        <fulcrum.testcontainer>2.0.1-SNAPSHOT</fulcrum.testcontainer>
-        <torque.version>6.0</torque.version>
+        <fulcrum.json>2.0.1</fulcrum.json>
+        <fulcrum.cache>2.0.1</fulcrum.cache>
+        <fulcrum.testcontainer>2.0.1</fulcrum.testcontainer>
+        <torque.version>6.0</torque.version> <!-- stable version is 6.0, 7.0-SNAPSHOT next  -->
         <turbine.core>7.0-SNAPSHOT</turbine.core>     
         <skipTests>true</skipTests>
         <docker>false</docker>
@@ -446,6 +446,9 @@ under the License.
     <profiles>
         <profile>
             <id>mariadb</id>
+            <activation>
+                <activeByDefault>#if(${db}=="mariadb")true#{else}false#end</activeByDefault>
+             </activation>
             <properties>
                 <driverClassName>org.mariadb.jdbc.Driver</driverClassName>
                 <turbine_database_url>jdbc:mariadb://localhost:3306/</turbine_database_url>
@@ -480,6 +483,9 @@ under the License.
         </profile>
         <profile>
             <id>mysql</id>
+            <activation>
+                <activeByDefault>#if(${db}=="mysql")true#{else}false#end</activeByDefault>
+             </activation>
             <properties>
                 <driverClassName>${turbine_database_driver}</driverClassName>
                 <turbine_database_url>${turbine_database_url}</turbine_database_url>
