@@ -21,11 +21,10 @@
 
   <modelVersion>4.0.0</modelVersion>
     <parent>
-    <groupId>org.apache</groupId>
-    <artifactId>apache</artifactId>
-    <version>34</version>
-    <relativePath/>
-    <!-- like turbine parent -->
+        <groupId>org.apache.turbine</groupId>
+        <artifactId>turbine-parent</artifactId>
+        <version>14</version>
+        <relativePath />
   </parent>
   <groupId>org.apache.turbine</groupId>
   <artifactId>turbine-webapp-7.0-SNAPSHOT</artifactId>
@@ -69,7 +68,7 @@
       <extension>
         <groupId>org.apache.maven.archetype</groupId>
         <artifactId>archetype-packaging</artifactId>
-        <version>3.2.1</version>
+        <version>3.4.0</version>
       </extension>
     </extensions>
 
@@ -77,7 +76,7 @@
       <plugins>
         <plugin>
           <artifactId>maven-archetype-plugin</artifactId>
-          <version>3.2.1</version>
+          <version>3.4.0</version>
            <!-- skip tests in generated archetype's pom, here the integration-test would be skipped -->
           <!--configuration>
             <skip>true</skip>
@@ -161,9 +160,7 @@
         
 	<profile>
 	    <id>apache-release</id>
-	    <properties>
-		<dependency.check.skip>true</dependency.check.skip>
-	    </properties>
+	    <!-- expanindg parent -profile -->
 	    <build>
 	        <plugins>
 	          <plugin>
@@ -178,30 +175,11 @@
 		    <configuration>
 		    </configuration>
 		  </plugin>
-		  <plugin>
-		    <groupId>net.nicoulaj.maven.plugins</groupId>
-		    <artifactId>checksum-maven-plugin</artifactId>
-		    <version>1.11</version>
-		    <configuration>
-		      <algorithms>
-		        <algorithm>SHA-512</algorithm>
-		      </algorithms>
-		      <!-- generate only sha for binaries and source zip/tar files from assembly -->
-		      <excludeMainArtifact>true</excludeMainArtifact>
-		    </configuration>
-		    <executions>
-		      <execution>
-		        <goals>
-		          <goal>artifacts</goal>
-		        </goals>
-		      </execution>
-		    </executions>
-		  </plugin>
 		  <!-- force signatures to be created and uploaded on deploy -->
 		  <plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-gpg-plugin</artifactId>
-			<version>3.2.4</version>
+			<version>3.2.7</version>
 			<executions>
 			  <execution>
 			    <id>sign-artifacts</id>
