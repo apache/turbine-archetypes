@@ -24,12 +24,18 @@
   </properties>
 
   <body>
-    <release version="turbine-webapp-7.0-4.0.0-SNAPSHOT" date="In GitBox">
+    <release version="turbine-webapp-7.0-SNAPSHOT-4.0.0" date="In GitBox">
        <action type="update" dev="gk">
-       Update to Turbine 7.0 with Fulcrum modules intake, parser, security set to v4.0.0 and Torque 6.0.  USing jakarta libraries and jetty-ee10-maven-plugin v.12.0.14 with dbcp2.
+       Update to Turbine 7.0 with Fulcrum modules intake, parser, security set to v4.0.0 and Torque 6.0.  Using jakarta libraries and jetty-ee10-maven-plugin v.12.0.22 with dbcp2.
+       </action>
+       <action type="add" dev="gk" due-to="Thomas Vandahl">
+       Adding default outputTimestamp (seconds for today) to be in allowed time range for  maven-remote-resources-plugin.
+       </action>
+       <action type="update" dev="gk"> 
+       Use podman-compose by default, which provides greater flexiblity than docker.
        </action>
        <action type="update" dev="gk">
-       Use property connectionProperties, evaluate db property in archetype pom.xml
+       Use property connectionProperties, evaluate db property in archetype pom.xml; setting dynamically profile mariadb or mysql depending on selected archetype attribute 'db'.
        </action>
     </release>   
     <release version="turbine-webapp-6.0-3.0.0" date="2024-04-23">

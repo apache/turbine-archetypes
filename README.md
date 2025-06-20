@@ -37,6 +37,9 @@ Follow further instructions here: [ARCHETYPE-README](src/main/resources/archetyp
 
 Clone this repository and build it with maven. 
 
+### Release Versions
+
+As the archetype catalogue shows by default the artifactId the version is integrated in the project artifactId, while the project version is just incremented between releases.
 
 ## Built With
 

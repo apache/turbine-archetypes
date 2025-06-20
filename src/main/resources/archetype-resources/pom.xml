@@ -278,7 +278,7 @@ under the License.
         <plugin>
              <groupId>org.eclipse.jetty.ee10</groupId>
              <artifactId>jetty-ee10-maven-plugin</artifactId>
-             <version>12.0.14</version>
+             <version>12.0.22</version>
 	         <configuration>
 	           <!-- https://www.eclipse.org/jetty/documentation/jetty-9/index.html#jars-scanned-for-annotations -->
 	            <scanIntervalSeconds>10</scanIntervalSeconds>
@@ -423,7 +423,7 @@ under the License.
         <maven.compile.target>17</maven.compile.target>
         <maven.surefire.version>3.2.5</maven.surefire.version>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        <log4j2.version>2.24.1</log4j2.version>
+        <log4j2.version>2.25.0</log4j2.version>
         <mysql.version>8.0.33</mysql.version>
         <mariadb.version>3.4.1</mariadb.version><!-- v3 requries java 11 and adapter name mariab instead of mysql -->
         <driverClassName>${turbine_database_driver}</driverClassName>
@@ -435,7 +435,7 @@ under the License.
         <fulcrum.cache>2.0.1</fulcrum.cache>
         <fulcrum.testcontainer>2.0.1</fulcrum.testcontainer>
         <torque.version>6.0</torque.version> <!-- stable version is 6.0, 7.0-SNAPSHOT next  -->
-        <turbine.core>7.0-SNAPSHOT</turbine.core>     
+        <turbine.core>7.0</turbine.core>     
         <skipTests>true</skipTests>
         <docker>false</docker>
         <turbine_database_url>${turbine_database_url}</turbine_database_url>

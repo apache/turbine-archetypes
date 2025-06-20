@@ -1,6 +1,6 @@
-# Quick Guide to using the new Turbine 5.x maven archetype for skeleton application generation
+# Quick Guide to using the new Turbine maven archetype for skeleton application generation
 
-Maven Archetype to generate a webapp utilizing Turbine 5.x
+Maven Archetype to generate a webapp utilizing Turbine
 
 ## Getting Started
 
@@ -16,7 +16,7 @@ You should have Java 11 or later installed.  The archetype sets up a new applica
 
 ## About this archetype 
 
-Turbine Version: Turbine 6.02 Turbine-webapp-6.x
+Turbine Version: Turbine x ~ Turbine-webapp-x
 
 ### Integration Test (if you checked out this [Archetype Generate Repository](https://github.com/apache/turbine-archetypes.git))
 
@@ -35,7 +35,7 @@ N.B.: This builds an integrationtest project in target/test-classes/projects/fir
 First, you should have a local database installed and configured prior to 
 beginning the application setup below.
 
-As we are using MySQL by default you need to create the database in MySQL (server version should be at least 5.5, because of new sql driver), e.g. with
+As we are using MySQL by default you need to create the database in MySQL (server version should be at least 5.5), e.g. with
 
 ```sh
 mysql -u <user> -p
@@ -47,15 +47,15 @@ or other tools. The database should have been started and the database user gran
 
 ### Maven archetype 
 
-Next, you can invoke the Maven archetype for turbine-webapp-5.0 from 
+Next, you can invoke the Maven archetype for turbine-webapp-7.0 from 
 the command line as shown below - please update values starting 
 with 'groupId' as appropriate.
 
 ```sh
 mvn archetype:generate \
   -DarchetypeGroupId=org.apache.turbine \
-  -DarchetypeArtifactId=turbine-webapp-5.1 \
-  -DarchetypeVersion=2.0.0-SNAPSHOT \
+  -DarchetypeArtifactId=turbine-webapp-7.0 \
+  -DarchetypeVersion=4.0.0 \
   -DgroupId=com.mycompany.webapp \
   -DartifactId=myhelloworld \
   -Dversion=1.0 \
@@ -113,9 +113,9 @@ This requires you provide a local catalog in $HOME\.m2\archetype-catalog.xml, e.
 <archetype-catalog ...>
  <archetype>
       <groupId>org.apache.turbine</groupId>
-      <artifactId>turbine-webapp-5.2</artifactId>
-      <version>2.0.0-SNAPSHOT</version>
-      <description>This archetype sets up a web application project based on Apache Turbine 5.x</description>
+      <artifactId>turbine-webapp-7.0</artifactId>
+      <version>4.0.0-SNAPSHOT</version>
+      <description>This archetype sets up a web application project based on Apache Turbine 7.x</description>
     </archetype>
   </archetypes>
 </archetype-catalog>
@@ -143,7 +143,7 @@ mvn integration-test
 This executes the SQL code to create the application schema defined  in src/main/torque-schema.
 
 You should now check the database tables and if some data is missing
-insert the sample data file in sample-mysql-data (Torque 4.0 has disabled the datasql task).
+insert the sample data file in sample-mysql-data (since Torque 4.0 the datasql task is disabled).
 
 ```sh
 mvn clean install 
