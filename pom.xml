@@ -44,6 +44,13 @@
     <url>scm:git:https://gitbox.apache.org/repos/asf/turbine-archetypes.git</url>
     <tag>HEAD</tag>
   </scm>
+   <!-- Required for staging to work -->
+  <distributionManagement>
+       <site>
+        <id>apache.org</id>
+        <url>scm:git:https://gitbox.apache.org/repos/asf/turbine-archetypes.git</url>
+      </site>
+  </distributionManagement>
   
    <properties>
       <docker>false</docker>
