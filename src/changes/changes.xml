@@ -31,6 +31,9 @@
        <action type="add" dev="gk" due-to="Thomas Vandahl">
        Adding default outputTimestamp (seconds for today) to be in allowed time range for  maven-remote-resources-plugin.
        </action>
+       <action type="update" dev="gk">
+        Build / pom.xml:  Switch parent from apache to Turbine-parent (which inherits from apache)
+       </action>
        <action type="update" dev="gk"> 
        Use podman-compose by default, which provides greater flexiblity than docker.
        </action>

@@ -18,9 +18,8 @@ specific language governing permissions and limitations
 under the License.
 *#
 #set($dollar = '$')
-#set($amp = '&amp;')
-#set($close = ';')
 #macro (var $label)${dollar}{${label}}#end
+## use velocity macro var to keep dollar variables
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     
@@ -162,7 +161,7 @@ under the License.
                     </configuration>
                   </execution>
                   <execution>
-                    <id>torque-sql-mysql</id><!-- ${turbine_database_adapter} -->
+                    <id>torque-sql-mysql</id><!-- turbine_database_adapter: ${turbine_database_adapter} -->
                     <phase>generate-sources</phase>
                     <goals>
                       <goal>generate</goal>
@@ -421,11 +420,11 @@ under the License.
     <properties>
         <maven.compile.source>17</maven.compile.source>
         <maven.compile.target>17</maven.compile.target>
-        <maven.surefire.version>3.2.5</maven.surefire.version>
+        <maven.surefire.version>3.5.3</maven.surefire.version>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        <log4j2.version>2.25.0</log4j2.version>
-        <mysql.version>8.0.33</mysql.version>
-        <mariadb.version>3.4.1</mariadb.version><!-- v3 requries java 11 and adapter name mariab instead of mysql -->
+        <log4j2.version>2.25.1</log4j2.version>
+        <mysql.version>8.3.0</mysql.version>
+        <mariadb.version>3.5.4</mariadb.version><!-- v3 requries java 11 and adapter name mariab instead of mysql -->
         <driverClassName>${turbine_database_driver}</driverClassName>
         <fulcrum.intake>4.0.0</fulcrum.intake>
         <fulcrum.parser>4.0.0</fulcrum.parser>
@@ -489,6 +488,7 @@ under the License.
             <properties>
                 <driverClassName>${turbine_database_driver}</driverClassName>
                 <turbine_database_url>${turbine_database_url}</turbine_database_url>
+                <turbine_database_timezone>${turbine_database_timezone}</turbine_database_timezone>
                 <connectionProperties>serverTimezone=${turbine_database_timezone}&amp;useSSL=false&amp;verifyServerCertificate=false&amp;requireSSL=false</connectionProperties>
             </properties>
             <dependencies>
@@ -509,7 +509,7 @@ under the License.
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>sql-maven-plugin</artifactId>
                         <configuration> <!--  The serverTimezone parameter is required for MySQL.You may need to remove it for other databases -->
-                            <url>#var("turbine_database_url")#var("turbine_database_name")?serverTimezone=${turbine_database_timezone}&amp;useSSL=false&amp;verifyServerCertificate=false&amp;requireSSL=false</url>
+                            <url>#var("turbine_database_url")${turbine_database_name}?serverTimezone=${turbine_database_timezone}&amp;useSSL=false&amp;verifyServerCertificate=false&amp;requireSSL=false</url>
                         </configuration>
                         <dependencies>
                             <dependency>
@@ -556,7 +556,7 @@ under the License.
                 <turbine_database_driver>${turbine_database_driver}</turbine_database_driver>
                 <connectionProperties><![CDATA[${connectionProperties}]]></connectionProperties>
                 <!-- read from #var("settings.localRepository") to provide e.g. local snapshot builds -->
-                <app_volume_local_repo>#var("settings.localRepository")</app_volume_local_repo>
+                <app_volume_local_repo>${app_volume_local_repo}</app_volume_local_repo>
                 <docker>true</docker>
                 <db>${db}</db>
             </properties>
