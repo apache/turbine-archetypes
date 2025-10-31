@@ -433,7 +433,7 @@ under the License.
         <fulcrum.json>2.0.1</fulcrum.json>
         <fulcrum.cache>2.0.1</fulcrum.cache>
         <fulcrum.testcontainer>2.0.1</fulcrum.testcontainer>
-        <torque.version>6.0</torque.version> <!-- stable version is 6.0, 7.0-SNAPSHOT next  -->
+        <torque.version>7.0</torque.version> <!-- stable version -->
         <turbine.core>7.0</turbine.core>     
         <skipTests>true</skipTests>
         <docker>false</docker>
