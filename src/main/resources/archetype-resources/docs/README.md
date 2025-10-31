@@ -8,11 +8,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-* Java 17 JDK or later (Turbine 6.0 and later), before Java 8
+* Java 17 JDK or later (Turbine 7.0 and later)
 * [MySQL](https://www.mysql.com/) - Database Server or [Docker] (https://docs.docker.com/get-docker/)
 * [Maven](https://maven.apache.org/) - Dependency Management
 
-You should have Java 11 or later installed.  The archetype sets up a new application using MySQL as the default database store.  However, you can adjust this to use any database supported by Apache Torque 5.x. If not using Docker, you should therefore be at least have a database instance where you have access rights to create a new database schema and populate it with the tables the application generates.  Finally, this is a maven archetype, so of course you should install a local version of Maven (tested with 3.8.3).  
+You should have Java 17 or later installed. The archetype sets up a new application using MySQL as the default database store.  However, you can adjust this to use any database supported by Apache Torque 7.x. If not using Docker, you should therefore be at least have a database instance where you have access rights to create a new database schema and populate it with the tables the application generates.  Finally, this is a maven archetype, so of course you should install a local version of Maven (tested with 3.9.6).  
 
 ## About this archetype 
 
@@ -104,7 +104,6 @@ This requires you provide a local catalog in $HOME\.m2\archetype-catalog.xml, e.
     </archetype-catalog>
 
 
-
  Find further information here: https://maven.apache.org/archetype/archetype-models/archetype-catalog/archetype-catalog.html.
 
 ##### Example
@@ -121,44 +120,48 @@ This requires you provide a local catalog in $HOME\.m2\archetype-catalog.xml, e.
 </archetype-catalog>
 ```
 
+- Find the recent archetype, e.g. org.apache.turbine:turbine-webapp-7.0-SNAPSHOT and select a number, and configure (docker should be set to false, if you do not need it).
+
+
+
 ## Project Start and Usage
 
 Next, change into the newly generated project folder, in our case
 
-```sh
-cd myhelloworld
-```
+    cd myhelloworld
+
 
 Skip next two steps, if the build was successfull.
 
-```sh
-mvn generate-sources
-```
+    mvn generate-sources
+
 This will generate the OM layer and SQL code for creating the corresponding database tables.
 
+    mvn integration-test
 
-```sh
-mvn integration-test
-```
 This executes the SQL code to create the application schema defined  in src/main/torque-schema.
 
 You should now check the database tables and if some data is missing
 insert the sample data file in sample-mysql-data (since Torque 4.0 the datasql task is disabled).
 
-```sh
-mvn clean install 
-```
+    mvn clean install 
+
 
 If you get an error like *"The driver has not received any packets"* probably the database is not up and running or the port may be another one.
 
 Last step on the command line is run the server by invoking 
-mvn jetty:run
+
+    mvn jetty:run
 
 - Now you can launch your new Turbine application by default [http://localhost:8081/app] (check port in pom.xml, if needed).
 
 ### Logs 
 
-Find the Logs in src/main/webapp/logs and
+Find the Logs in 
+
+    src/main/webapp/logs 
+    
+and
 
 ### Application
 

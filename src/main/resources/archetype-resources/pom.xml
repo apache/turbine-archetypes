@@ -115,7 +115,7 @@ under the License.
                     <target>#var("maven.compile.target")</target>
                     <encoding>#var("project.build.sourceEncoding")</encoding>
                     <!-- if this is not specified throws an error in Eclipse IDE -->
-					<executable>#var("java.home")/bin/javac</executable>
+                    <executable>#var("java.home")/bin/javac</executable>
                 </configuration>
             </plugin>
              <plugin>
@@ -278,17 +278,17 @@ under the License.
              <groupId>org.eclipse.jetty.ee10</groupId>
              <artifactId>jetty-ee10-maven-plugin</artifactId>
              <version>12.0.22</version>
-	         <configuration>
-	           <!-- https://www.eclipse.org/jetty/documentation/jetty-9/index.html#jars-scanned-for-annotations -->
-	            <scanIntervalSeconds>10</scanIntervalSeconds>
-	            <httpConnector>
-	                <port>8081</port>
-	                <idleTimeout>60000</idleTimeout>
-	            </httpConnector>
-	             <webApp>
-	                  <jettyEnvXml>${project.build.directory}/${project.build.finalName}/WEB-INF/jetty-ee10-env.xml</jettyEnvXml> 
-	            </webApp> 
-	        </configuration>
+           <configuration>
+             <!-- https://www.eclipse.org/jetty/documentation/jetty-9/index.html#jars-scanned-for-annotations -->
+              <scanIntervalSeconds>10</scanIntervalSeconds>
+              <httpConnector>
+                  <port>8081</port>
+                  <idleTimeout>60000</idleTimeout>
+              </httpConnector>
+               <webApp>
+                    <jettyEnvXml>${project.build.directory}/${project.build.finalName}/WEB-INF/jetty-ee10-env.xml</jettyEnvXml> 
+              </webApp> 
+          </configuration>
 		</plugin>        
       </plugins>
     </build>

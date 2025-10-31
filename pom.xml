@@ -26,7 +26,6 @@
         <version>14</version>
         <relativePath />
   </parent>
-  <groupId>org.apache.turbine</groupId>
   <artifactId>turbine-webapp-7.0-SNAPSHOT</artifactId>
   <version>4.0.0</version>
   <packaging>maven-archetype</packaging>
