@@ -35,7 +35,7 @@ $page.addScript($ui.getScript("page.js"))
           <h1 class="w3-right"><img class="w3-right" src="https://www.apache.org/img/feather_glyph_notm.png" style="width: 50px;">The Apache Turbine project</h1>
           #if ( $data.getUser().hasLoggedIn() ) 
             #set ( $u = $data.getUser() )
-            <div class="w3-right">
+            <div class="w3-center">
           <h5>Hello $!u.FirstName</h5>
             </div>
       #end
