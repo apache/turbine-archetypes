@@ -1,6 +1,6 @@
 # turbine-webapp-7.0
 
-* Maven Archetype to generate a webapp utilizing Turbine 7.0 and Torque 6.0 (and later Torque 7.0)
+* Maven Archetype to generate a webapp utilizing Turbine 7.0 (or later) and Torque 6.0 (or later)
 * Java 17 JDK or later since Turbine 7.0
 
 # turbine-webapp-6.0
