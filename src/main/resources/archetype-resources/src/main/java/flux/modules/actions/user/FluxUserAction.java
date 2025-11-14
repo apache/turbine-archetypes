@@ -134,6 +134,18 @@ public class FluxUserAction extends FluxAction
 					data.getParameters().setProperties(user);
 					user.setPassword(tmp_user.getPassword());
 					security.saveUser(user);
+					
+					// check, if current user is updated, then update session user except the password.
+					// This is, because in FlixLogout when logging out
+					// security.saveUser(user); is called with the current user from the session 
+					// and the data would be resetted 
+					if (data.getUser().getName().equals( username )) {
+					    log.info( "Updating: Update session user as well to not reset data after logout (except password)." );
+					    User userFromSession = data.getUserFromSession();
+					    data.getParameters().setProperties(userFromSession);
+					    userFromSession.setPassword(tmp_user.getPassword());
+					    data.setUser( userFromSession );
+					}
 
 					// Test if Admin provided new password
 					String password = data.getParameters().getString("password");
