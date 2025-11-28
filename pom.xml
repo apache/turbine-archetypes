@@ -85,6 +85,18 @@
     </pluginManagement>
     
    <plugins>
+          <!-- we use not the  sources jar format which is done in Apache  pom, but use our own  turbine-default-assembly to generate.
+               Due to an error when buildign with mvn install package we have to skip source from Apache pom 
+               The error is: duplicated artifacts attached, you have to configure a classifier for at least one of them or set identical goal,
+               workaround may be resolved in turbine-parent v15.
+              --> 
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+             <configuration>
+                <skipSource>true</skipSource>
+             </configuration>
+          </plugin> 
         <!-- filtering for docker -->
         <plugin>
             <artifactId>maven-resources-plugin</artifactId>
