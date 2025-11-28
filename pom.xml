@@ -27,7 +27,7 @@
        <relativePath />
   </parent>
   <artifactId>turbine-webapp</artifactId>
-  <version>7.0</version>
+  <version>7.1-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>
 
   <name>Archetype - Turbine 7.0 WebApp</name>
@@ -53,7 +53,7 @@
    <properties>
       <docker>false</docker>
       <app_volume_local_repo>not_used</app_volume_local_repo>
-      <project.build.outputTimestamp>1764335708</project.build.outputTimestamp>
+      <project.build.outputTimestamp>1764335858</project.build.outputTimestamp>
       <!-- defaults just for archetype -->
       <turbine_database_url>jdbc:mysql://localhost:3306/</turbine_database_url>
       <turbine_database_driver>com.mysql.cj.jdbc.Driver</turbine_database_driver>
