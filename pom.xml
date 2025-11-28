@@ -20,14 +20,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.apache.turbine</groupId>
-        <artifactId>turbine-parent</artifactId>
-        <version>14</version>
-        <relativePath />
+  <parent>
+      <groupId>org.apache.turbine</groupId>
+      <artifactId>turbine-parent</artifactId>
+      <version>14</version>
+       <relativePath />
   </parent>
-  <artifactId>turbine-webapp-7.0-SNAPSHOT</artifactId>
-  <version>4.0.0</version>
+  <artifactId>turbine-webapp</artifactId>
+  <version>7.0-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>
 
   <name>Archetype - Turbine 7.0 WebApp</name>
@@ -67,7 +67,7 @@
       <extension>
         <groupId>org.apache.maven.archetype</groupId>
         <artifactId>archetype-packaging</artifactId>
-        <version>3.4.0</version>
+        <version>3.4.1</version>
       </extension>
     </extensions>
 
@@ -75,7 +75,7 @@
       <plugins>
         <plugin>
           <artifactId>maven-archetype-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>3.4.1</version>
            <!-- skip tests in generated archetype's pom, here the integration-test would be skipped -->
           <!--configuration>
             <skip>true</skip>
@@ -85,7 +85,7 @@
     </pluginManagement>
     
    <plugins>
-          <!-- we use not the  sources jar format which is done in Apache  pom, but use our own  turbine-default-assembly to generate.
+          <!-- we use not the sources jar format which is done in Apache super pom, but use our own  turbine-default-assembly to generate the sources.
                Due to an error when buildign with mvn install package we have to skip source from Apache pom 
                The error is: duplicated artifacts attached, you have to configure a classifier for at least one of them or set identical goal,
                workaround may be resolved in turbine-parent v15.
