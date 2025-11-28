@@ -53,7 +53,7 @@ public class FluxGroupAction extends FluxAction {
 	 * ActionEvent responsible for inserting a new user into the Turbine security
 	 * system.
 	 * 
-	 * @param data
+	 * @param pipelineData
 	 *            Turbine information.
 	 * @param context
 	 *            Context for web pages.
@@ -93,7 +93,7 @@ public class FluxGroupAction extends FluxAction {
 	/**
 	 * Update a group name
 	 * 
-	 * @param data
+	 * @param pipelineData
 	 *            Turbine information.
 	 * @param context
 	 *            Context for web pages.
@@ -126,7 +126,7 @@ public class FluxGroupAction extends FluxAction {
 	/**
 	 * ActionEvent responsible for removing a user.
 	 * 
-	 * @param data
+	 * @param pipelineData
 	 *            Turbine information.
 	 * @param context
 	 *            Context for web pages.
@@ -156,7 +156,7 @@ public class FluxGroupAction extends FluxAction {
 	/**
 	 * Implement this to add information to the context.
 	 *
-	 * @param data
+	 * @param pipelineData
 	 *            Turbine information.
 	 * @param context
 	 *            Context for web pages.

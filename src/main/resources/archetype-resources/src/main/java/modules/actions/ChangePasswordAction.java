@@ -42,7 +42,6 @@ public class ChangePasswordAction extends SecureAction
 	 * Implement this to add information to the context.
 	 *
 	 * @param data    Turbine information.
-	 * @param context Context for web pages.
 	 * @exception Exception, a generic exception.
 	 */
 	@Override

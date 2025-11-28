@@ -56,7 +56,7 @@ public class FluxPermissionAction extends FluxAction {
 	 * ActionEvent responsible for inserting a new permission into the Turbine
 	 * security system.
 	 * 
-	 * @param data
+	 * @param pipelineData
 	 *            Turbine information.
 	 * @param context
 	 *            Context for web pages.
@@ -85,7 +85,7 @@ public class FluxPermissionAction extends FluxAction {
 	 * ActionEvent responsible updating a permission. Must check the input for
 	 * integrity before allowing the user info to be update in the database.
 	 * 
-	 * @param data
+	 * @param pipelineData
 	 *            Turbine information.
 	 * @param context
 	 *            Context for web pages.
@@ -122,7 +122,7 @@ public class FluxPermissionAction extends FluxAction {
 	/**
 	 * ActionEvent responsible for removing a permission.
 	 * 
-	 * @param data
+	 * @param pipelineData
 	 *            Turbine information.
 	 * @param context
 	 *            Context for web pages.
@@ -160,7 +160,7 @@ public class FluxPermissionAction extends FluxAction {
 	/**
 	 * Implement this to add information to the context.
 	 *
-	 * @param data
+	 * @param pipelineData
 	 *            Turbine information.
 	 * @param context
 	 *            Context for web pages.

@@ -84,7 +84,7 @@ public class FluxRoleAction extends FluxAction {
 	 * ActionEvent responsible updating a role. Must check the input for integrity
 	 * before allowing the user info to be update in the database.
 	 * 
-	 * @param data
+	 * @param pipelineData
 	 *            Turbine information.
 	 * @param context
 	 *            Context for web pages.
@@ -110,7 +110,7 @@ public class FluxRoleAction extends FluxAction {
 	/**
 	 * ActionEvent responsible for removing a role.
 	 * 
-	 * @param data
+	 * @param pipelineData
 	 *            Turbine information.
 	 * @param context
 	 *            Context for web pages.
@@ -150,7 +150,7 @@ public class FluxRoleAction extends FluxAction {
 	/**
 	 * Update the roles that are to assigned to a user for a project.
 	 * 
-	 * @param data
+	 * @param pipelineData
 	 *            Turbine information.
 	 * @param context
 	 *            Context for web pages.
@@ -207,7 +207,7 @@ public class FluxRoleAction extends FluxAction {
 	/**
 	 * Implement this to add information to the context.
 	 *
-	 * @param data
+	 * @param pipelineData
 	 *            Turbine information.
 	 * @param context
 	 *            Context for web pages.

@@ -85,7 +85,7 @@ public class FluxAction extends VelocitySecureAction {
 	/**
 	 * Implement this to add information to the context.
 	 *
-	 * @param data
+	 * @param pipelineData
 	 *            Turbine information.
 	 * @param context
 	 *            Context for web pages.
