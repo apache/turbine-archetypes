@@ -41,7 +41,7 @@ public class ChangePasswordAction extends SecureAction
 	/**
 	 * Implement this to add information to the context.
 	 *
-	 * @param data    Turbine information.
+	 * @param pipelineData    Turbine information.
 	 * @exception Exception, a generic exception.
 	 */
 	@Override

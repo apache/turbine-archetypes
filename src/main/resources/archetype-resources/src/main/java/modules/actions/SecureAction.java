@@ -41,7 +41,7 @@ public class SecureAction extends VelocitySecureAction {
 	 * storage area. If you create an action that requires more security then
 	 * override this method.
 	 *
-	 * @param data Turbine information.
+	 * @param pipelineData Turbine information.
 	 * @return True if the user is authorized to access the screen.
 	 * @exception Exception, a generic exception.
 	 */
@@ -77,7 +77,7 @@ public class SecureAction extends VelocitySecureAction {
 	/**
 	 * Implement this to add information to the context.
 	 *
-	 * @param data    Turbine information.
+	 * @param pipelineData    Turbine information.
 	 * @param context Context for web pages.
 	 * @exception Exception, a generic exception.
 	 */
