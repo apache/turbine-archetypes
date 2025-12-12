@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+-->
+
+<document>
+
+ <properties>
+  <title>Apache Turbine&trade; Webapp</title>
+ </properties>
+
+ <body>
+
+ <section name="What is Apache Turbine Webapp?">
+ 
+<p>Turbine Webapp is a Maven Archetype to generate a skeleton <a href="https://turbine.apache.org/">Turbine</a> application.</p>
+
+<subsection name="Prerequisites">
+<ul>
+    <li>Java 17 JDK or later (Turbine 7.0 and later)</li>
+    <li><a href="https://www.mysql.com" target="_BLANK">MySQL</a> or <a href="https://mariadb.com/">Mariadb</a> Database Server</li>
+    <li>Optionally <a href="https://docs.docker.com/get-docker/" target="_BLANK">Docker</a> or <a href="https://podman.io/">Podman</a></li>
+    <li><a href="https://maven.apache.org/" target="_BLANK">Maven</a> Dependency Management</li>
+</ul>
+
+<p>The archetype sets up a new application using MySQL as the default database store.  
+However, you can adjust this to use any database supported by Apache Torque 7.x. 
+</p><p>
+If not using Docker, you should therefore be at least have a database instance where you have access rights 
+to create a new database schema and populate it with the tables the application generates.  
+</p>
+<p>
+Finally, this is a maven archetype, so of course you should install a local version of Maven.  
+</p>
+<p>Read on to understand more about general structuring or continue reading <a  href="https://github.com/apache/turbine-archetype" target="_BLANK">here</a> and follow instructions. 
+</p>
+
+</subsection>
+
+<subsection name="How to find the Maven archetype">
+
+<p>If you want to build the Turbine Webapp yourself and install it automatically in your local archetyp catalog, see <a href="#archetype-local">next section</a></p>
+
+<p>As explained  in <a href="https://maven.apache.org/archetype/maven-archetype-plugin/specification/archetype-catalog.html" target="_BLANK">How does the Archetype Plugin know about archetypes?</a> 
+you may have already a local catalog or you find the archetype in the remote catalog, 
+by default <a href="https://repo.maven.apache.org/maven2/archetype-catalog.xml" target="_BLANK">archetype-catalog.xml</a>.
+</p>
+<p>
+For example, if you provide the FQN groupid:artifactid in the <i>filter</i> argument the following command will search in the remote (and local) cataloges:
+</p>
+
+<source> mvn archetype:generate -Dfilter=org.apache.turbine:turbine-webapp-7.0 -DarchetypeCatalog=remote</source>
+<p>
+If you want to check <i>only</i> the remote catalog you have to set <i>additionally</i> an (non activated) profile in .m2/settings.xml (or a local version), 
+like it is explained <a href="https://maven.apache.org/archetype/maven-archetype-plugin/generate-mojo.html#archetypeCatalog" target="_BLANK">here</a>.
+</p><p>
+Example profile in settings.xml setting up a profile with the remote catalog:
+
+<source> <![CDATA[  <profiles>
+..
+<profile>
+  <id>remote-archetype</id>
+   <repositories>
+    <repository>
+        <id>archetype</id>
+        <url>https://repo.maven.apache.org/maven2/</url>
+      </repository>
+     </repos>
+   </profile>  
+   ..   
+     </profiles>   ]]>
+</source>
+</p><p>
+Then you can invoke it like this by activating the profile , and only the remote catalog will be checked:
+
+<source> 
+mvn archetype:generate -Dfilter=org.apache.turbine:turbine-webapp-7.0 -DarchetypeCatalog=remote -Premote-archetype
+</source>
+</p>
+<p>
+Following is an example output:
+
+<source> <![CDATA[ 
+$ mvn archetype:generate -Dfilter=org.apache.turbine:turbine-webapp-6.0 -Premote-archetype
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------< org.apache.maven:standalone-pom >-------------------
+[INFO] Building Maven Stub Project (No POM) 1
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO]
+[INFO] >>> archetype:3.4.1:generate (default-cli) > generate-sources @ standalone-pom >>>
+[INFO]
+[INFO] <<< archetype:3.4.1:generate (default-cli) < generate-sources @ standalone-pom <<<
+[INFO]
+[INFO]
+[INFO] --- archetype:3.4.1:generate (default-cli) @ standalone-pom ---
+[INFO] Generating project in Interactive mode
+[INFO] No archetype defined. Using maven-archetype-quickstart (org.apache.maven.archetypes:maven-archetype-quickstart:1.0)
+Choose archetype:
+1: remote -> org.apache.turbine:turbine-webapp-6.0 (This archetype sets up a web application project based on Apache Turbine 6.x and Torque 5.2.x)
+Choose a number or apply filter (format: [groupId:]artifactId, case sensitive contains): : Choose archetype:
+
+// ... after selecting number 1
+
+Choose a number or apply filter (format: [groupId:]artifactId, case sensitive contains): : 1
+[INFO] Using property: turbine_app_name = My Turbine Web Application
+[INFO] Using property: turbine_intake_file = intake.xml
+[INFO] Using property: turbine_database_name = turbine
+[INFO] Using property: turbine_database_adapter = auto
+[INFO] Using property: turbine_database_jndipath = jdbc/turbine
+[INFO] Using property: turbine_database_driver = com.mysql.cj.jdbc.Driver
+[INFO] Using property: turbine_database_url = jdbc:mysql://localhost:3306/
+[INFO] Using property: turbine_database_timezone = UTC
+[INFO] Using property: turbine_database_user = db_user
+[INFO] Using property: turbine_database_password = db_password
+Define value for property 'app_volume_local_repo' ${settings.localRepository}:
+..
+        ]]>
+</source>
+
+After this, the new Turbine Webapp project will be in a folder named like the name you set as project <i>artifactid</i>. 
+</p>
+<p>
+For further information, check in the generated project in subfolder docs/README.md 
+or follow the instructions <a href="https://github.com/apache/turbine-archetypes/tree/master/src/main/resources/archetype-resources" target="_BLANK">here</a>.
+
+</p>
+
+</subsection>
+ 
+<subsection id="archetype-local" name="Build: Where do I get the Turbine Webapp archetype?">
+ <p>
+    Download the current main release of Turbine webapp through the Apache mirror system at 
+    <a href="http://www.apache.org/dyn/closer.cgi/turbine/maven" target="_BLANK">the turbine maven download site</a> 
+    or clone it from <a href="https://github.com/apache/turbine-archetypes.git" target="_BLANK">git repository</a> selecting the appropriate tag.
+  </p>
+ 
+ <p>After download it you usually want to build it, which will as the last step autmatically add the archetpye to the locale archetype-catalog.xml. 
+ </p>
+<p> After the build, you could generate the Turbine Webapp from the local archetype repository like with this command:
+ 
+ <source>mvn archetype:generate -DarchetypeCatalog=local -U </source>
+
+ Find more informations about archetype catalog types <a href="https://maven.apache.org/archetype/maven-archetype-plugin/specification/archetype-catalog.html">here</a>.
+
+</p>
+  
+</subsection>
+<subsection name="Development: Where do I get the Turbine Webapp source code?">
+
+  <p>
+    Find the source of Turbine Webapp Maven Archetype on <a href="https://github.com/apache/turbine-archetypes" 
+    title="Turbine Maven Archetype on GitHub" target="_BLANK">GitHub</a>. 
+    </p>
+    <p>
+    See also the <a href="https://blogs.apache.org/turbine/entry/maven_archetypes_for_apache_turbine" target="_BLANK">blog post</a>
+    in the <a href="https://blogs.apache.org/turbine/" target="_BLANK">Turbine Blog</a> for usage information. 
+  </p>
+  
+</subsection>
+
+</section>
+
+
+ </body>
+ </document>

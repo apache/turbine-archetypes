@@ -60,6 +60,7 @@
       <connectionProperties>serverTimezone=${turbine_database_timezone}&amp;useSSL=false&amp;verifyServerCertificate=false&amp;requireSSL=false</connectionProperties>
       <db>mysql</db>
       <project.build.outputTimestamp>1743604929</project.build.outputTimestamp>
+      <turbine.site.path>turbine-archetypes</turbine.site.path>
   </properties>
   
   <build>
